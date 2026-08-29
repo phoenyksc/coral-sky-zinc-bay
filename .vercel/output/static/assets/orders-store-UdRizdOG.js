@@ -1,0 +1,1 @@
+import{a as e,o as t}from"./money-wxzPY3qh.js";var n=t()(e((e,t)=>({orders:[],add:n=>e({orders:[n,...t().orders]}),get:e=>t().orders.find(t=>t.id===e)}),{name:`sol-beautiful-orders-v1`}));export{n as t};

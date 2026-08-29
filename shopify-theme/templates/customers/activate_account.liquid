@@ -1,0 +1,12 @@
+<div class="section">
+  <div class="page-width-narrow">
+    <h1 style="font-size:3rem">Activate account</h1>
+    {% form 'activate_customer_password' %}
+      <div style="display:grid;gap:1rem;margin-top:1.5rem">
+        <input class="field" type="password" name="customer[password]" placeholder="Password">
+        <input class="field" type="password" name="customer[password_confirmation]" placeholder="Confirm password">
+        <button class="btn" type="submit">Activate</button>
+      </div>
+    {% endform %}
+  </div>
+</div>

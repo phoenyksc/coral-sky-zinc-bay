@@ -1,0 +1,62 @@
+{% assign zen = settings.header_zen | default: nil %}
+<header class="site-header">
+  <div class="zen-strip">
+    {% if zen %}
+      {{ zen | image_url: width: 1600 | image_tag: alt: '', loading: 'eager' }}
+    {% else %}
+      <img src="{{ 'header-zen.jpg' | asset_url }}" alt="">
+    {% endif %}
+  </div>
+  <div class="header-bar page-width">
+    <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <a class="logo" href="{{ routes.root_url }}">{{ shop.name }}</a>
+    <nav class="header-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    <div class="header-icons">
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 19c1.5-3.2 4-4.8 7-4.8s5.5 1.6 7 4.8"/></svg>
+      </a>
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M20 20l-3.5-3.5"/></svg>
+      </a>
+      <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>
+        {% if cart.item_count > 0 %}
+          <span class="icon-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+  <nav class="mobile-nav" data-mobile-nav>
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+    <a href="{{ routes.all_products_collection_url }}">Shop all</a>
+    <a href="{{ routes.account_url }}">Account</a>
+  </nav>
+  {% unless customer %}
+    <div class="signup-bar">
+      <a href="{{ routes.account_register_url }}">Create an account</a>
+      and take 10% off your first purchase — the vault is open to browse either way.
+    </div>
+  {% endunless %}
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

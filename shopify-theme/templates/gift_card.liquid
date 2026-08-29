@@ -1,0 +1,20 @@
+{% layout none %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ gift_card.balance | money }} gift card — {{ shop.name }}</title>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <main class="empty">
+      <p class="kicker">{{ shop.name }}</p>
+      <h1>Gift card</h1>
+      <p style="margin-top:1rem;font-size:2rem">{{ gift_card.balance | money }}</p>
+      <p style="margin-top:.5rem;letter-spacing:.2em">{{ gift_card.code | format_code }}</p>
+      {% if gift_card.pass_url %}
+        <p style="margin-top:1.5rem"><a class="btn" href="{{ gift_card.pass_url }}">Add to Apple Wallet</a></p>
+      {% endif %}
+    </main>
+  </body>
+</html>

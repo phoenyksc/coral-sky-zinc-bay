@@ -1,0 +1,55 @@
+<footer class="site-footer">
+  <div class="page-width footer-grid">
+    <div>
+      <p class="footer-brand">{{ shop.name }}</p>
+      <p class="footer-copy">{{ section.settings.blurb }}</p>
+      <p class="footer-copy">Ships from the USA.</p>
+    </div>
+    <div class="footer-col">
+      <p class="kicker">Shop</p>
+      <ul>
+        {% for link in section.settings.shop_menu.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% else %}
+          <li><a href="{{ routes.all_products_collection_url }}">Shop all</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="footer-col">
+      <p class="kicker">The vault</p>
+      <ul>
+        {% for link in section.settings.house_menu.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% else %}
+          <li><a href="/pages/about">About</a></li>
+          <li><a href="{{ routes.account_register_url }}">Create account</a></li>
+          <li><a href="/pages/shipping">Shipping</a></li>
+          <li><a href="/pages/returns">Returns</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="page-width" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;width:100%">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. For the love of beauty and skin.</p>
+      <p>Ships from the USA.</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "blurb",
+      "label": "About",
+      "default": "A family-run California vault of designer fragrance, makeup, and skincare — forty years of care."
+    },
+    { "type": "link_list", "id": "shop_menu", "label": "Shop menu" },
+    { "type": "link_list", "id": "house_menu", "label": "Vault menu" }
+  ]
+}
+{% endschema %}

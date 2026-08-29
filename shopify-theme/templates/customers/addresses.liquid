@@ -1,0 +1,21 @@
+<div class="section">
+  <div class="page-width-narrow">
+    <h1 style="font-size:3rem">Addresses</h1>
+    {% for address in customer.addresses %}
+      <div style="margin:1.5rem 0;padding:1rem;background:var(--card);border-radius:12px">
+        {{ address | format_address }}
+      </div>
+    {% endfor %}
+    <h2 style="margin-top:2rem">Add an address</h2>
+    {% form 'customer_address', customer.new_address %}
+      <div style="display:grid;gap:.75rem;margin-top:1rem">
+        <input class="field" name="address[first_name]" placeholder="First name">
+        <input class="field" name="address[last_name]" placeholder="Last name">
+        <input class="field" name="address[address1]" placeholder="Address">
+        <input class="field" name="address[city]" placeholder="City">
+        <input class="field" name="address[zip]" placeholder="ZIP">
+        <button class="btn" type="submit">Save address</button>
+      </div>
+    {% endform %}
+  </div>
+</div>

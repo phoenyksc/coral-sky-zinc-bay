@@ -1,0 +1,48 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Sol Beautiful",
+    "theme_version": "1.0.0",
+    "theme_author": "Sol Beautiful",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "mailto:info@solbeautiful.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announcement",
+        "label": "Announcement",
+        "default": "Free standard shipping on US orders $75+  ·  Authenticity guaranteed  ·  Ships from the USA"
+      },
+      {
+        "type": "text",
+        "id": "signup_bar",
+        "label": "Account banner",
+        "default": "Create an account and take 10% off your first purchase — the vault is open to browse either way."
+      },
+      {
+        "type": "image_picker",
+        "id": "header_zen",
+        "label": "Header zen image"
+      },
+      {
+        "type": "range",
+        "id": "free_shipping",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "$",
+        "label": "Free shipping threshold",
+        "default": 75
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact email",
+        "default": "info@solbeautiful.com"
+      }
+    ]
+  }
+]

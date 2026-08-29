@@ -1,0 +1,28 @@
+{% assign recs = product.collections.first.products %}
+{% if recs.size > 1 %}
+  <section class="section">
+    <div class="page-width">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Bought together</p>
+          <h2>Complete the look</h2>
+          <p style="margin-top:.4rem;color:var(--muted);font-size:.9rem">Pieces that sit next to this shade.</p>
+        </div>
+      </div>
+      <div class="product-grid">
+        {% for rec in recs limit: 4 %}
+          {% unless rec.id == product.id %}
+            {% render 'product-card', product: rec %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Complete the look",
+  "settings": []
+}
+{% endschema %}

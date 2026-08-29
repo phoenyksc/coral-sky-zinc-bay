@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BkSabwWG.js";import{t}from"./react-DHmoMYoq.js";import{a as n}from"./button-BXOAkEzI.js";t();var r=e();function i({className:e,...t}){return(0,r.jsx)(`label`,{className:n(`text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground`,e),...t})}export{i as t};

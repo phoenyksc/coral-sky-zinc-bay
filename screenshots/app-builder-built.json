@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Sol Beautiful",
+      "hasCanvas": false,
+      "bodyTextLen": 3194,
+      "bodyTextHash": "760610fdf08f6ba7d4c35bace5ee1b219d538ad9d895ef2f2fbac223b26f57c5",
+      "bodyTextPrefix": "FREE STANDARD SHIPPING ON US ORDERS $75+ · AUTHENTICITY GUARANTE",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Sol Beautiful",
+      "hasCanvas": false,
+      "bodyTextLen": 3138,
+      "bodyTextHash": "2263c539d1b1fccf9a0d0dff73fe99383bfbbe8274d7813842b56b987eb1c061",
+      "bodyTextPrefix": "FREE STANDARD SHIPPING ON US ORDERS $75+ · AUTHENTICITY GUARANTE",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
