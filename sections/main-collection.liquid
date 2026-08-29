@@ -1,0 +1,32 @@
+{% paginate collection.products by 48 %}
+<section class="section">
+  <div class="page-width">
+    <p class="kicker">Collection</p>
+    <h1 style="font-size:3rem;margin:.4rem 0 1rem">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="prose" style="max-width:40rem;margin-bottom:2rem">{{ collection.description }}</div>
+    {% endif %}
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem">{{ collection.products_count }} pieces</p>
+    <div class="product-grid">
+      {% for product in collection.products %}
+        {% render 'product-card', product: product %}
+      {% else %}
+        <p>No products in this collection yet. Import the catalog CSV, then assign products here.</p>
+      {% endfor %}
+    </div>
+    {% if paginate.pages > 1 %}
+      <div style="margin-top:2rem;display:flex;gap:1rem">
+        {% if paginate.previous %}<a href="{{ paginate.previous.url }}">Previous</a>{% endif %}
+        {% if paginate.next %}<a href="{{ paginate.next.url }}">Next</a>{% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

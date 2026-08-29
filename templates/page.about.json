@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "story": {
+      "type": "story",
+      "settings": {
+        "kicker": "Our story",
+        "heading": "A family vault. Forty years of beauty.",
+        "body": "Sol Beautiful is a family-run vault, and has been for more than forty years. It began the way the best shops do: looking after the people we loved, then looking after the people who found us. We are still that vault — a family at the table, a long memory for what is good, and a simple promise that you will be spoken to like a person. We ship from the USA."
+      }
+    },
+    "main": { "type": "main-page", "settings": {} }
+  },
+  "order": ["story", "main"]
+}

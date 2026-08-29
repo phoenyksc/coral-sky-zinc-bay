@@ -1,0 +1,81 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "kicker": "Fragrance · Makeup · Skincare",
+        "heading": "For the love of beauty and skin.",
+        "lede": "Scent that stays. Color that feels like you. Care that skin remembers. Sol Beautiful is a California vault of designer beauty — collected with affection for the ritual itself.",
+        "button_label": "Shop the vault",
+        "button_link": "/collections/all",
+        "button2_label": "Create an account · 10% off",
+        "button2_link": "/account/register"
+      }
+    },
+    "tiles": {
+      "type": "collection-list",
+      "blocks": {
+        "t1": { "type": "collection", "settings": {} },
+        "t2": { "type": "collection", "settings": {} },
+        "t3": { "type": "collection", "settings": {} },
+        "t4": { "type": "collection", "settings": {} },
+        "t5": { "type": "collection", "settings": {} },
+        "t6": { "type": "collection", "settings": {} }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"],
+      "settings": {
+        "kicker": "The vault",
+        "heading": "What we love"
+      }
+    },
+    "popular": {
+      "type": "featured-collection",
+      "settings": {
+        "kicker": "The vault",
+        "heading": "Popular",
+        "subtitle": "Most sold and most watched",
+        "limit": 15
+      }
+    },
+    "rare": {
+      "type": "featured-collection",
+      "settings": {
+        "kicker": "The vault",
+        "heading": "Rare · Hard to find",
+        "subtitle": "Discontinued and allocated pieces still in the warehouse",
+        "limit": 15
+      }
+    },
+    "low": {
+      "type": "featured-collection",
+      "settings": {
+        "kicker": "The vault",
+        "heading": "Low inventory",
+        "subtitle": "Fewer than six in the warehouse",
+        "limit": 15
+      }
+    },
+    "sets": {
+      "type": "featured-collection",
+      "settings": {
+        "kicker": "The vault",
+        "heading": "Beauty Sets",
+        "subtitle": "Looks, kits, and coffrets",
+        "limit": 15
+      }
+    },
+    "story": {
+      "type": "story",
+      "settings": {
+        "kicker": "Our story",
+        "heading": "A family vault. Forty years of beauty.",
+        "body": "Sol Beautiful is a family-run vault, and has been for more than forty years. It began looking after the people we loved, then looking after the people who found us. We ship from the USA."
+      }
+    },
+    "brands": {
+      "type": "brands",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "tiles", "popular", "rare", "low", "sets", "story", "brands"]
+}

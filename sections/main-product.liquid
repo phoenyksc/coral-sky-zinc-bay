@@ -1,0 +1,67 @@
+{% assign current = product.selected_or_first_available_variant %}
+<div class="page-width pdp">
+  <div class="pdp-media">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
+    {% endif %}
+  </div>
+  <div>
+    <p class="crumbs">
+      <a href="{{ routes.root_url }}">Home</a> /
+      {% if product.collections.first %}<a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> /{% endif %}
+      {{ product.title }}
+    </p>
+    <p class="kicker" style="margin-top:1.25rem">{{ product.vendor }}</p>
+    <h1>{{ product.title }}</h1>
+    <p data-product-price class="card-price" style="margin-top:1rem;font-size:1.15rem">
+      {{ current.price | money }}
+      {% if current.compare_at_price > current.price %}
+        <span class="compare">{{ current.compare_at_price | money }}</span>
+      {% endif %}
+    </p>
+    {% if current.inventory_quantity > 0 and current.inventory_quantity < 6 %}
+      <p class="badge badge--low" style="position:static;display:inline-block;margin-top:1rem">Low inventory · {{ current.inventory_quantity }} in warehouse</p>
+    {% endif %}
+    {% form 'product', product, data-product-form: '' %}
+      <input type="hidden" name="id" value="{{ current.id }}">
+      {% unless product.has_only_default_variant %}
+        <p class="kicker" style="margin-top:2rem">{{ product.options.first.name }}</p>
+        <div class="option-grid">
+          {% for variant in product.variants %}
+            <button
+              type="button"
+              class="swatch{% if variant.id == current.id %} is-active{% endif %}"
+              data-variant-id="{{ variant.id }}"
+              data-available="{{ variant.available }}"
+              data-price="{{ variant.price | money }}"
+              data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+            >
+              {{ variant.title }}
+            </button>
+          {% endfor %}
+        </div>
+      {% endunless %}
+      {% if current.sku != blank %}
+        <p class="kicker" style="margin-top:1rem">SKU {{ current.sku }}{% if current.barcode != blank %} · UPC {{ current.barcode }}{% endif %}</p>
+      {% endif %}
+      <div class="pdp-actions">
+        <input class="qty" type="number" name="quantity" value="1" min="1">
+        <button class="btn btn--lg" type="submit"{% unless current.available %} disabled{% endunless %}>
+          {% if current.available %}Add to bag{% else %}Sold out{% endif %}
+        </button>
+      </div>
+    {% endform %}
+    <ul class="trust">
+      <li>Free standard shipping over ${{ settings.free_shipping }} · ships from the USA</li>
+      <li>Authenticity guaranteed · packed from Fountain Valley, California</li>
+    </ul>
+    <div class="rte">{{ product.description }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

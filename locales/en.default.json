@@ -1,0 +1,21 @@
+{
+  "general": {
+    "shop": "Shop the vault",
+    "search": "Search",
+    "cart": "Bag",
+    "account": "Account",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "product": {
+    "add": "Add to bag",
+    "sold_out": "Sold out",
+    "from": "From"
+  },
+  "cart": {
+    "empty": "Your bag is empty",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "note": "Shipping and tax calculated at checkout."
+  }
+}

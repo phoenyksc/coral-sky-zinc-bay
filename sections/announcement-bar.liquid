@@ -1,0 +1,10 @@
+{% if settings.announcement != blank %}
+  <p class="announcement">{{ settings.announcement }}</p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement",
+  "settings": []
+}
+{% endschema %}

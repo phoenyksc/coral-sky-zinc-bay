@@ -1,0 +1,19 @@
+<div class="section">
+  <div class="page-width-narrow">
+    <p class="kicker">Order</p>
+    <h1 style="font-size:3rem">{{ order.name }}</h1>
+    <p style="color:var(--muted);margin:.5rem 0 1.5rem">{{ order.created_at | date: '%B %d, %Y' }} · {{ order.financial_status }}</p>
+    {% for line in order.line_items %}
+      <div class="cart-line">
+        <div>
+          <p>{{ line.title }}</p>
+          <p style="color:var(--muted)">{{ line.quantity }} × {{ line.final_price | money }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    <p style="margin-top:1.5rem">Total {{ order.total_price | money }}</p>
+    {% if order.order_status_url %}
+      <p style="margin-top:1rem"><a class="btn" href="{{ order.order_status_url }}">Track this order</a></p>
+    {% endif %}
+  </div>
+</div>

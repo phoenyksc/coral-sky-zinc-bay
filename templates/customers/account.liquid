@@ -1,0 +1,19 @@
+<div class="section">
+  <div class="page-width">
+    <p class="kicker">Your vault</p>
+    <h1 style="font-size:3rem">Account</h1>
+    <p style="margin-top:.5rem;color:var(--muted)">{{ customer.email }}</p>
+    <p style="margin-top:1rem"><a href="{{ routes.account_logout_url }}">Sign out</a> · <a href="{{ routes.account_addresses_url }}">Addresses</a></p>
+    <h2 style="margin:2.5rem 0 1rem">Orders</h2>
+    {% if customer.orders.size == 0 %}
+      <p style="color:var(--muted)">No orders yet.</p>
+    {% else %}
+      {% for order in customer.orders %}
+        <p style="padding:.75rem 0;border-top:1px solid var(--line)">
+          <a href="{{ order.customer_url }}">{{ order.name }}</a>
+          — {{ order.created_at | date: '%b %d, %Y' }} — {{ order.total_price | money }}
+        </p>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

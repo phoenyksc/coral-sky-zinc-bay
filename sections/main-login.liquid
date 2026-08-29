@@ -1,0 +1,18 @@
+<div class="section">
+  <div class="page-width-narrow">
+    <p class="kicker">Your vault</p>
+    <h1 style="font-size:3rem">Welcome back</h1>
+    {% form 'customer_login' %}
+      {{ form.errors | default_errors }}
+      <div style="display:grid;gap:1rem;margin-top:1.5rem">
+        <input class="field" type="email" name="customer[email]" placeholder="Email" required>
+        <input class="field" type="password" name="customer[password]" placeholder="Password" required>
+        <button class="btn" type="submit">Sign in</button>
+      </div>
+    {% endform %}
+    <p style="margin-top:1rem"><a href="{{ routes.account_register_url }}">Create an account · 10% off first purchase</a></p>
+  </div>
+</div>
+{% schema %}
+{ "name": "Login", "settings": [] }
+{% endschema %}

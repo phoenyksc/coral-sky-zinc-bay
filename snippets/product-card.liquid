@@ -1,0 +1,22 @@
+{% assign v = product.selected_or_first_available_variant %}
+<article class="card">
+  <a class="card-media" href="{{ product.url }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 700 | image_tag: alt: product.title, loading: 'lazy' }}
+    {% endif %}
+    {% if v.inventory_quantity > 0 and v.inventory_quantity < 6 %}
+      <span class="badge badge--low">Low · {{ v.inventory_quantity }} left</span>
+    {% elsif product.tags contains 'rare' or product.tags contains 'discontinued' or product.tags contains 'hard-to-find' %}
+      <span class="badge">Hard to find</span>
+    {% endif %}
+  </a>
+  <p class="card-vendor">{{ product.vendor }}</p>
+  <a class="card-title" href="{{ product.url }}">{{ product.title }}</a>
+  <p class="card-price">
+    {% if product.price_varies %}From {% endif %}
+    {{ product.price | money }}
+    {% if v.compare_at_price > v.price %}
+      <span class="compare">{{ v.compare_at_price | money }}</span>
+    {% endif %}
+  </p>
+</article>

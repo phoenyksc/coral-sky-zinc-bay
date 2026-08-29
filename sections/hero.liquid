@@ -1,0 +1,43 @@
+<section class="hero">
+  {% if section.settings.image %}
+    {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', alt: shop.name }}
+  {% else %}
+    <img src="{{ 'hero.jpg' | asset_url }}" alt="A quiet spa still life of fragrance, cream, and color">
+  {% endif %}
+  <div class="hero-veil"></div>
+  <div class="page-width hero-copy">
+    <p class="kicker">{{ section.settings.kicker }}</p>
+    <h1>{{ section.settings.heading }}</h1>
+    <p class="lede">{{ section.settings.lede }}</p>
+    <div class="hero-actions">
+      {% if section.settings.button_label != blank %}
+        <a class="btn btn--lg" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+      {% endif %}
+      {% if section.settings.button2_label != blank %}
+        <a class="btn btn--lg btn--outline" href="{{ section.settings.button2_link }}">{{ section.settings.button2_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Fragrance · Makeup · Skincare" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "For the love of beauty and skin." },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Text",
+      "default": "Scent that stays. Color that feels like you. Care that skin remembers. Sol Beautiful is a California vault of designer beauty — collected with affection for the ritual itself."
+    },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Shop the vault" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "button2_label", "label": "Second button", "default": "Create an account · 10% off" },
+    { "type": "url", "id": "button2_link", "label": "Second button link" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}
