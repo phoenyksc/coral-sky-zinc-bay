@@ -34,6 +34,8 @@
         "kicker": "The vault",
         "heading": "Popular",
         "subtitle": "Most sold and most watched",
+        "handle": "all",
+        "mode": "all",
         "limit": 15
       }
     },
@@ -43,6 +45,8 @@
         "kicker": "The vault",
         "heading": "Rare · Hard to find",
         "subtitle": "Discontinued and allocated pieces still in the warehouse",
+        "handle": "rare-finds",
+        "mode": "rare",
         "limit": 15
       }
     },
@@ -52,6 +56,8 @@
         "kicker": "The vault",
         "heading": "Low inventory",
         "subtitle": "Fewer than six in the warehouse",
+        "handle": "low-inventory",
+        "mode": "low",
         "limit": 15
       }
     },
@@ -61,15 +67,17 @@
         "kicker": "The vault",
         "heading": "Beauty Sets",
         "subtitle": "Looks, kits, and coffrets",
+        "handle": "beauty-sets",
+        "mode": "sets",
         "limit": 15
       }
     },
     "story": {
       "type": "story",
       "settings": {
-        "kicker": "Our story",
-        "heading": "A family vault. Forty years of beauty.",
-        "body": "Sol Beautiful is a family-run vault, and has been for more than forty years. It began looking after the people we loved, then looking after the people who found us. We ship from the USA."
+        "kicker": "The vault",
+        "heading": "Forty years of family care.",
+        "body": "A family-run beauty vault for more than forty years — customer first, carefully spoken to, and curated for quality and rare fragrance. We ship from the USA."
       }
     },
     "brands": {

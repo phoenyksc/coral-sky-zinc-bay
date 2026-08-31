@@ -8,21 +8,43 @@
       <a href="{{ routes.collections_url }}" class="kicker">All collections →</a>
     </div>
     <div class="collection-tiles">
-      {% for block in section.blocks %}
-        {% assign col = block.settings.collection %}
-        {% if col != blank %}
-          <a class="tile" href="{{ col.url }}" {{ block.shopify_attributes }}>
-            {% if block.settings.image %}
-              {{ block.settings.image | image_url: width: 900 | image_tag: alt: col.title, loading: 'lazy' }}
-            {% elsif col.featured_image %}
-              {{ col.featured_image | image_url: width: 900 | image_tag: alt: col.title, loading: 'lazy' }}
-            {% else %}
-              <img src="{{ 'collection-makeup.jpg' | asset_url }}" alt="{{ col.title | escape }}">
+      {% assign default_handles = "fragrances,makeup,skincare,hair,bath-body,rare-finds" | split: "," %}
+      {% assign default_titles = "Fragrances,Makeup,Skincare,Hair,Bath & body,Hard to find" | split: "," %}
+      {% assign default_images = "collection-fragrances.jpg,collection-makeup.jpg,collection-skincare.jpg,collection-hair.jpg,collection-bath.jpg,collection-rare.jpg" | split: "," %}
+      {% for i in (0..5) %}
+        {% assign handle = default_handles[i] %}
+        {% assign title = default_titles[i] %}
+        {% assign img = default_images[i] %}
+        {% assign col = collections[handle] %}
+        {% assign custom_image = false %}
+        {% for block in section.blocks %}
+          {% if forloop.index0 == i %}
+            {% if block.settings.collection != blank %}
+              {% assign col = block.settings.collection %}
+              {% assign title = col.title %}
+              {% assign handle = col.handle %}
             {% endif %}
-            <span class="tile-veil"></span>
-            <span>{{ col.title }}</span>
-          </a>
+            {% if block.settings.image %}
+              {% assign custom_image = block.settings.image %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% if col != blank %}
+          {% assign href = col.url %}
+        {% else %}
+          {% assign href = "/collections/" | append: handle %}
         {% endif %}
+        <a class="tile" href="{{ href }}">
+          {% if custom_image %}
+            {{ custom_image | image_url: width: 900 | image_tag: alt: title, loading: 'lazy' }}
+          {% elsif col.featured_image %}
+            {{ col.featured_image | image_url: width: 900 | image_tag: alt: title, loading: 'lazy' }}
+          {% else %}
+            <img src="{{ img | asset_url }}" alt="{{ title | escape }}">
+          {% endif %}
+          <span class="tile-veil"></span>
+          <span>{{ title }}</span>
+        </a>
       {% endfor %}
     </div>
   </div>
@@ -49,6 +71,9 @@
     {
       "name": "Collection tiles",
       "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
         { "type": "collection" },
         { "type": "collection" },
         { "type": "collection" }

@@ -9,6 +9,16 @@
     <div class="cart-layout">
       <div>
         <h1 style="font-size:3rem">Bag ({{ cart.item_count }})</h1>
+        <aside class="share-save" aria-labelledby="share-save-title">
+          <p class="kicker">A reminder before you pay</p>
+          <h2 id="share-save-title">Share and Save</h2>
+          <p>We’ll email a tiered discount code — 10%, 15% at $75, 20% at $125. Enter SHARE10, SHARE15, or SHARE20 at checkout.</p>
+          <div class="share-tiers">
+            <span><strong>10%</strong><em>Any order</em></span>
+            <span><strong>15%</strong><em>From $75</em></span>
+            <span><strong>20%</strong><em>From $125</em></span>
+          </div>
+        </aside>
         <form action="{{ routes.cart_url }}" method="post">
           {% for item in cart.items %}
             <div class="cart-line">

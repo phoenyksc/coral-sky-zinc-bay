@@ -12,6 +12,11 @@ Do not unzip the theme zip first. Shopify wants the .zip as-is.
 Keep product_template.csv as the blank Shopify import layout for future
 catalog rebuilds. Always fill that same column set.
 
+The theme matches the Sol Beautiful preview: cream/ivory, Cormorant + Outfit,
+zen header, “What we love” tiles (Fragrances, Makeup, Skincare, Hair,
+Bath & body, Hard to find), Popular / Rare / Low inventory / Beauty Sets,
+Our Story collage, product pages with shade buttons, bag with Share and Save.
+
 --------------------------------
 A. Theme (the storefront)
 --------------------------------
@@ -20,12 +25,11 @@ A. Theme (the storefront)
 3. Choose sol-beautiful-theme.zip.
 4. Preview, then Publish when you are ready.
 
-The theme is Sol Beautiful — the vault: zen header, cream pages, collection
-tiles, Popular / Rare / Low inventory / Beauty Sets carousels, Our Story
-collage, product pages with shade buttons, bag, search, and customer accounts.
+If a theme is already published from an older zip, upload this zip again
+(or replace the GitHub shopify branch) so homepage tiles and nav match.
 
 --------------------------------
-B. Catalog
+B. Catalog, then collections
 --------------------------------
 File: sol-beautiful-products.csv
   2,181 products  ·  8,402 variants  ·  SKU on every shade  ·  inventory tracked
@@ -38,34 +42,44 @@ File: sol-beautiful-products.csv
 Two lipstick listings had more than 100 shades (Shopify’s limit). Extra shades
 are on a second product titled “more shades.”
 
-Then create automated collections:
+Create automated collections with these EXACT handles (the theme is wired to them):
 
-  Fragrances     Product type is equal to Fragrance
-  Makeup         Product type is equal to Makeup
-  Skincare       Product type is equal to Skincare
-  Hair           Product type is equal to Hair
-  Bath & body    Product type is equal to Bath & Body
-  Hard to find   Tag is equal to rare
-  Beauty Sets    Title contains set
-  Low inventory  Inventory stock is less than 6
+  Handle          Title            Rule
+  fragrances      Fragrances       Product type is equal to Fragrance
+  makeup          Makeup           Product type is equal to Makeup
+  skincare        Skincare         Product type is equal to Skincare
+  hair            Hair             Product type is equal to Hair
+  bath-body       Bath & body      Product type is equal to Bath & Body
+  rare-finds      Hard to find     Tag is equal to rare
+  beauty-sets     Beauty Sets      Title contains set
+  low-inventory   Low inventory    Inventory stock is less than 6
+  all             Catalog          already exists
 
-Themes → Customize: assign those collections to the homepage carousels
-and “What we love” tiles.
+“What we love” tiles show even before collections exist (theme photos).
+After these collections are created, the tiles and rails fill with products.
 
 3Dsellers: match eBay Custom label to the CSV SKU column. Do not also
 cross-list eBay → Shopify after this import (that duplicates products).
 
 --------------------------------
-C. Pages, menus, shipping
+C. Pages, discounts, shipping
 --------------------------------
 Pages: about (template page.about), shipping, returns, authenticity,
 payment, contact (template page.contact). Contact: info@solbeautiful.com
 
-Main menu: Fragrances, Makeup, Skincare, Hard to find.
+Nav is already Fragrances, Makeup, Skincare, Hard to find in the theme.
 Footer: About, Create account, Shipping, Returns, Contact.
 
+Discounts (Discounts → Create):
+  FIRST10   10% off first purchase
+  SHARE10   10% off
+  SHARE15   15% off, minimum $75
+  SHARE20   20% off, minimum $125
+
 Shipping: standard $6.95, free over $75, express $14.95. USA only.
-Discount FIRST10 = 10% off first purchase.
 Payments: cards, Shop Pay, PayPal, Apple Pay / Google Pay.
+
+Shopify hosted checkout cannot use the preview’s custom checkout header.
+Share and Save appears on the bag page; the codes above work at Shopify checkout.
 
 Shopify CLI / GitHub is not required for the CSV import.

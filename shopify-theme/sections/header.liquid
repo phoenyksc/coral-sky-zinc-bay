@@ -13,9 +13,10 @@
     </button>
     <a class="logo" href="{{ routes.root_url }}">{{ shop.name }}</a>
     <nav class="header-nav">
-      {% for link in section.settings.menu.links %}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {% endfor %}
+      <a href="/collections/fragrances">Fragrances</a>
+      <a href="/collections/makeup">Makeup</a>
+      <a href="/collections/skincare">Skincare</a>
+      <a href="/collections/rare-finds">Hard to find</a>
     </nav>
     <div class="header-icons">
       <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">
@@ -33,9 +34,10 @@
     </div>
   </div>
   <nav class="mobile-nav" data-mobile-nav>
-    {% for link in section.settings.menu.links %}
-      <a href="{{ link.url }}">{{ link.title }}</a>
-    {% endfor %}
+    <a href="/collections/fragrances">Fragrances</a>
+    <a href="/collections/makeup">Makeup</a>
+    <a href="/collections/skincare">Skincare</a>
+    <a href="/collections/rare-finds">Hard to find</a>
     <a href="{{ routes.all_products_collection_url }}">Shop all</a>
     <a href="{{ routes.account_url }}">Account</a>
   </nav>

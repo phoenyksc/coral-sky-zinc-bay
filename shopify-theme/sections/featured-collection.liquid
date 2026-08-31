@@ -5,24 +5,58 @@
         <p class="kicker">{{ section.settings.kicker }}</p>
         <h2>{{ section.settings.heading }}</h2>
         {% if section.settings.subtitle != blank %}
-          <p style="margin-top:.4rem;color:var(--muted);font-size:.9rem">{{ section.settings.subtitle }}</p>
+          <p class="section-sub">{{ section.settings.subtitle }}</p>
         {% endif %}
       </div>
       {% if section.settings.collection %}
         <a href="{{ section.settings.collection.url }}" class="kicker">View all →</a>
+      {% elsif section.settings.handle != blank %}
+        <a href="/collections/{{ section.settings.handle }}" class="kicker">View all →</a>
       {% endif %}
     </div>
     <div class="product-rail">
       {% assign col = section.settings.collection %}
+      {% if col == blank and section.settings.handle != blank %}
+        {% assign col = collections[section.settings.handle] %}
+      {% endif %}
+      {% assign mode = section.settings.mode %}
+      {% assign shown = 0 %}
+      {% assign limit = section.settings.limit %}
       {% if col != blank %}
-        {% for product in col.products limit: section.settings.limit %}
+        {% for product in col.products limit: limit %}
           {% render 'product-card', product: product %}
+          {% assign shown = shown | plus: 1 %}
         {% endfor %}
         <a class="view-all-card" href="{{ col.url }}">View all</a>
       {% else %}
-        {% for product in collections.all.products limit: section.settings.limit %}
-          {% render 'product-card', product: product %}
+        {% for product in collections.all.products %}
+          {% if shown >= limit %}{% break %}{% endif %}
+          {% assign include = false %}
+          {% if mode == 'all' %}
+            {% assign include = true %}
+          {% elsif mode == 'rare' %}
+            {% if product.tags contains 'rare' or product.tags contains 'discontinued' or product.tags contains 'hard-to-find' %}
+              {% assign include = true %}
+            {% endif %}
+          {% elsif mode == 'low' %}
+            {% assign qty = product.selected_or_first_available_variant.inventory_quantity %}
+            {% if qty > 0 and qty < 6 %}
+              {% assign include = true %}
+            {% endif %}
+          {% elsif mode == 'sets' %}
+            {% assign t = product.title | downcase %}
+            {% if t contains 'gift set' or t contains 'coffret' or t contains ' kit' or t contains 'set' %}
+              {% assign include = true %}
+            {% endif %}
+          {% endif %}
+          {% if include %}
+            {% render 'product-card', product: product %}
+            {% assign shown = shown | plus: 1 %}
+          {% endif %}
         {% endfor %}
+        {% if section.settings.handle != blank %}
+          <a class="view-all-card" href="/collections/{{ section.settings.handle }}">View all</a>
+        {% endif %}
       {% endif %}
     </div>
   </div>
@@ -36,6 +70,19 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "Popular" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Most sold and most watched" },
     { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "text", "id": "handle", "label": "Fallback collection handle" },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "If collection is empty, show",
+      "options": [
+        { "value": "all", "label": "All products" },
+        { "value": "rare", "label": "Rare / hard to find tags" },
+        { "value": "low", "label": "Low inventory (under 6)" },
+        { "value": "sets", "label": "Sets / kits" }
+      ],
+      "default": "all"
+    },
     { "type": "range", "id": "limit", "min": 4, "max": 15, "step": 1, "label": "Products", "default": 15 }
   ],
   "presets": [{ "name": "Product carousel" }]

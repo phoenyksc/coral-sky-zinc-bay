@@ -8,25 +8,25 @@
     <div class="footer-col">
       <p class="kicker">Shop</p>
       <ul>
-        {% for link in section.settings.shop_menu.links %}
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-        {% else %}
-          <li><a href="{{ routes.all_products_collection_url }}">Shop all</a></li>
-        {% endfor %}
+        <li><a href="/collections/fragrances">Fragrances</a></li>
+        <li><a href="/collections/makeup">Makeup</a></li>
+        <li><a href="/collections/skincare">Skincare</a></li>
+        <li><a href="/collections/hair">Hair</a></li>
+        <li><a href="/collections/bath-body">Bath & body</a></li>
+        <li><a href="/collections/rare-finds">Hard to find</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <p class="kicker">The vault</p>
       <ul>
-        {% for link in section.settings.house_menu.links %}
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-        {% else %}
-          <li><a href="/pages/about">About</a></li>
-          <li><a href="{{ routes.account_register_url }}">Create account</a></li>
-          <li><a href="/pages/shipping">Shipping</a></li>
-          <li><a href="/pages/returns">Returns</a></li>
-          <li><a href="/pages/contact">Contact</a></li>
-        {% endfor %}
+        <li><a href="/pages/about">About</a></li>
+        <li><a href="{{ routes.account_register_url }}">Create account</a></li>
+        <li><a href="{{ routes.account_url }}">Account</a></li>
+        <li><a href="/pages/authenticity">Authenticity</a></li>
+        <li><a href="/pages/shipping">Shipping</a></li>
+        <li><a href="/pages/payment">Payment</a></li>
+        <li><a href="/pages/returns">Returns</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
       </ul>
     </div>
   </div>
