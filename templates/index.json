@@ -88,6 +88,7 @@
     },
     "rare": {
       "type": "featured-collection",
+      "name": "Rare · Hard to find carousel",
       "settings": {
         "kicker": "The vault",
         "heading": "Rare · Hard to find",
