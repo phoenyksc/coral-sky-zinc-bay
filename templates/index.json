@@ -110,6 +110,7 @@
     },
     "sets": {
       "type": "featured-collection",
+      "name": "Beauty Sets carousel",
       "settings": {
         "kicker": "The vault",
         "heading": "Beauty Sets",
