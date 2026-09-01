@@ -99,6 +99,7 @@
     },
     "low": {
       "type": "featured-collection",
+      "name": "Low inventory carousel",
       "settings": {
         "kicker": "The vault",
         "heading": "Low inventory",
