@@ -1,0 +1,69 @@
+{% comment %}
+ Storefront filters via Search & Discovery (collection.filters).
+ Enable Availability + Price + Product type only. Brand facet held.
+{% endcomment %}
+{% if collection.filters != empty %}
+  <form class="facets" action="{{ collection.url }}" method="get">
+    <p class="kicker" style="margin-bottom:1rem">Filter</p>
+    {% for filter in collection.filters %}
+      {% assign label_down = filter.label | downcase %}
+      {% if label_down contains 'brand' or label_down contains 'vendor' or filter.param_name == 'filter.p.vendor' %}
+        {% continue %}
+      {% endif %}
+      <div class="facet" style="margin-bottom:1.25rem">
+        <p class="kicker">{{ filter.label }}</p>
+        {% case filter.type %}
+          {% when 'list' %}
+            <ul style="list-style:none;padding:0;margin:.5rem 0 0">
+              {% for value in filter.values %}
+                <li style="margin:.35rem 0">
+                  <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem">
+                    <input type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                      onchange="this.form.submit()">
+                    <span>{{ value.label }} ({{ value.count }})</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          {% when 'price_range' %}
+            <div style="display:flex;gap:.5rem;margin-top:.5rem;align-items:center">
+              <input class="field" type="number" name="{{ filter.min_value.param_name }}"
+                value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                placeholder="Min" min="0" style="width:6rem">
+              <span>–</span>
+              <input class="field" type="number" name="{{ filter.max_value.param_name }}"
+                value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                placeholder="Max" min="0" style="width:6rem">
+              <button class="btn btn--outline" type="submit">Go</button>
+            </div>
+          {% when 'boolean' %}
+            {% for value in filter.values %}
+              <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem;margin:.35rem 0">
+                <input type="checkbox"
+                  name="{{ value.param_name }}"
+                  value="{{ value.value }}"
+                  {% if value.active %}checked{% endif %}
+                  onchange="this.form.submit()">
+                <span>{{ value.label }}</span>
+              </label>
+            {% endfor %}
+        {% endcase %}
+      </div>
+    {% endfor %}
+    {% if collection.filters | size > 0 %}
+      {% assign has_active = false %}
+      {% for filter in collection.filters %}
+        {% if filter.active_values.size > 0 or filter.min_value.value != nil or filter.max_value.value != nil %}
+          {% assign has_active = true %}
+        {% endif %}
+      {% endfor %}
+      {% if has_active %}
+        <a class="btn btn--outline" href="{{ collection.url }}">Clear filters</a>
+      {% endif %}
+    {% endif %}
+  </form>
+{% endif %}
