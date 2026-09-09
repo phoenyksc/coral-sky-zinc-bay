@@ -14,8 +14,7 @@
     "header": {
       "type": "header",
       "custom_css": [
-        ".signup-bar{display:none!important}",
-        "-bar{display:none!important}"
+        ".signup-bar{display:none!important}"
       ],
       "settings": {
         "menu": "main-menu"
