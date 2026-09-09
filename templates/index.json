@@ -24,10 +24,40 @@
     "tiles": {
       "type": "collection-list",
       "blocks": {
+        "collection_gVkTmi": {
+          "type": "collection",
+          "settings": {
+            "collection": "hard-to-find"
+          }
+        },
+        "collection_qQNxip": {
+          "type": "collection",
+          "settings": {
+            "collection": "bath-body"
+          }
+        },
+        "collection_VVDa8U": {
+          "type": "collection",
+          "settings": {
+            "collection": "hair"
+          }
+        },
+        "collection_rhjqmq": {
+          "type": "collection",
+          "settings": {
+            "collection": "skincare"
+          }
+        },
+        "collection_4P7DdD": {
+          "type": "collection",
+          "settings": {
+            "collection": "makeup"
+          }
+        },
         "t1": {
           "type": "collection",
           "settings": {
-            "collection": ""
+            "collection": "fragrances"
           }
         },
         "t2": {
@@ -62,6 +92,11 @@
         }
       },
       "block_order": [
+        "collection_gVkTmi",
+        "collection_qQNxip",
+        "collection_VVDa8U",
+        "collection_rhjqmq",
+        "collection_4P7DdD",
         "t1",
         "t2",
         "t3",
