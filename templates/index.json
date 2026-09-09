@@ -18,7 +18,7 @@
         "button_label": "Shop the vault",
         "button_link": "/collections/all",
         "button2_label": "Browse collections",
-        "button2_link": "/account/register"
+        "button2_link": "shopify://collections"
       }
     },
     "tiles": {
