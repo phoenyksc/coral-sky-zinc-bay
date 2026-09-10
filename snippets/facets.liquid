@@ -1,6 +1,8 @@
 {% comment %}
- Storefront filters via Search & Discovery (collection.filters).
- Availability + Price + Product type. Skip Brand/Vendor filters.
+  Storefront filters via Search & Discovery (collection.filters).
+  Show Availability, Price, Product type, and Brand/Manufacturer
+  (from custom.manufacturer / brand filters — NOT Vendor).
+  Skip Vendor filters (all products Vendor = Sol Beautiful).
 {% endcomment %}
 {% if collection.filters != empty %}
   <form class="facets" action="{{ collection.url }}" method="get">
@@ -8,14 +10,12 @@
     {% assign has_active = false %}
     {% for filter in collection.filters %}
       {% assign label_down = filter.label | downcase %}
-      {% assign skip_brand = false %}
-      {% if label_down contains 'brand' or label_down contains 'vendor' %}
-        {% assign skip_brand = true %}
+      {% assign skip = false %}
+      {% comment %} Never expose Shopify Vendor (store name) {% endcomment %}
+      {% if filter.param_name == 'filter.p.vendor' or label_down == 'vendor' %}
+        {% assign skip = true %}
       {% endif %}
-      {% if filter.param_name == 'filter.p.vendor' %}
-        {% assign skip_brand = true %}
-      {% endif %}
-      {% unless skip_brand %}
+      {% unless skip %}
         {% if filter.active_values.size > 0 %}
           {% assign has_active = true %}
         {% endif %}
@@ -23,7 +23,13 @@
           {% assign has_active = true %}
         {% endif %}
         <div class="facet" style="margin-bottom:1.25rem">
-          <p class="kicker">{{ filter.label }}</p>
+          <p class="kicker">
+            {% if label_down contains 'manufacturer' or label_down contains 'brand' %}
+              Brand
+            {% else %}
+              {{ filter.label }}
+            {% endif %}
+          </p>
           {% case filter.type %}
             {% when 'list' %}
               <ul style="list-style:none;padding:0;margin:.5rem 0 0">
