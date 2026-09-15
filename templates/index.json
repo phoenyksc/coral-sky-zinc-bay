@@ -112,50 +112,6 @@
         "heading": "What we love"
       }
     },
-    "popular": {
-      "type": "featured-collection",
-      "name": "Popular carousel",
-      "settings": {
-        "kicker": "The vault",
-        "heading": "Popular",
-        "subtitle": "Most sold and most watched",
-        "collection": "",
-        "limit": 15
-      }
-    },
-    "rare": {
-      "type": "featured-collection",
-      "name": "Rare · Hard to find carousel",
-      "settings": {
-        "kicker": "The vault",
-        "heading": "Rare · Hard to find",
-        "subtitle": "Discontinued and allocated pieces still in the warehouse",
-        "collection": "",
-        "limit": 15
-      }
-    },
-    "low": {
-      "type": "featured-collection",
-      "name": "Low inventory carousel",
-      "settings": {
-        "kicker": "The vault",
-        "heading": "Low inventory",
-        "subtitle": "Fewer than six in the warehouse",
-        "collection": "",
-        "limit": 15
-      }
-    },
-    "sets": {
-      "type": "featured-collection",
-      "name": "Beauty Sets carousel",
-      "settings": {
-        "kicker": "The vault",
-        "heading": "Beauty Sets",
-        "subtitle": "Looks, kits, and coffrets",
-        "collection": "",
-        "limit": 15
-      }
-    },
     "story": {
       "type": "story",
       "settings": {
@@ -172,10 +128,6 @@
   "order": [
     "hero",
     "tiles",
-    "popular",
-    "rare",
-    "low",
-    "sets",
     "story",
     "brands"
   ]
