@@ -51,13 +51,15 @@
         "collection_4P7DdD": {
           "type": "collection",
           "settings": {
-            "collection": "makeup"
+            "collection": "makeup",
+            "image": "shopify://shop_images/Desert_Lightning_Eye_Shadow_x12_2c0c25f6-b016-4b7b-ae46-8191339514f1.webp"
           }
         },
         "t1": {
           "type": "collection",
           "settings": {
-            "collection": "fragrances"
+            "collection": "fragrances",
+            "image": "shopify://shop_images/57_808c1b7d-62be-4672-be57-7498037247ce.jpg"
           }
         },
         "t2": {
