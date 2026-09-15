@@ -1,8 +1,10 @@
 {% comment %}
- Storefront filters via Search & Discovery (collection.filters).
- Show Availability, Price, Product type, and Brand/Manufacturer
- (from custom.manufacturer / brand filters — NOT Vendor).
- Skip Vendor filters (all products Vendor = Sol Beautiful).
+  Storefront filters via Search & Discovery (collection.filters).
+  Show Availability, Price, Product type, and Brand/Manufacturer
+  (from custom.manufacturer / brand filters — NOT Vendor).
+  Skip Vendor filters (all products Vendor = Sol Beautiful).
+  Product type + Brand render as <select> dropdowns; Availability stays
+  checkboxes/boolean; Price stays range.
 {% endcomment %}
 {% if collection.filters != empty %}
   <form class="facets" action="{{ collection.url }}" method="get">
@@ -22,31 +24,65 @@
         {% if filter.min_value.value != blank or filter.max_value.value != blank %}
           {% assign has_active = true %}
         {% endif %}
+
+        {% assign use_select = false %}
+        {% assign facet_label = filter.label %}
+        {% if label_down contains 'product type' or filter.param_name == 'filter.p.product_type' %}
+          {% assign use_select = true %}
+          {% assign facet_label = 'Product type' %}
+        {% elsif label_down contains 'manufacturer' or label_down contains 'brand' %}
+          {% assign use_select = true %}
+          {% assign facet_label = 'Brand' %}
+        {% endif %}
+
         <div class="facet" style="margin-bottom:1.25rem">
-          <p class="kicker">
-            {% if label_down contains 'manufacturer' or label_down contains 'brand' %}
-              Brand
-            {% else %}
-              {{ filter.label }}
-            {% endif %}
-          </p>
+          <p class="kicker">{{ facet_label }}</p>
           {% case filter.type %}
             {% when 'list' %}
-              <ul style="list-style:none;padding:0;margin:.5rem 0 0">
+              {% if use_select %}
+                {% comment %}
+                  Single <select> for Product type / Brand (even if S&D allows multi).
+                  Empty first option = All (no filter param). On change, submit.
+                {% endcomment %}
+                {% assign select_name = filter.param_name %}
                 {% for value in filter.values %}
-                  <li style="margin:.35rem 0">
-                    <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem">
-                      <input type="checkbox"
-                        name="{{ value.param_name }}"
-                        value="{{ value.value }}"
-                        {% if value.active %}checked{% endif %}
-                        {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                        onchange="this.form.submit()">
-                      <span>{{ value.label }} ({{ value.count }})</span>
-                    </label>
-                  </li>
+                  {% if select_name == blank %}
+                    {% assign select_name = value.param_name %}
+                  {% endif %}
                 {% endfor %}
-              </ul>
+                <select
+                  class="field"
+                  name="{{ select_name }}"
+                  style="margin-top:.5rem;width:100%;max-width:18rem"
+                  onchange="this.form.submit()">
+                  <option value="">All</option>
+                  {% for value in filter.values %}
+                    <option
+                      value="{{ value.value }}"
+                      {% if value.active %}selected{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                      {{ value.label }} ({{ value.count }})
+                    </option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                {% comment %} Availability and any other list filters: checkboxes {% endcomment %}
+                <ul style="list-style:none;padding:0;margin:.5rem 0 0">
+                  {% for value in filter.values %}
+                    <li style="margin:.35rem 0">
+                      <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem">
+                        <input type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                          onchange="this.form.submit()">
+                        <span>{{ value.label }} ({{ value.count }})</span>
+                      </label>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
             {% when 'price_range' %}
               <div style="display:flex;gap:.5rem;margin-top:.5rem;align-items:center;flex-wrap:wrap">
                 <input class="field" type="number" name="{{ filter.min_value.param_name }}"
