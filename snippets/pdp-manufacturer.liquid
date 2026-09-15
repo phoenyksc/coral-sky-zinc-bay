@@ -1,0 +1,9 @@
+{% comment %} PDP manufacturer line — custom.manufacturer only {% endcomment %}
+{% assign mfr = product.metafields.custom.manufacturer.value | default: product.metafields.custom.manufacturer %}
+{% if mfr != blank %}
+  {% assign m_down = mfr | downcase %}
+  {% unless m_down contains 'escentshow' or m_down contains 'ebay' %}
+    <p class="kicker" style="margin-top:.5rem">Manufacturer</p>
+    <p class="card-vendor" style="margin-top:.25rem">{{ mfr }}</p>
+  {% endunless %}
+{% endif %}
