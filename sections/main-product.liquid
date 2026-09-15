@@ -13,6 +13,7 @@
     </p>
     <p class="kicker" style="margin-top:1.25rem">{{ product.vendor }}</p>
     <h1>{{ product.title }}</h1>
+    {% render 'pdp-manufacturer' %}
     <p data-product-price class="card-price" style="margin-top:1rem;font-size:1.15rem">
       {{ current.price | money }}
       {% if current.compare_at_price > current.price %}
