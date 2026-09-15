@@ -1,8 +1,8 @@
 {% comment %}
- Collection grid + facets (S&D Availability/Price/Product type).
- Brand facet skipped in facets snippet.
+  Collection grid + facets. Product type / Brand = dropdowns in facets.
+  Load More Products (no page switching). Skip Vendor-as-brand on cards.
 {% endcomment %}
-<section class="section">
+<section class="section" id="CollectionSection-{{ section.id }}" data-section-id="{{ section.id }}">
   <div class="page-width">
     <header class="section-head">
       <h1 style="font-size:clamp(2rem,4vw,3rem);margin:0">{{ collection.title }}</h1>
@@ -19,14 +19,19 @@
         {% endif %}
       </aside>
       <div>
-        {% paginate collection.products by 24 %}
+        {% paginate collection.products by section.settings.products_per_page %}
           {% if collection.products.size == 0 %}
             <div class="empty">
               <h2>No products yet</h2>
               <p class="prose">This collection will fill as catalog membership lands.</p>
             </div>
           {% else %}
-            <div class="product-grid">
+            <div
+              id="ProductGrid-{{ section.id }}"
+              class="product-grid"
+              data-page="{{ paginate.current_page }}"
+              data-pages="{{ paginate.pages }}"
+            >
               {% for product in collection.products %}
                 <a class="card" href="{{ product.url }}">
                   <div class="card-media">
@@ -47,8 +52,18 @@
               {% endfor %}
             </div>
           {% endif %}
-          {% if paginate.pages > 1 %}
-            <div style="margin-top:2rem">{{ paginate | default_pagination }}</div>
+
+          {% if paginate.pages > 1 and paginate.current_page < paginate.pages %}
+            <div class="load-more-wrap" style="margin-top:2rem;text-align:center" id="LoadMoreWrap-{{ section.id }}">
+              <button
+                type="button"
+                class="btn"
+                id="LoadMore-{{ section.id }}"
+                data-next-url="{{ collection.url }}?page={{ paginate.current_page | plus: 1 }}&section_id={{ section.id }}"
+              >
+                Load More Products
+              </button>
+            </div>
           {% endif %}
         {% endpaginate %}
       </div>
@@ -56,10 +71,60 @@
   </div>
 </section>
 
+<script>
+(function () {
+  var btn = document.getElementById('LoadMore-{{ section.id }}');
+  var grid = document.getElementById('ProductGrid-{{ section.id }}');
+  var wrap = document.getElementById('LoadMoreWrap-{{ section.id }}');
+  if (!btn || !grid) return;
+
+  btn.addEventListener('click', function () {
+    var url = btn.getAttribute('data-next-url');
+    if (!url) return;
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+
+    fetch(url)
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var nextGrid = doc.getElementById('ProductGrid-{{ section.id }}');
+        var nextBtn = doc.getElementById('LoadMore-{{ section.id }}');
+        if (nextGrid) {
+          Array.prototype.forEach.call(nextGrid.children, function (card) {
+            grid.appendChild(card);
+          });
+        }
+        if (nextBtn) {
+          btn.setAttribute('data-next-url', nextBtn.getAttribute('data-next-url'));
+          btn.disabled = false;
+          btn.textContent = 'Load More Products';
+        } else if (wrap) {
+          wrap.remove();
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Load More Products';
+      });
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "Collection",
-  "settings": [],
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 12,
+      "max": 48,
+      "step": 12,
+      "label": "Products per load",
+      "default": 24
+    }
+  ],
   "presets": [{ "name": "Collection" }]
 }
 {% endschema %}
