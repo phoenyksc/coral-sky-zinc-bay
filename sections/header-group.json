@@ -40,7 +40,7 @@
           "type": "rail",
           "settings": {
             "collection_handle": "beauty-sets",
-            "collection": "",
+            "collection": "beauty-sets",
             "heading": "Beauty sets",
             "subheading": "The vault"
           }
