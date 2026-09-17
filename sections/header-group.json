@@ -55,6 +55,7 @@
           }
         }
       },
+       
       "block_order": [
         "rail_bVYdJk",
         "rail_YBh4Pa",
@@ -99,8 +100,8 @@
       },
       "block_order": [
         "rail_BFEnqX",
-        "rail_YCWifg",
-        "rail_VJRpat"
+        
+        
       ],
       "name": "Vault rails",
       "settings": {
