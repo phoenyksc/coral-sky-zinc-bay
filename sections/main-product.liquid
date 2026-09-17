@@ -31,7 +31,7 @@
           {% for variant in product.variants %}
             <button
               type="button"
-              class="swatch{% if variant.id == current.id %} is-active{% endif %}"
+              class="swatch{% if variant.id == current.id %} is-active{% endif %}{% unless variant.available %} is-soldout{% endunless %}"
               data-variant-id="{{ variant.id }}"
               data-available="{{ variant.available }}"
               data-price="{{ variant.price | money }}"
