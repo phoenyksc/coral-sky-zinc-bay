@@ -9,9 +9,21 @@
  */
 {
   "current": {
-    "announcement": "Free standard shipping on US orders $75+ · Earn up to 20% off — details at checkout  Authenticity guaranteed · Ships from the USA",
+    "announcement": "Free standard shipping on US orders $75+ · Earn up to 20% off — details at checkout · Authenticity guaranteed · Ships from the USA",
     "signup_bar": "",
-    "free_shipping": 0,
-    "contact_email": "info@solbeautiful.com"
+    "free_shipping": 75,
+    "contact_email": "info@solbeautiful.com",
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#f2efe6",
+          "text": "#1a1613",
+          "button": "#1a1613",
+          "button_label": "#fbf8f3",
+          "secondary_button_label": "#1a1613",
+          "shadow": "#1a1613"
+        }
+      }
+    }
   }
 }
