@@ -1,6 +1,7 @@
 {% comment %}
   Homepage collection tiles — Grok Build match.
-  Handles locked with Inventory Bot.
+  Prefer: custom image → theme asset build-tile-{handle}.jpg → collection/product image.
+  Theme assets = Build lifestyle art (no eScentShow). Handles locked with Inventory.
 {% endcomment %}
 <section class="section" id="collection-tiles">
   <div class="page-width">
@@ -32,9 +33,16 @@
         {% if handle == 'hard-to-find' %}
           {% assign tile_mod = ' tile--contrast' %}
         {% endif %}
+        {% assign asset_name = 'build-tile-' | append: handle | append: '.jpg' %}
+        {% assign use_build_asset = false %}
+        {% if handle == 'fragrances' or handle == 'makeup' or handle == 'skincare' or handle == 'hair' or handle == 'bath-body' or handle == 'hard-to-find' %}
+          {% assign use_build_asset = true %}
+        {% endif %}
         <a class="tile{{ tile_mod }}" href="{{ href }}" {{ block.shopify_attributes }}>
           {% if block.settings.image != blank %}
             {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: label }}
+          {% elsif use_build_asset %}
+            <img src="{{ asset_name | asset_url }}" alt="{{ label | escape }}" loading="lazy" width="900" height="1125">
           {% elsif col.image != blank %}
             {{ col.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: label }}
           {% elsif col.products.first.featured_media != blank %}
