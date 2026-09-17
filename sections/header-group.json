@@ -36,15 +36,6 @@
             "subheading": "The vault"
           }
         },
-        "rail_JxegTN": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "beauty-sets",
-            "collection": "beauty-sets",
-            "heading": "Beauty sets",
-            "subheading": "The vault"
-          }
-        },
         "rail_YBh4Pa": {
           "type": "rail",
           "settings": {
@@ -74,11 +65,54 @@
         "visible_limit": 5,
         "products_per_rail": 12
       }
+    },
+    "vault_rails_ywyr3H": {
+      "type": "vault-rails",
+      "blocks": {
+        "rail_BFEnqX": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "beauty-sets",
+            "collection": "",
+            "heading": "Beauty Sets",
+            "subheading": "The vault"
+          }
+        },
+        "rail_YCWifg": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "rare-hard-to-find",
+            "collection": "",
+            "heading": "Rare · hard to find",
+            "subheading": "The vault"
+          }
+        },
+        "rail_VJRpat": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "low-inventory",
+            "collection": "",
+            "heading": "Low inventory",
+            "subheading": "The vault"
+          }
+        }
+      },
+      "block_order": [
+        "rail_BFEnqX",
+        "rail_YCWifg",
+        "rail_VJRpat"
+      ],
+      "name": "Vault rails",
+      "settings": {
+        "visible_limit": 5,
+        "products_per_rail": 12
+      }
     }
   },
   "order": [
     "header",
     "announcement",
-    "vault_rails_gfwnxC"
+    "vault_rails_gfwnxC",
+    "vault_rails_ywyr3H"
   ]
 }
