@@ -1,42 +1,46 @@
-<section class="hero">
-  {% if section.settings.image %}
-    {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', alt: shop.name }}
+{% comment %}
+  Sol Beautiful hero — Grok Build match.
+  Headline + CTAs. Used on password + index when configured.
+{% endcomment %}
+<section class="hero" id="Hero-{{ section.id }}" {{ section.shopify_attributes }}>
+  {% if section.settings.image != blank %}
+    {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '800,1200,1600,2400', alt: section.settings.heading }}
   {% else %}
-    <img src="{{ 'hero.jpg' | asset_url }}" alt="A quiet spa still life of fragrance, cream, and color">
+    <img src="{{ 'hero.jpg' | asset_url }}" alt="{{ section.settings.heading | escape }}" width="1600" height="900" loading="eager">
   {% endif %}
-  <div class="hero-veil"></div>
+  <span class="hero-veil" aria-hidden="true"></span>
   <div class="page-width hero-copy">
-    <p class="kicker">{{ section.settings.kicker }}</p>
+    {% if section.settings.kicker != blank %}
+      <p class="kicker">{{ section.settings.kicker }}</p>
+    {% endif %}
     <h1>{{ section.settings.heading }}</h1>
-    <p class="lede">{{ section.settings.lede }}</p>
+    {% if section.settings.lede != blank %}
+      <p class="lede">{{ section.settings.lede }}</p>
+    {% endif %}
     <div class="hero-actions">
-      {% if section.settings.button_label != blank %}
-        <a class="btn btn--lg" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+      {% if section.settings.cta1_label != blank %}
+        <a class="btn btn--lg" href="{{ section.settings.cta1_link | default: '/collections/popular' }}">{{ section.settings.cta1_label }}</a>
       {% endif %}
-      {% if section.settings.button2_label != blank %}
-        <a class="btn btn--lg btn--outline" href="{{ section.settings.button2_link }}">{{ section.settings.button2_label }}</a>
+      {% if section.settings.cta2_label != blank %}
+        <a class="btn btn--lg btn--outline" href="{{ section.settings.cta2_link | default: '/collections/skincare' }}">{{ section.settings.cta2_label }}</a>
       {% endif %}
     </div>
   </div>
 </section>
-
 {% schema %}
 {
   "name": "Hero",
+  "tag": "section",
+  "class": "section-hero",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Fragrance · Makeup · Skincare" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Kicker" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "For the love of beauty and skin." },
-    {
-      "type": "textarea",
-      "id": "lede",
-      "label": "Text",
-      "default": "Scent that stays. Color that feels like you. Care that skin remembers. Sol Beautiful is a California vault of designer beauty — collected with affection for the ritual itself."
-    },
-    { "type": "text", "id": "button_label", "label": "Button", "default": "Shop the vault" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "text", "id": "button2_label", "label": "Second button", "default": "Create an account · 10% off" },
-    { "type": "url", "id": "button2_link", "label": "Second button link" }
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Scent that stays. Color that feels like you. Care that skin remembers." },
+    { "type": "text", "id": "cta1_label", "label": "Primary CTA label", "default": "Shop the Vault" },
+    { "type": "url", "id": "cta1_link", "label": "Primary CTA link" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary CTA label", "default": "Skincare" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary CTA link" }
   ],
   "presets": [{ "name": "Hero" }]
 }
