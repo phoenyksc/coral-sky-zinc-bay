@@ -1,10 +1,8 @@
 {% comment %}
   Storefront filters via Search & Discovery (collection.filters).
-  Show Availability, Price, Product type, and Brand/Manufacturer
-  (from custom.manufacturer / brand filters — NOT Vendor).
-  Skip Vendor filters (all products Vendor = Sol Beautiful).
-  Product type + Brand render as <select> dropdowns; Availability stays
-  checkboxes/boolean; Price stays range.
+  Show Price, Product type, and Brand/Manufacturer (NOT Vendor).
+  Dru LOCK 2026-09-17: NO Availability filter — OOS appears naturally in collections.
+  Skip Vendor + Availability. Product type + Brand = <select>; Price = range.
 {% endcomment %}
 {% if collection.filters != empty %}
   <form class="facets" action="{{ collection.url }}" method="get">
@@ -15,6 +13,10 @@
       {% assign skip = false %}
       {% comment %} Never expose Shopify Vendor (store name) {% endcomment %}
       {% if filter.param_name == 'filter.p.vendor' or label_down == 'vendor' %}
+        {% assign skip = true %}
+      {% endif %}
+      {% comment %} Dru LOCK: no Availability / in stock / out of stock filter {% endcomment %}
+      {% if label_down contains 'availability' or label_down == 'in stock' or label_down contains 'out of stock' or filter.param_name == 'filter.v.availability' %}
         {% assign skip = true %}
       {% endif %}
       {% unless skip %}
