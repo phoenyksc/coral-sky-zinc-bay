@@ -11,9 +11,8 @@
       {% if product.collections.first %}<a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> /{% endif %}
       {{ product.title }}
     </p>
-    <p class="kicker" style="margin-top:1.25rem">{{ product.vendor }}</p>
-    <h1>{{ product.title }}</h1>
     {% render 'pdp-manufacturer' %}
+    <h1>{{ product.title }}</h1>
     <p data-product-price class="card-price" style="margin-top:1rem;font-size:1.15rem">
       {{ current.price | money }}
       {% if current.compare_at_price > current.price %}
@@ -26,68 +25,91 @@
     {% form 'product', product, data-product-form: '' %}
       <input type="hidden" name="id" value="{{ current.id }}">
       {% unless product.has_only_default_variant %}
-        {% comment %}
-          Shows every option value, including sold-out variants.
-        {% endcomment %}
-        {% for option in product.options_with_values %}
+        {% comment %} Show EVERY variant/option — never hide sold-out (Grok Build / Dru). {% endcomment %}
+        {% if product.options.size == 1 %}
+          <p class="kicker" style="margin-top:1rem">{{ product.options.first }}</p>
+          <div class="option-grid">
+            {% for variant in product.variants %}
+              {% assign sold_out = false %}
+              {% unless variant.available %}
+                {% assign sold_out = true %}
+              {% endunless %}
+              {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
+                {% assign sold_out = true %}
+              {% endif %}
+              <button
+                type="button"
+                class="swatch{% if variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
+                data-variant-id="{{ variant.id }}"
+                data-available="{% if sold_out %}false{% else %}true{% endif %}"
+                data-price="{{ variant.price | money }}"
+                {% if variant.compare_at_price > variant.price %}
+                  data-compare="{{ variant.compare_at_price | money }}"
+                {% endif %}
+                {% if sold_out %}aria-disabled="true"{% endif %}
+              >
+                {{ variant.title }}
+                {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
+              </button>
+            {% endfor %}
+          </div>
+        {% else %}
+          {% for option in product.options_with_values %}
             <div class="option-block" data-option-index="{{ forloop.index0 }}">
-                  <p class="kicker">{{ option.name }}</p>
-                    <div class="option-grid">
-                            {% for value in option.values %}
-                                      {% assign value_available = false %}
-                                            {% assign matched_variant = nil %}
-                                                  {% for variant in product.variants %}
-                                                              {% if option.position == 1 and variant.option1 == value %}
-                                                                            {% assign matched_variant = variant %}
-                                                              {% elsif option.position == 2 and variant.option2 == value %}
-                                                                            {% assign matched_variant = variant %}
-                                                              {% elsif option.position == 3 and variant.option3 == value %}
-                                                                            {% assign matched_variant = variant %}
-                                                              {% endif %}
-                                                                      {% if matched_variant %}
-                                                                                    {% assign sold_out = false %}
-                                                                                              {% unless matched_variant.available %}
-                                                                                                              {% assign sold_out = true %}
-                                                                                              {% endunless %}
-                                                                                                        {% if matched_variant.inventory_management != blank and matched_variant.inventory_quantity <= 0 and matched_variant.inventory_policy != 'continue' %}
-                                                                                                                        {% assign sold_out = true %}
-                                                                                                        {% endif %}
-                                                                                                                  {% unless sold_out %}
-                                                                                                                                  {% assign value_available = true %}
-                                                                                                                  {% endunless %}
-                                                                                                                            {% break %}
-                                                                                                                {% endif %}
-                                                                                                              {% endfor %}        {% if matched_variant == nil %}
-                                                                                                                          {% for variant in product.variants %}
-                                                                                                                                        {% if variant.options contains value %}
-                                                                                                                                                        {% assign matched_variant = variant %}
-                                                                                                                                                                    {% assign sold_out = false %}
-                                                                                                                                                                                {% unless variant.available %}{% assign sold_out = true %}{% endunless %}
-                                                                                                                                                                                            {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}{% assign sold_out = true %}{% endif %}
-                                                                                                                                                                                                          {% unless sold_out %}{% assign value_available = true %}{% endunless %}
-                                                                                                                                                                                                                      {% break %}
-                                                                                                                                                                                            {% endif %}
-                                                                                                                                                                                          {% endfor %}
-                                                                                                                                                                                        {% endif %}
-                                                                                                                                                                                              {% assign sold_out = true %}
-                                                                                                                                                                                                    {% if value_available %}{% assign sold_out = false %}{% endif %}
-                                                                                                                                                                                                          <button          type="button"
-                                                                                                                                                                                                                    class="swatch{% if product.selected_or_first_available_variant.id == matched_variant.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
-                                                                                                                                                                                                                            data-variant-id="{{ matched_variant.id }}"
-                                                                                                                                                                                                                                    data-available="{% if sold_out %}false{% else %}true{% endif %}"
-                                                                                                                                                                                                                                            data-price="{{ matched_variant.price | money }}"
-                                                                                                                                                                                                                                                    {% if matched_variant.compare_at_price > matched_variant.price %}
-                                                                                                                                                                                                                                                                  data-compare="{{ matched_variant.compare_at_price | money }}"
-                                                                                                                                                                                                                                                    {% endif %}
-                                                                                                                                                                                                                                                            {% if sold_out %}aria-disabled="true"{% endif %}
-                                                                                                                                                                                                                                                                  >
-                                                                                                                                                                                                                                                                            {{ value }}
-                                                                                                                                                                                                                                                                                    {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
-                                                                                                                                                                                                                                                                  </button>
-                                                                                                                                                                                                                                                                {% endfor %}
-                                                                                                                                                                                                                                                              </div>
-                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                          {% endfor %}}
+              <p class="kicker">{{ option.name }}</p>
+              <div class="option-grid">
+                {% for value in option.values %}
+                  {% assign value_available = false %}
+                  {% assign matched_variant = nil %}
+                  {% for variant in product.variants %}
+                    {% assign opt_match = false %}
+                    {% if option.position == 1 and variant.option1 == value %}
+                      {% assign opt_match = true %}
+                    {% elsif option.position == 2 and variant.option2 == value %}
+                      {% assign opt_match = true %}
+                    {% elsif option.position == 3 and variant.option3 == value %}
+                      {% assign opt_match = true %}
+                    {% endif %}
+                    {% if opt_match %}
+                      {% if matched_variant == nil %}
+                        {% assign matched_variant = variant %}
+                      {% endif %}
+                      {% assign v_sold = false %}
+                      {% unless variant.available %}
+                        {% assign v_sold = true %}
+                      {% endunless %}
+                      {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
+                        {% assign v_sold = true %}
+                      {% endif %}
+                      {% unless v_sold %}
+                        {% assign value_available = true %}
+                        {% assign matched_variant = variant %}
+                      {% endunless %}
+                    {% endif %}
+                  {% endfor %}
+                  {% assign sold_out = true %}
+                  {% if value_available %}
+                    {% assign sold_out = false %}
+                  {% endif %}
+                  <button
+                    type="button"
+                    class="swatch{% if matched_variant and matched_variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
+                    data-variant-id="{{ matched_variant.id }}"
+                    data-available="{% if sold_out %}false{% else %}true{% endif %}"
+                    data-price="{{ matched_variant.price | money }}"
+                    {% if matched_variant.compare_at_price > matched_variant.price %}
+                      data-compare="{{ matched_variant.compare_at_price | money }}"
+                    {% endif %}
+                    {% if sold_out %}aria-disabled="true"{% endif %}
+                  >
+                    {{ value }}
+                    {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
       {% endunless %}
       {% if current.sku != blank %}
         <p class="kicker" style="margin-top:1rem">SKU {{ current.sku }}{% if current.barcode != blank %} · UPC {{ current.barcode }}{% endif %}</p>
@@ -100,8 +122,9 @@
       </div>
     {% endform %}
     <ul class="trust">
-<li>Free standard shipping on US orders $75+</li>
-<li>Authenticity guaranteed</li>    </ul>
+      <li>Free standard shipping on US orders $75+</li>
+      <li>Authenticity guaranteed</li>
+    </ul>
     <div class="rte">{{ product.description }}</div>
   </div>
 </div>
