@@ -50,7 +50,7 @@
           "settings": {
             "collection_handle": "rare-hard-to-find",
             "collection": "",
-            "heading": "Rare · Hard to find",
+            "heading": "Rare · hard to find",
             "subheading": "The vault"
           }
         },
@@ -66,7 +66,6 @@
       },
       "block_order": [
         "rail_bVYdJk",
-        "rail_JxegTN",
         "rail_YBh4Pa",
         "rail_MGtkfq"
       ],
