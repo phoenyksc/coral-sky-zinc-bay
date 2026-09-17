@@ -55,7 +55,6 @@
           }
         }
       },
-       
       "block_order": [
         "rail_bVYdJk",
         "rail_YBh4Pa",
@@ -79,29 +78,19 @@
             "subheading": "The vault"
           }
         },
-        "rail_YCWifg": {
+        "rail_Nrakmi": {
           "type": "rail",
           "settings": {
-            "collection_handle": "rare-hard-to-find",
+            "collection_handle": "beauty-sets",
             "collection": "",
-            "heading": "Rare · hard to find",
-            "subheading": "The vault"
-          }
-        },
-        "rail_VJRpat": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "low-inventory",
-            "collection": "",
-            "heading": "Low inventory",
+            "heading": "Beauty Sets",
             "subheading": "The vault"
           }
         }
       },
       "block_order": [
         "rail_BFEnqX",
-        
-        
+        "rail_Nrakmi"
       ],
       "name": "Vault rails",
       "settings": {
