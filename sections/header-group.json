@@ -27,6 +27,15 @@
     "vault_rails_gfwnxC": {
       "type": "vault-rails",
       "blocks": {
+        "rail_PPA7Jr": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "beauty-sets",
+            "collection": "",
+            "heading": "",
+            "subheading": ""
+          }
+        },
         "rail_bVYdJk": {
           "type": "rail",
           "settings": {
@@ -56,6 +65,7 @@
         }
       },
       "block_order": [
+        "rail_PPA7Jr",
         "rail_bVYdJk",
         "rail_YBh4Pa",
         "rail_MGtkfq"
