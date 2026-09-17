@@ -24,62 +24,9 @@
       "type": "announcement-bar",
       "settings": {}
     },
-    "vault_rails_gfwnxC": {
-      "type": "vault-rails",
-      "blocks": {
-        "rail_PPA7Jr": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "beauty-sets",
-            "collection": "",
-            "heading": "",
-            "subheading": ""
-          }
-        },
-        "rail_bVYdJk": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "popular",
-            "collection": "",
-            "heading": "Popular",
-            "subheading": "The vault"
-          }
-        },
-        "rail_YBh4Pa": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "rare-hard-to-find",
-            "collection": "",
-            "heading": "Rare · hard to find",
-            "subheading": "The vault"
-          }
-        },
-        "rail_MGtkfq": {
-          "type": "rail",
-          "settings": {
-            "collection_handle": "low-inventory",
-            "collection": "",
-            "heading": "Low inventory",
-            "subheading": "The vault"
-          }
-        }
-      },
-      "block_order": [
-        "rail_PPA7Jr",
-        "rail_bVYdJk",
-        "rail_YBh4Pa",
-        "rail_MGtkfq"
-      ],
-      "name": "Vault rails",
-      "settings": {
-        "visible_limit": 5,
-        "products_per_rail": 12
-      }
-    }
   },
   "order": [
     "header",
-    "announcement",
-    "vault_rails_gfwnxC"
+    "announcement"
   ]
 }
