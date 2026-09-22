@@ -1,10 +1,10 @@
 {% if settings.announcement != blank %}
-  <p class="announcement">{{ settings.announcement }}</p>
-{% endif %}
+    <p class="announcement">{{  settings.announcement | newline_to_br }}</p>
+{%  endif %}
 
-{% schema %}
+{%  schema %}
 {
   "name": "Announcement",
   "settings": []
 }
-{% endschema %}
+{% endschema %}}
