@@ -1,10 +1,17 @@
-{% if settings.announcement != blank %}
-    <p class="announcement">{{  settings.announcement | newline_to_br }}</p>
+{%  if section.settings.announcement != blank %}
+    <p class="announcement">{{  section.settings.announcement | newline_to_br }}</p>
 {%  endif %}
 
 {%  schema %}
 {
   "name": "Announcement",
-  "settings": []
+  "settings": [
+        {
+              "type": "textarea",
+                  "id": "announcement",
+                      "label": "Announcement text",
+                          "default": "Free standard shipping on US orders $75+ · Earn up to 20% off — details at checkout\nAuthenticity guaranteed · Ships from the USA"
+                            }
+  ]
 }
 {% endschema %}}
