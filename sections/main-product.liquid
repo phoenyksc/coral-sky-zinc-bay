@@ -123,9 +123,21 @@
     {% endform %}
     <ul class="trust">
       <li>Free standard shipping on US orders $75+</li>
+      <li>Curated by Sol Beautiful · Ships from the USA</li>
       <li>Authenticity guaranteed</li>
     </ul>
-    <div class="rte">{{ product.description }}</div>
+    {% comment %}
+      Dru 2026-09-22 curator lock: Sol Beautiful sells/ships; brand is manufacturer.
+      Catalog descriptionHtml often still says "Sold by Sol Beautiful" — remap on render.
+      Do not imply Sol Beautiful made branded goods. Vendor field may stay Sol Beautiful.
+    {% endcomment %}
+    {% assign pdp_desc = product.description
+      | replace: 'Sold by Sol Beautiful', 'Curated by Sol Beautiful'
+      | replace: 'sold by Sol Beautiful', 'Curated by Sol Beautiful'
+      | replace: 'product from Sol Beautiful', 'product curated by Sol Beautiful'
+      | replace: 'products from Sol Beautiful', 'products curated by Sol Beautiful'
+    %}
+    <div class="rte">{{ pdp_desc }}</div>
   </div>
 </div>
 
