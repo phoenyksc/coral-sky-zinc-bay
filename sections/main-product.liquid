@@ -12,7 +12,7 @@
       {{ product.title }}
     </p>
     {% render 'pdp-manufacturer' %}
-    <h1>{{ product.title }}</h1>
+    <h1 class="product__title">{{ product.title }}</h1>
     <p data-product-price class="card-price" style="margin-top:1rem;font-size:1.15rem">
       {{ current.price | money }}
       {% if current.compare_at_price > current.price %}
@@ -25,7 +25,7 @@
     {% form 'product', product, data-product-form: '' %}
       <input type="hidden" name="id" value="{{ current.id }}">
       {% unless product.has_only_default_variant %}
-        {% comment %} Show EVERY variant/option — never hide sold-out (Grok Build / Dru). {% endcomment %}
+        {% comment %} Dru 2026-09-22 / Grok Build master: all variants on same PDP; sold-out stay visible+greyed; available selectable; never page-level Sold Out if any variant in stock (use selected_or_first_available_variant). {% endcomment %}
         {% if product.options.size == 1 %}
           <p class="kicker" style="margin-top:1rem">{{ product.options.first }}</p>
           <div class="option-grid">
@@ -46,7 +46,7 @@
                 {% if variant.compare_at_price > variant.price %}
                   data-compare="{{ variant.compare_at_price | money }}"
                 {% endif %}
-                {% if sold_out %}aria-disabled="true"{% endif %}
+                {% if sold_out %}aria-disabled="true" disabled{% endif %}
               >
                 {{ variant.title }}
                 {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
@@ -100,7 +100,7 @@
                     {% if matched_variant.compare_at_price > matched_variant.price %}
                       data-compare="{{ matched_variant.compare_at_price | money }}"
                     {% endif %}
-                    {% if sold_out %}aria-disabled="true"{% endif %}
+                    {% if sold_out %}aria-disabled="true" disabled{% endif %}
                   >
                     {{ value }}
                     {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
