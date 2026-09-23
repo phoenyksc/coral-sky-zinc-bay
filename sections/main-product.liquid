@@ -127,16 +127,28 @@
       <li>Authenticity guaranteed</li>
     </ul>
     {% comment %}
-      Dru 2026-09-22 curator lock: Sol Beautiful sells/ships; brand is manufacturer.
-      Catalog descriptionHtml often still says "Sold by Sol Beautiful" — remap on render.
-      Do not imply Sol Beautiful made branded goods. Vendor field may stay Sol Beautiful.
+      Dru 2026-09-23: Free shipping / Curated by · Ships from USA / Authenticity guaranteed
+      ONLY in the trust block above (once). Strip those boilerplate lines from descriptionHtml
+      so we never double when catalog still has Sold by / Curated by / ships / authenticity.
+      Do not imply Sol Beautiful made branded goods. Vendor may stay Sol Beautiful.
     {% endcomment %}
     {% assign pdp_desc = product.description
-      | replace: 'Sold by Sol Beautiful', 'Curated by Sol Beautiful'
-      | replace: 'sold by Sol Beautiful', 'Curated by Sol Beautiful'
-      | replace: 'product from Sol Beautiful', 'product curated by Sol Beautiful'
-      | replace: 'products from Sol Beautiful', 'products curated by Sol Beautiful'
-      | replace: ' from Sol Beautiful', ' curated by Sol Beautiful'
+      | replace: '<p>Sold by Sol Beautiful and ships from the USA.</p>', ''
+      | replace: '<p>Sold by Sol Beautiful and ships from the USA</p>', ''
+      | replace: '<p>Curated by Sol Beautiful and ships from the USA.</p>', ''
+      | replace: '<p>Curated by Sol Beautiful and ships from the USA</p>', ''
+      | replace: '<p>Free standard shipping on US orders $75+</p>', ''
+      | replace: '<p>Authenticity guaranteed</p>', ''
+      | replace: 'Sold by Sol Beautiful and ships from the USA.', ''
+      | replace: 'Sold by Sol Beautiful and ships from the USA', ''
+      | replace: 'Curated by Sol Beautiful and ships from the USA.', ''
+      | replace: 'Curated by Sol Beautiful and ships from the USA', ''
+      | replace: 'Sold by Sol Beautiful', ''
+      | replace: 'sold by Sol Beautiful', ''
+      | replace: 'Curated by Sol Beautiful', ''
+      | replace: 'product from Sol Beautiful', 'product'
+      | replace: 'products from Sol Beautiful', 'products'
+      | replace: ' from Sol Beautiful', ''
     %}
     <div class="rte">{{ pdp_desc }}</div>
   </div>
