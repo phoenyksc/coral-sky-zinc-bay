@@ -1,7 +1,7 @@
-(function () {
+<pre>(function () {
   const menuBtn = document.querySelector("[data-menu-toggle]");
   const menu = document.querySelector("[data-mobile-nav]");
-  if (menuBtn && menu) {
+  if (menuBtn &amp;&amp; menu) {
     menuBtn.addEventListener("click", function () {
       const open = menu.classList.toggle("is-open");
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
@@ -20,9 +20,9 @@
     const price = btn.getAttribute("data-price");
     const compare = btn.getAttribute("data-compare");
     const priceEl = document.querySelector("[data-product-price]");
-    if (priceEl && price) {
+    if (priceEl &amp;&amp; price) {
       priceEl.innerHTML =
-        price + (compare ? '<span class="compare">' + compare + "</span>" : "");
+        price + (compare ? '&lt;span class="compare"&gt;' + compare + "&lt;/span&gt;" : "");
     }
     const avail = btn.getAttribute("data-available") === "true";
     const submit = form.querySelector("[type='submit']");
