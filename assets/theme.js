@@ -1,7 +1,7 @@
-<pre>(function () {
+(function () {
   const menuBtn = document.querySelector("[data-menu-toggle]");
   const menu = document.querySelector("[data-mobile-nav]");
-  if (menuBtn &amp;&amp; menu) {
+  if (menuBtn && menu) {
     menuBtn.addEventListener("click", function () {
       const open = menu.classList.toggle("is-open");
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
@@ -20,9 +20,9 @@
     const price = btn.getAttribute("data-price");
     const compare = btn.getAttribute("data-compare");
     const priceEl = document.querySelector("[data-product-price]");
-    if (priceEl &amp;&amp; price) {
+    if (priceEl && price) {
       priceEl.innerHTML =
-        price + (compare ? '&lt;span class="compare"&gt;' + compare + "&lt;/span&gt;" : "");
+        price + (compare ? '<span class="compare">' + compare + "</span>" : "");
     }
     const avail = btn.getAttribute("data-available") === "true";
     const submit = form.querySelector("[type='submit']");
@@ -61,7 +61,7 @@
   // Dru 2026-09-22: digits in product titles use sans (.num); letters stay Cormorant
   function wrapProductTitleDigits(root) {
     var nodes = (root || document).querySelectorAll(
-      ".pdp h1, h1.product__title, .product__title h1, .product__title"
+      ".pdp h1, h1.product__title, .product__title h1, .product__title, .card-title"
     );
     nodes.forEach(function (el) {
       if (el.querySelector(".num")) return;
