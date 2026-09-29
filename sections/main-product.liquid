@@ -411,6 +411,353 @@
 {% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
 {% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
 {% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide expand 2026-09-28 — researched LE / creative names + embedded color specifics {% endcomment %}
+{% elsif s contains '1993' %}{% assign hex = '#8A5040' %}
+{% elsif s == 'HANG' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'BRAT' %}{% assign hex = '#6B8A40' %}
+{% elsif s == 'FINESSE' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'TRIVIAL' %}{% assign hex = '#8A7068' %}
+{% elsif s == 'WSM' %}{% assign hex = '#6B4A40' %}
+{% elsif s == 'SHADE 4' %}{% assign hex = '#C09060' %}
+{% elsif s == 'SHADE 3' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'SHADE 2' %}{% assign hex = '#E0C0A0' %}
+{% elsif s == 'CRUEL' %}{% assign hex = '#8A2030' %}
+{% elsif s == 'PENNY' %}{% assign hex = '#B07840' %}
+{% elsif s == 'TWINKLE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s == 'CLOUD' %}{% assign hex = '#E8E0D8' %}
+{% elsif s == 'INNOCENT' %}{% assign hex = '#E8C8C8' %}
+{% elsif s == 'CYAN' %}{% assign hex = '#40A0B0' %}
+{% elsif s == 'SOAR' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SWIMMING' %}{% assign hex = '#50A0B8' %}
+{% elsif s == 'TILT' %}{% assign hex = '#C0A0B0' %}
+{% elsif s == 'SCENE' %}{% assign hex = '#8A6070' %}
+{% elsif s == 'PRINT' %}{% assign hex = '#6B4A50' %}
+{% elsif s contains 'MYTH' %}{% assign hex = '#C99090' %}
+{% elsif s == 'COSMO' %}{% assign hex = '#E07080' %}
+{% elsif s == 'RAVEN' %}{% assign hex = '#1A1613' %}
+{% elsif s == 'STORM' %}{% assign hex = '#4A4A50' %}
+{% elsif s == 'ROYAL' %}{% assign hex = '#3A2870' %}
+{% elsif s contains 'LEGENDARY (NEW, UNBOXED) HOLIDAZE' %}{% assign hex = '#C02830' %}
+{% elsif s == 'LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'HOLIDAZE COLLECTION) LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'MAGIC METAL TRANSFORMER' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'DELICIOUSLY DISRUPTIVE' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'I WILL ALWAYS LOVE YOU' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'SEMI-SWEET TIMES NINE' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'AFTER SCHOOL SPECIAL' %}{% assign hex = '#B898C8' %}
+{% elsif s contains 'DANCE OFF, PANTS OFF' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'THE BIGGER THE HOOPS' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'EASY (NEW, UNBOXED)' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'MARSHMALLOW ELECTRO' %}{% assign hex = '#E8B0D0' %}
+{% elsif s contains 'OUR LIPS ARE SEALED' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'BABE (ULLA JOHNSON' %}{% assign hex = '#E8A090' %}
+{% elsif s contains 'SLOW / FAST / SLOW' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'STOCKS AND BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains "AGE AIN'T NOTHING" %}{% assign hex = '#C07080' %}
+{% elsif s contains 'CREME DE LA FEMME' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNS OUT BUNS OUT' %}{% assign hex = '#E09040' %}
+{% elsif s contains 'BLING ME TO LIFE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'BY SPECIAL ORDER' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'CAPTIVE AUDIENCE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DANGER SEDUCTION' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'STOCKS & BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'TOAST AND BUTTER' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AUBERGINE DREAM' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'FASHION FANATIC' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'HEART GOES BOOM' %}{% assign hex = '#E04060' %}
+{% elsif s contains 'JUSTIFY MY LOVE' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'MAKEUP ME HAPPY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'ROYALLY FLUSHED' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'SOFT AND GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'TRUTH BE UNTOLD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'WHO WANTS KANDI' %}{% assign hex = '#E89890' %}
+{% elsif s contains '3D BILLIONAIRE' %}{% assign hex = '#5A6840' %}
+{% elsif s contains 'ALL DRESSED UP' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'BREAKUP MAKEUP' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'FEELING MYSELF' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'FRESH MOROCCAN' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'FRIEND LIKE ME' %}{% assign hex = '#D49890' %}
+{% elsif s contains 'MOVE YOUR BODY' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'NAKED AMBITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'NEW YORK APPLE' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'ORCHID SHIMMER' %}{% assign hex = '#B080C0' %}
+{% elsif s contains 'PHOTOSYNTHESEX' %}{% assign hex = '#6B8A40' %}
+{% elsif s contains 'PRESSED BLOOMS' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'SOCIAL FATIGUE' %}{% assign hex = '#8A6058' %}
+{% elsif s contains 'AFTERNOON TEA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'BITTERSWEETIE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'CANDY YUM-YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains "DRIVER'S SEAT" %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'GIVE IT TO ME' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'HIBISCUS HAZE' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'ICE, ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'INTENSITY 3.0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'INTENSITY 3.5' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MELTED CLOVER' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'NEW TERRITORY' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'PRETTY SOCIAL' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SOFT & GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'SPILL THE TEA' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SPOILER ALERT' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SWEET NOTHING' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains '02 SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains '3D CLEOPATRA' %}{% assign hex = '#C9A040' %}
+{% elsif s contains 'ART DISTRICT' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'BOLD GLITTER' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'BUTTERSCOTCH' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'DEAL BREAKER' %}{% assign hex = '#6B2840' %}
+{% elsif s contains 'DOUBLE FUDGE' %}{% assign hex = '#4A2418' %}
+{% elsif s contains 'EDGE TO EDGE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'FEMME FATALE' %}{% assign hex = '#4A2030' %}
+{% elsif s contains 'FIRE ROASTED' %}{% assign hex = '#8A4028' %}
+{% elsif s contains "HE'S WITH ME" %}{% assign hex = '#C02838' %}
+{% elsif s contains 'ICE ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'IN ABUNDANCE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'JUST CURIOUS' %}{% assign hex = '#C99090' %}
+{% elsif s contains "MAKIN' MOVES" %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MATTE TEMPER' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'MOST CURIOUS' %}{% assign hex = '#6B4058' %}
+{% elsif s contains 'MULL IT OVER' %}{% assign hex = '#8A6050' %}
+{% elsif s contains 'PEACHY PARTY' %}{% assign hex = '#E04018' %}
+{% elsif s contains 'CO-CO-CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'COCO CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'SAINT HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SAINT-HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SCREEN QUEEN' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'SECRET SAUCE' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SUGAR KISSES' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'VELVET TEDDY' %}{% assign hex = '#A07060' %}
+{% elsif s contains '3D GEMSTONE' %}{% assign hex = '#6B4050' %}
+{% elsif s contains '3D GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'BIG SPENDER' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'DAHLIA DIVA' %}{% assign hex = '#8A2850' %}
+{% elsif s contains 'EXTRA CHILI' %}{% assign hex = '#9E3C3C' %}
+{% elsif s contains 'GILT RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'GILT-RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'HEART CRUSH' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'INOLVIDABLE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'INTENSITY 3' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MAKIN MOVES' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MIXED MEDIA' %}{% assign hex = '#8A6070' %}
+{% elsif s contains 'NIGHTINGALE' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'PALE YELLOW' %}{% assign hex = '#E8E0B0' %}
+{% elsif s contains 'PETAL METAL' %}{% assign hex = '#C87878' %}
+{% elsif s contains 'SHADOWHEART' %}{% assign hex = '#4A3028' %}
+{% elsif s contains 'TARAJI GLOW' %}{% assign hex = '#E8C8A0' %}
+{% elsif s contains 'TENDERHEART' %}{% assign hex = '#E898A8' %}
+{% elsif s contains 'WILD FLOWER' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '3D NEPTUNE' %}{% assign hex = '#1A3058' %}
+{% elsif s contains 'AQUADISIAC' %}{% assign hex = '#50A0B0' %}
+{% elsif s contains 'BING MATTE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'BOTTOMLESS' %}{% assign hex = '#5C3028' %}
+{% elsif s contains 'BRICK O LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRICK-O-LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'CHATTERBOX' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'CHIC TRICK' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'CHILL ZONE' %}{% assign hex = '#7A8A9A' %}
+{% elsif s contains 'COOL TEDDY' %}{% assign hex = '#A08078' %}
+{% elsif s contains 'DELUSIONAL' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'DESERT FOX' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'DISORDERLY' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DREAM HUGE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'FRESH CLAY' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'GUTTER GAL' %}{% assign hex = '#5C3A40' %}
+{% elsif s contains 'HODGEPODGE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MINIMALIST' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'RECOGNIZED' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SWEET DEAL' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'TRAP QUEEN' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'WARM MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains '3D GALAXY' %}{% assign hex = '#2A2040' %}
+{% elsif s contains '3D SPARKS' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'AUBERGINE' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BOMBASTIC' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'BOUNTIFUL' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANDY YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CREME CUP' %}{% assign hex = '#E8B0A0' %}
+{% elsif s contains 'FAST PLAY' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'FLASHBACK' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'GIRL GANG' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'HAIR FLIP' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'HAZEL 4W0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'HEADLINER' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'HELLEBORE' %}{% assign hex = '#6B3048' %}
+{% elsif s contains 'IDOL EYES' %}{% assign hex = '#4A5080' %}
+{% elsif s contains 'JAM ON IT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'LIKE MINK' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'LIP CANDY' %}{% assign hex = '#E86090' %}
+{% elsif s contains 'MOLLY WOW' %}{% assign hex = '#E870A0' %}
+{% elsif s contains 'NIGHTMOTH' %}{% assign hex = '#2A1818' %}
+{% elsif s contains 'PARADISCO' %}{% assign hex = '#E07090' %}
+{% elsif s contains 'PINOT POP' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PURGATORY' %}{% assign hex = '#7A2848' %}
+{% elsif s contains 'RAVE CHIC' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'REVVED UP' %}{% assign hex = '#C04040' %}
+{% elsif s contains 'SAFE WORD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'SOFT HINT' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'TOP SHELF' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'AIR KISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'AUDITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BAD MOOD' %}{% assign hex = '#5C2838' %}
+{% elsif s contains 'BIG BANG' %}{% assign hex = '#C0A060' %}
+{% elsif s contains 'CAMISOLE' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'COQUETTE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'DIONYSUS' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'DUBONNET' %}{% assign hex = '#7A1C20' %}
+{% elsif s contains 'FLESHPOT' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'HABANERO' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'JAM SESH' %}{% assign hex = '#8A2840' %}
+{% elsif hex == blank and s contains 'METALLIC' %}{% assign hex = '#A8A8B0' %}
+{% elsif s contains 'MISCHIEF' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'NEW LOVE' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'NO CHILL' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PAID OFF' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'PECAN WN' %}{% assign hex = '#C99060' %}
+{% elsif s contains 'REGULATE' %}{% assign hex = '#6B4030' %}
+{% elsif s contains 'SO JELLY' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'STALLION' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'UNZIPPED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'UPGRADED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'AIRKISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'BADDEST' %}{% assign hex = '#4A1828' %}
+{% elsif s contains 'BOSS UP' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'CHICORY' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'DERVISH' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'ELECTRA' %}{% assign hex = '#40A0C0' %}
+{% elsif s contains 'HEROINE' %}{% assign hex = '#5A2060' %}
+{% elsif s contains 'MARSALA' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'STYLIST' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SUMATRA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'VICIOUS' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'WILLFUL' %}{% assign hex = '#E85850' %}
+{% elsif s contains '9 TO 5' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'ABLAZE' %}{% assign hex = '#E06030' %}
+{% elsif s contains 'BRAZEN' %}{% assign hex = '#A02840' %}
+{% elsif s contains 'BREEZE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'CHINTZ' %}{% assign hex = '#E89090' %}
+{% elsif s contains 'GOSSIP' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'LITTER' %}{% assign hex = '#8A7860' %}
+{% elsif s contains 'PSYCHO' %}{% assign hex = '#8A2040' %}
+{% elsif s contains 'PUNKED' %}{% assign hex = '#4A2838' %}
+{% elsif s contains 'RICHES' %}{% assign hex = '#C9A030' %}
+{% elsif s contains "S'SEXY" %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TEASER' %}{% assign hex = '#B06070' %}
+{% elsif s contains 'TWITCH' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'VANITY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'WITCHY' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BAWSE' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'BRICK' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRUJA' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DENIM' %}{% assign hex = '#3A5080' %}
+{% elsif s contains 'GESSO' %}{% assign hex = '#F0E8E0' %}
+{% elsif s contains 'GUTSY' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'HAZEL' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MYLAR' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'PRISM' %}{% assign hex = '#C0A0C8' %}
+{% elsif s contains 'SMOKY' %}{% assign hex = '#4A4038' %}
+{% elsif s contains 'SSEXY' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TRYST' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'VIXEN' %}{% assign hex = '#8A1830' %}
+{% elsif s contains 'ACAI' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DIVA' %}{% assign hex = '#7C2021' %}
+{% elsif s contains 'GOJI' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'NOVA' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'POSH' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'VINO' %}{% assign hex = '#6B2030' %}
+{% comment %} Sitewide expand batch2 — remaining high-inv gaps {% endcomment %}
+{% elsif s == 'C40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'NAKED' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SHAME' %}{% assign hex = '#8A4050' %}
+{% elsif s == 'ANARCHY' %}{% assign hex = '#C04050' %}
+{% elsif s == 'OMEGA' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'CRANK' %}{% assign hex = '#6B3040' %}
+{% elsif s == 'BLANK' %}{% assign hex = '#E8E4D8' %}
+{% elsif s == 'FAMOUS' %}{% assign hex = '#C05070' %}
+{% elsif s == 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif s == 'ROBUST' %}{% assign hex = '#C07080' %}
+{% elsif s == 'SEETHER' %}{% assign hex = '#5C2830' %}
+{% elsif s contains 'NYMPH' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'BREWED' %}{% assign hex = '#4A3020' %}
+{% elsif s == 'LUST' %}{% assign hex = '#C02838' %}
+{% elsif s contains "CAN'T STOP, DON'T STOP" %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'CANT STOP, DONT STOP' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'SPARKLING AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'MATTE BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'PARTY OF PASTELS' %}{% assign hex = '#E8C0D0' %}
+{% elsif s contains 'FIRST TIME MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BRIDE OF CHUCKY' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'DOUBLE CROSSED' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'CELEB SIGHTING' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'I LIKE 2 WATCH' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'DAY INTO DATE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'CORAIL LINGOT' %}{% assign hex = '#E87858' %}
+{% elsif s contains 'INTENSITY 0.5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'SHEER ANARCHY' %}{% assign hex = '#C06070' %}
+{% elsif s contains 'JINGLE TINGLE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'CALA DI VOLPE' %}{% assign hex = '#E87870' %}
+{% elsif s contains 'OR FARNIENTE' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'MISS CONDUCT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'PRICKLY PEAR' %}{% assign hex = '#E07070' %}
+{% elsif s contains 'INTENSITY .5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'LEOPARD SUN' %}{% assign hex = '#C99050' %}
+{% elsif s contains 'LOOK LIVELY' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'DIRTY MATTE' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'SHIMMERLINE' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'ACTORS GILD' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'PRESS TOUR' %}{% assign hex = '#C99090' %}
+{% elsif s contains '4 RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'LADY BALLS' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'LUSH LOTUS' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'SURF BUNNY' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'MEGA MATTE' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUNIE BEE' %}{% assign hex = '#8A5090' %}
+{% elsif s contains 'SESAME WN' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LAVA FLOW' %}{% assign hex = '#C04030' %}
+{% elsif s contains '4RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'CANDY BOX' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'SUGAR POP' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '139 (M-G)' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '7.2 SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'LOVE POP' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'KEEPSAKE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MIDNIGHT' %}{% assign hex = '#1A1828' %}
+{% elsif s contains 'SCANDOLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'IMPEROLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'LOU LOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANA 04' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'MAI TAI' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'OTRANTO' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'LUST 13' %}{% assign hex = '#C02838' %}
+{% elsif s contains 'SESAME' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LOULOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'IVOIRE' %}{% assign hex = '#EFE8D8' %}
+{% elsif s contains 'AMPED' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'MOTIF' %}{% assign hex = '#C0A090' %}
+{% elsif s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'PSL' %}{% assign hex = '#C07040' %}
+{% elsif s contains '139' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '714' %}{% assign hex = '#6B3040' %}
+{% comment %} Sitewide expand batch2b fixes {% endcomment %}
+{% elsif s == 'C40 / C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s contains 'TOASTED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'LAVA POP' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'MEGA MELON' %}{% assign hex = '#E87060' %}
+{% elsif s contains 'JADE' %}{% assign hex = '#3A6B48' %}
+{% elsif s contains 'ROSY CONTOURING' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'LIP ROUGE' %}{% assign hex = '#C04050' %}
+{% comment %} Sitewide expand batch2c {% endcomment %}
+{% elsif s contains 'NEUTRAL TERRITORY' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'PETAL POP' %}{% assign hex = '#E890A8' %}
+{% elsif s contains '08 TOAST' %}{% assign hex = '#C99070' %}
+{% elsif s == 'TOAST' %}{% assign hex = '#C99070' %}
 {% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
 {% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
 {% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
@@ -508,6 +855,33 @@
 {% elsif hex == blank and s contains 'CLEAR' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'CRYSTAL' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'TRANSPARENT' %}{% assign hex = '#E8E4D8' %}
+{% elsif hex == blank and s contains 'YELLOW' %}{% assign hex = '#E8D080' %}
+{% elsif hex == blank and s contains 'MUSTARD' %}{% assign hex = '#C9A030' %}
+{% elsif hex == blank and s contains 'LEMON' %}{% assign hex = '#E8E060' %}
+{% elsif hex == blank and s contains 'LILAC' %}{% assign hex = '#B898C8' %}
+{% elsif hex == blank and s contains 'AQUA' %}{% assign hex = '#50A0B0' %}
+{% elsif hex == blank and s contains 'TURQUOISE' %}{% assign hex = '#40A090' %}
+{% elsif hex == blank and s contains 'PEWTER' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'MAUVE' %}{% assign hex = '#8A6070' %}
+{% elsif hex == blank and s contains 'GRAPE' %}{% assign hex = '#6A3A70' %}
+{% elsif hex == blank and s contains 'EGGPLANT' %}{% assign hex = '#5A2848' %}
+{% elsif hex == blank and s contains 'SAPPHIRE' %}{% assign hex = '#2A4080' %}
+{% elsif hex == blank and s contains 'COBALT' %}{% assign hex = '#2A4888' %}
+{% elsif hex == blank and s contains 'MOSS' %}{% assign hex = '#6B6B40' %}
+{% elsif hex == blank and s contains 'FOREST' %}{% assign hex = '#2A4830' %}
+{% elsif hex == blank and s contains 'SMOKE' %}{% assign hex = '#5A5048' %}
+{% elsif hex == blank and s contains 'CAMEL' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'KHAKI' %}{% assign hex = '#8A8860' %}
+{% elsif hex == blank and s contains 'STEEL' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'WISTERIA' %}{% assign hex = '#A888C0' %}
+{% elsif hex == blank and s contains 'SUNFLOWER' %}{% assign hex = '#E8B030' %}
+{% elsif hex == blank and s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif hex == blank and s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif hex == blank and s contains 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif hex == blank and s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif hex == blank and s contains 'SESAME' %}{% assign hex = '#D4B090' %}
 {% endif %}
 {% assign chip_hex = hex | strip %}
 {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
@@ -923,6 +1297,353 @@
 {% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
 {% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
 {% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide expand 2026-09-28 — researched LE / creative names + embedded color specifics {% endcomment %}
+{% elsif s contains '1993' %}{% assign hex = '#8A5040' %}
+{% elsif s == 'HANG' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'BRAT' %}{% assign hex = '#6B8A40' %}
+{% elsif s == 'FINESSE' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'TRIVIAL' %}{% assign hex = '#8A7068' %}
+{% elsif s == 'WSM' %}{% assign hex = '#6B4A40' %}
+{% elsif s == 'SHADE 4' %}{% assign hex = '#C09060' %}
+{% elsif s == 'SHADE 3' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'SHADE 2' %}{% assign hex = '#E0C0A0' %}
+{% elsif s == 'CRUEL' %}{% assign hex = '#8A2030' %}
+{% elsif s == 'PENNY' %}{% assign hex = '#B07840' %}
+{% elsif s == 'TWINKLE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s == 'CLOUD' %}{% assign hex = '#E8E0D8' %}
+{% elsif s == 'INNOCENT' %}{% assign hex = '#E8C8C8' %}
+{% elsif s == 'CYAN' %}{% assign hex = '#40A0B0' %}
+{% elsif s == 'SOAR' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SWIMMING' %}{% assign hex = '#50A0B8' %}
+{% elsif s == 'TILT' %}{% assign hex = '#C0A0B0' %}
+{% elsif s == 'SCENE' %}{% assign hex = '#8A6070' %}
+{% elsif s == 'PRINT' %}{% assign hex = '#6B4A50' %}
+{% elsif s contains 'MYTH' %}{% assign hex = '#C99090' %}
+{% elsif s == 'COSMO' %}{% assign hex = '#E07080' %}
+{% elsif s == 'RAVEN' %}{% assign hex = '#1A1613' %}
+{% elsif s == 'STORM' %}{% assign hex = '#4A4A50' %}
+{% elsif s == 'ROYAL' %}{% assign hex = '#3A2870' %}
+{% elsif s contains 'LEGENDARY (NEW, UNBOXED) HOLIDAZE' %}{% assign hex = '#C02830' %}
+{% elsif s == 'LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'HOLIDAZE COLLECTION) LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'MAGIC METAL TRANSFORMER' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'DELICIOUSLY DISRUPTIVE' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'I WILL ALWAYS LOVE YOU' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'SEMI-SWEET TIMES NINE' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'AFTER SCHOOL SPECIAL' %}{% assign hex = '#B898C8' %}
+{% elsif s contains 'DANCE OFF, PANTS OFF' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'THE BIGGER THE HOOPS' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'EASY (NEW, UNBOXED)' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'MARSHMALLOW ELECTRO' %}{% assign hex = '#E8B0D0' %}
+{% elsif s contains 'OUR LIPS ARE SEALED' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'BABE (ULLA JOHNSON' %}{% assign hex = '#E8A090' %}
+{% elsif s contains 'SLOW / FAST / SLOW' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'STOCKS AND BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains "AGE AIN'T NOTHING" %}{% assign hex = '#C07080' %}
+{% elsif s contains 'CREME DE LA FEMME' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNS OUT BUNS OUT' %}{% assign hex = '#E09040' %}
+{% elsif s contains 'BLING ME TO LIFE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'BY SPECIAL ORDER' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'CAPTIVE AUDIENCE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DANGER SEDUCTION' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'STOCKS & BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'TOAST AND BUTTER' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AUBERGINE DREAM' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'FASHION FANATIC' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'HEART GOES BOOM' %}{% assign hex = '#E04060' %}
+{% elsif s contains 'JUSTIFY MY LOVE' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'MAKEUP ME HAPPY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'ROYALLY FLUSHED' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'SOFT AND GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'TRUTH BE UNTOLD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'WHO WANTS KANDI' %}{% assign hex = '#E89890' %}
+{% elsif s contains '3D BILLIONAIRE' %}{% assign hex = '#5A6840' %}
+{% elsif s contains 'ALL DRESSED UP' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'BREAKUP MAKEUP' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'FEELING MYSELF' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'FRESH MOROCCAN' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'FRIEND LIKE ME' %}{% assign hex = '#D49890' %}
+{% elsif s contains 'MOVE YOUR BODY' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'NAKED AMBITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'NEW YORK APPLE' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'ORCHID SHIMMER' %}{% assign hex = '#B080C0' %}
+{% elsif s contains 'PHOTOSYNTHESEX' %}{% assign hex = '#6B8A40' %}
+{% elsif s contains 'PRESSED BLOOMS' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'SOCIAL FATIGUE' %}{% assign hex = '#8A6058' %}
+{% elsif s contains 'AFTERNOON TEA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'BITTERSWEETIE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'CANDY YUM-YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains "DRIVER'S SEAT" %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'GIVE IT TO ME' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'HIBISCUS HAZE' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'ICE, ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'INTENSITY 3.0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'INTENSITY 3.5' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MELTED CLOVER' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'NEW TERRITORY' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'PRETTY SOCIAL' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SOFT & GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'SPILL THE TEA' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SPOILER ALERT' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SWEET NOTHING' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains '02 SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains '3D CLEOPATRA' %}{% assign hex = '#C9A040' %}
+{% elsif s contains 'ART DISTRICT' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'BOLD GLITTER' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'BUTTERSCOTCH' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'DEAL BREAKER' %}{% assign hex = '#6B2840' %}
+{% elsif s contains 'DOUBLE FUDGE' %}{% assign hex = '#4A2418' %}
+{% elsif s contains 'EDGE TO EDGE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'FEMME FATALE' %}{% assign hex = '#4A2030' %}
+{% elsif s contains 'FIRE ROASTED' %}{% assign hex = '#8A4028' %}
+{% elsif s contains "HE'S WITH ME" %}{% assign hex = '#C02838' %}
+{% elsif s contains 'ICE ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'IN ABUNDANCE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'JUST CURIOUS' %}{% assign hex = '#C99090' %}
+{% elsif s contains "MAKIN' MOVES" %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MATTE TEMPER' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'MOST CURIOUS' %}{% assign hex = '#6B4058' %}
+{% elsif s contains 'MULL IT OVER' %}{% assign hex = '#8A6050' %}
+{% elsif s contains 'PEACHY PARTY' %}{% assign hex = '#E04018' %}
+{% elsif s contains 'CO-CO-CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'COCO CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'SAINT HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SAINT-HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SCREEN QUEEN' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'SECRET SAUCE' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SUGAR KISSES' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'VELVET TEDDY' %}{% assign hex = '#A07060' %}
+{% elsif s contains '3D GEMSTONE' %}{% assign hex = '#6B4050' %}
+{% elsif s contains '3D GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'BIG SPENDER' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'DAHLIA DIVA' %}{% assign hex = '#8A2850' %}
+{% elsif s contains 'EXTRA CHILI' %}{% assign hex = '#9E3C3C' %}
+{% elsif s contains 'GILT RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'GILT-RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'HEART CRUSH' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'INOLVIDABLE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'INTENSITY 3' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MAKIN MOVES' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MIXED MEDIA' %}{% assign hex = '#8A6070' %}
+{% elsif s contains 'NIGHTINGALE' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'PALE YELLOW' %}{% assign hex = '#E8E0B0' %}
+{% elsif s contains 'PETAL METAL' %}{% assign hex = '#C87878' %}
+{% elsif s contains 'SHADOWHEART' %}{% assign hex = '#4A3028' %}
+{% elsif s contains 'TARAJI GLOW' %}{% assign hex = '#E8C8A0' %}
+{% elsif s contains 'TENDERHEART' %}{% assign hex = '#E898A8' %}
+{% elsif s contains 'WILD FLOWER' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '3D NEPTUNE' %}{% assign hex = '#1A3058' %}
+{% elsif s contains 'AQUADISIAC' %}{% assign hex = '#50A0B0' %}
+{% elsif s contains 'BING MATTE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'BOTTOMLESS' %}{% assign hex = '#5C3028' %}
+{% elsif s contains 'BRICK O LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRICK-O-LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'CHATTERBOX' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'CHIC TRICK' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'CHILL ZONE' %}{% assign hex = '#7A8A9A' %}
+{% elsif s contains 'COOL TEDDY' %}{% assign hex = '#A08078' %}
+{% elsif s contains 'DELUSIONAL' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'DESERT FOX' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'DISORDERLY' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DREAM HUGE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'FRESH CLAY' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'GUTTER GAL' %}{% assign hex = '#5C3A40' %}
+{% elsif s contains 'HODGEPODGE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MINIMALIST' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'RECOGNIZED' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SWEET DEAL' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'TRAP QUEEN' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'WARM MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains '3D GALAXY' %}{% assign hex = '#2A2040' %}
+{% elsif s contains '3D SPARKS' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'AUBERGINE' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BOMBASTIC' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'BOUNTIFUL' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANDY YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CREME CUP' %}{% assign hex = '#E8B0A0' %}
+{% elsif s contains 'FAST PLAY' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'FLASHBACK' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'GIRL GANG' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'HAIR FLIP' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'HAZEL 4W0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'HEADLINER' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'HELLEBORE' %}{% assign hex = '#6B3048' %}
+{% elsif s contains 'IDOL EYES' %}{% assign hex = '#4A5080' %}
+{% elsif s contains 'JAM ON IT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'LIKE MINK' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'LIP CANDY' %}{% assign hex = '#E86090' %}
+{% elsif s contains 'MOLLY WOW' %}{% assign hex = '#E870A0' %}
+{% elsif s contains 'NIGHTMOTH' %}{% assign hex = '#2A1818' %}
+{% elsif s contains 'PARADISCO' %}{% assign hex = '#E07090' %}
+{% elsif s contains 'PINOT POP' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PURGATORY' %}{% assign hex = '#7A2848' %}
+{% elsif s contains 'RAVE CHIC' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'REVVED UP' %}{% assign hex = '#C04040' %}
+{% elsif s contains 'SAFE WORD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'SOFT HINT' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'TOP SHELF' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'AIR KISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'AUDITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BAD MOOD' %}{% assign hex = '#5C2838' %}
+{% elsif s contains 'BIG BANG' %}{% assign hex = '#C0A060' %}
+{% elsif s contains 'CAMISOLE' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'COQUETTE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'DIONYSUS' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'DUBONNET' %}{% assign hex = '#7A1C20' %}
+{% elsif s contains 'FLESHPOT' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'HABANERO' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'JAM SESH' %}{% assign hex = '#8A2840' %}
+{% elsif hex == blank and s contains 'METALLIC' %}{% assign hex = '#A8A8B0' %}
+{% elsif s contains 'MISCHIEF' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'NEW LOVE' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'NO CHILL' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PAID OFF' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'PECAN WN' %}{% assign hex = '#C99060' %}
+{% elsif s contains 'REGULATE' %}{% assign hex = '#6B4030' %}
+{% elsif s contains 'SO JELLY' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'STALLION' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'UNZIPPED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'UPGRADED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'AIRKISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'BADDEST' %}{% assign hex = '#4A1828' %}
+{% elsif s contains 'BOSS UP' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'CHICORY' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'DERVISH' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'ELECTRA' %}{% assign hex = '#40A0C0' %}
+{% elsif s contains 'HEROINE' %}{% assign hex = '#5A2060' %}
+{% elsif s contains 'MARSALA' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'STYLIST' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SUMATRA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'VICIOUS' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'WILLFUL' %}{% assign hex = '#E85850' %}
+{% elsif s contains '9 TO 5' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'ABLAZE' %}{% assign hex = '#E06030' %}
+{% elsif s contains 'BRAZEN' %}{% assign hex = '#A02840' %}
+{% elsif s contains 'BREEZE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'CHINTZ' %}{% assign hex = '#E89090' %}
+{% elsif s contains 'GOSSIP' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'LITTER' %}{% assign hex = '#8A7860' %}
+{% elsif s contains 'PSYCHO' %}{% assign hex = '#8A2040' %}
+{% elsif s contains 'PUNKED' %}{% assign hex = '#4A2838' %}
+{% elsif s contains 'RICHES' %}{% assign hex = '#C9A030' %}
+{% elsif s contains "S'SEXY" %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TEASER' %}{% assign hex = '#B06070' %}
+{% elsif s contains 'TWITCH' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'VANITY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'WITCHY' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BAWSE' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'BRICK' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRUJA' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DENIM' %}{% assign hex = '#3A5080' %}
+{% elsif s contains 'GESSO' %}{% assign hex = '#F0E8E0' %}
+{% elsif s contains 'GUTSY' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'HAZEL' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MYLAR' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'PRISM' %}{% assign hex = '#C0A0C8' %}
+{% elsif s contains 'SMOKY' %}{% assign hex = '#4A4038' %}
+{% elsif s contains 'SSEXY' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TRYST' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'VIXEN' %}{% assign hex = '#8A1830' %}
+{% elsif s contains 'ACAI' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DIVA' %}{% assign hex = '#7C2021' %}
+{% elsif s contains 'GOJI' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'NOVA' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'POSH' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'VINO' %}{% assign hex = '#6B2030' %}
+{% comment %} Sitewide expand batch2 — remaining high-inv gaps {% endcomment %}
+{% elsif s == 'C40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'NAKED' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SHAME' %}{% assign hex = '#8A4050' %}
+{% elsif s == 'ANARCHY' %}{% assign hex = '#C04050' %}
+{% elsif s == 'OMEGA' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'CRANK' %}{% assign hex = '#6B3040' %}
+{% elsif s == 'BLANK' %}{% assign hex = '#E8E4D8' %}
+{% elsif s == 'FAMOUS' %}{% assign hex = '#C05070' %}
+{% elsif s == 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif s == 'ROBUST' %}{% assign hex = '#C07080' %}
+{% elsif s == 'SEETHER' %}{% assign hex = '#5C2830' %}
+{% elsif s contains 'NYMPH' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'BREWED' %}{% assign hex = '#4A3020' %}
+{% elsif s == 'LUST' %}{% assign hex = '#C02838' %}
+{% elsif s contains "CAN'T STOP, DON'T STOP" %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'CANT STOP, DONT STOP' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'SPARKLING AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'MATTE BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'PARTY OF PASTELS' %}{% assign hex = '#E8C0D0' %}
+{% elsif s contains 'FIRST TIME MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BRIDE OF CHUCKY' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'DOUBLE CROSSED' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'CELEB SIGHTING' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'I LIKE 2 WATCH' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'DAY INTO DATE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'CORAIL LINGOT' %}{% assign hex = '#E87858' %}
+{% elsif s contains 'INTENSITY 0.5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'SHEER ANARCHY' %}{% assign hex = '#C06070' %}
+{% elsif s contains 'JINGLE TINGLE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'CALA DI VOLPE' %}{% assign hex = '#E87870' %}
+{% elsif s contains 'OR FARNIENTE' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'MISS CONDUCT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'PRICKLY PEAR' %}{% assign hex = '#E07070' %}
+{% elsif s contains 'INTENSITY .5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'LEOPARD SUN' %}{% assign hex = '#C99050' %}
+{% elsif s contains 'LOOK LIVELY' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'DIRTY MATTE' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'SHIMMERLINE' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'ACTORS GILD' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'PRESS TOUR' %}{% assign hex = '#C99090' %}
+{% elsif s contains '4 RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'LADY BALLS' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'LUSH LOTUS' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'SURF BUNNY' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'MEGA MATTE' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUNIE BEE' %}{% assign hex = '#8A5090' %}
+{% elsif s contains 'SESAME WN' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LAVA FLOW' %}{% assign hex = '#C04030' %}
+{% elsif s contains '4RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'CANDY BOX' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'SUGAR POP' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '139 (M-G)' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '7.2 SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'LOVE POP' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'KEEPSAKE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MIDNIGHT' %}{% assign hex = '#1A1828' %}
+{% elsif s contains 'SCANDOLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'IMPEROLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'LOU LOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANA 04' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'MAI TAI' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'OTRANTO' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'LUST 13' %}{% assign hex = '#C02838' %}
+{% elsif s contains 'SESAME' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LOULOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'IVOIRE' %}{% assign hex = '#EFE8D8' %}
+{% elsif s contains 'AMPED' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'MOTIF' %}{% assign hex = '#C0A090' %}
+{% elsif s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'PSL' %}{% assign hex = '#C07040' %}
+{% elsif s contains '139' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '714' %}{% assign hex = '#6B3040' %}
+{% comment %} Sitewide expand batch2b fixes {% endcomment %}
+{% elsif s == 'C40 / C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s contains 'TOASTED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'LAVA POP' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'MEGA MELON' %}{% assign hex = '#E87060' %}
+{% elsif s contains 'JADE' %}{% assign hex = '#3A6B48' %}
+{% elsif s contains 'ROSY CONTOURING' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'LIP ROUGE' %}{% assign hex = '#C04050' %}
+{% comment %} Sitewide expand batch2c {% endcomment %}
+{% elsif s contains 'NEUTRAL TERRITORY' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'PETAL POP' %}{% assign hex = '#E890A8' %}
+{% elsif s contains '08 TOAST' %}{% assign hex = '#C99070' %}
+{% elsif s == 'TOAST' %}{% assign hex = '#C99070' %}
 {% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
 {% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
 {% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
@@ -1020,6 +1741,33 @@
 {% elsif hex == blank and s contains 'CLEAR' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'CRYSTAL' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'TRANSPARENT' %}{% assign hex = '#E8E4D8' %}
+{% elsif hex == blank and s contains 'YELLOW' %}{% assign hex = '#E8D080' %}
+{% elsif hex == blank and s contains 'MUSTARD' %}{% assign hex = '#C9A030' %}
+{% elsif hex == blank and s contains 'LEMON' %}{% assign hex = '#E8E060' %}
+{% elsif hex == blank and s contains 'LILAC' %}{% assign hex = '#B898C8' %}
+{% elsif hex == blank and s contains 'AQUA' %}{% assign hex = '#50A0B0' %}
+{% elsif hex == blank and s contains 'TURQUOISE' %}{% assign hex = '#40A090' %}
+{% elsif hex == blank and s contains 'PEWTER' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'MAUVE' %}{% assign hex = '#8A6070' %}
+{% elsif hex == blank and s contains 'GRAPE' %}{% assign hex = '#6A3A70' %}
+{% elsif hex == blank and s contains 'EGGPLANT' %}{% assign hex = '#5A2848' %}
+{% elsif hex == blank and s contains 'SAPPHIRE' %}{% assign hex = '#2A4080' %}
+{% elsif hex == blank and s contains 'COBALT' %}{% assign hex = '#2A4888' %}
+{% elsif hex == blank and s contains 'MOSS' %}{% assign hex = '#6B6B40' %}
+{% elsif hex == blank and s contains 'FOREST' %}{% assign hex = '#2A4830' %}
+{% elsif hex == blank and s contains 'SMOKE' %}{% assign hex = '#5A5048' %}
+{% elsif hex == blank and s contains 'CAMEL' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'KHAKI' %}{% assign hex = '#8A8860' %}
+{% elsif hex == blank and s contains 'STEEL' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'WISTERIA' %}{% assign hex = '#A888C0' %}
+{% elsif hex == blank and s contains 'SUNFLOWER' %}{% assign hex = '#E8B030' %}
+{% elsif hex == blank and s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif hex == blank and s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif hex == blank and s contains 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif hex == blank and s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif hex == blank and s contains 'SESAME' %}{% assign hex = '#D4B090' %}
 {% endif %}
 {% assign chip_hex = hex | strip %}
 {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
@@ -1457,6 +2205,353 @@
 {% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
 {% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
 {% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide expand 2026-09-28 — researched LE / creative names + embedded color specifics {% endcomment %}
+{% elsif s contains '1993' %}{% assign hex = '#8A5040' %}
+{% elsif s == 'HANG' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'BRAT' %}{% assign hex = '#6B8A40' %}
+{% elsif s == 'FINESSE' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'TRIVIAL' %}{% assign hex = '#8A7068' %}
+{% elsif s == 'WSM' %}{% assign hex = '#6B4A40' %}
+{% elsif s == 'SHADE 4' %}{% assign hex = '#C09060' %}
+{% elsif s == 'SHADE 3' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'SHADE 2' %}{% assign hex = '#E0C0A0' %}
+{% elsif s == 'CRUEL' %}{% assign hex = '#8A2030' %}
+{% elsif s == 'PENNY' %}{% assign hex = '#B07840' %}
+{% elsif s == 'TWINKLE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s == 'CLOUD' %}{% assign hex = '#E8E0D8' %}
+{% elsif s == 'INNOCENT' %}{% assign hex = '#E8C8C8' %}
+{% elsif s == 'CYAN' %}{% assign hex = '#40A0B0' %}
+{% elsif s == 'SOAR' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SWIMMING' %}{% assign hex = '#50A0B8' %}
+{% elsif s == 'TILT' %}{% assign hex = '#C0A0B0' %}
+{% elsif s == 'SCENE' %}{% assign hex = '#8A6070' %}
+{% elsif s == 'PRINT' %}{% assign hex = '#6B4A50' %}
+{% elsif s contains 'MYTH' %}{% assign hex = '#C99090' %}
+{% elsif s == 'COSMO' %}{% assign hex = '#E07080' %}
+{% elsif s == 'RAVEN' %}{% assign hex = '#1A1613' %}
+{% elsif s == 'STORM' %}{% assign hex = '#4A4A50' %}
+{% elsif s == 'ROYAL' %}{% assign hex = '#3A2870' %}
+{% elsif s contains 'LEGENDARY (NEW, UNBOXED) HOLIDAZE' %}{% assign hex = '#C02830' %}
+{% elsif s == 'LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'HOLIDAZE COLLECTION) LEGENDARY' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'MAGIC METAL TRANSFORMER' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'DELICIOUSLY DISRUPTIVE' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'I WILL ALWAYS LOVE YOU' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'SEMI-SWEET TIMES NINE' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'AFTER SCHOOL SPECIAL' %}{% assign hex = '#B898C8' %}
+{% elsif s contains 'DANCE OFF, PANTS OFF' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'THE BIGGER THE HOOPS' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'EASY (NEW, UNBOXED)' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'MARSHMALLOW ELECTRO' %}{% assign hex = '#E8B0D0' %}
+{% elsif s contains 'OUR LIPS ARE SEALED' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'BABE (ULLA JOHNSON' %}{% assign hex = '#E8A090' %}
+{% elsif s contains 'SLOW / FAST / SLOW' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'STOCKS AND BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains "AGE AIN'T NOTHING" %}{% assign hex = '#C07080' %}
+{% elsif s contains 'CREME DE LA FEMME' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNS OUT BUNS OUT' %}{% assign hex = '#E09040' %}
+{% elsif s contains 'BLING ME TO LIFE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'BY SPECIAL ORDER' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'CAPTIVE AUDIENCE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DANGER SEDUCTION' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'STOCKS & BONDAGE' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'TOAST AND BUTTER' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AUBERGINE DREAM' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'FASHION FANATIC' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'HEART GOES BOOM' %}{% assign hex = '#E04060' %}
+{% elsif s contains 'JUSTIFY MY LOVE' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'MAKEUP ME HAPPY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'ROYALLY FLUSHED' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'SOFT AND GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'TRUTH BE UNTOLD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'WHO WANTS KANDI' %}{% assign hex = '#E89890' %}
+{% elsif s contains '3D BILLIONAIRE' %}{% assign hex = '#5A6840' %}
+{% elsif s contains 'ALL DRESSED UP' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'BREAKUP MAKEUP' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'FEELING MYSELF' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'FRESH MOROCCAN' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'FRIEND LIKE ME' %}{% assign hex = '#D49890' %}
+{% elsif s contains 'MOVE YOUR BODY' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'NAKED AMBITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'NEW YORK APPLE' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'ORCHID SHIMMER' %}{% assign hex = '#B080C0' %}
+{% elsif s contains 'PHOTOSYNTHESEX' %}{% assign hex = '#6B8A40' %}
+{% elsif s contains 'PRESSED BLOOMS' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'SOCIAL FATIGUE' %}{% assign hex = '#8A6058' %}
+{% elsif s contains 'AFTERNOON TEA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'BITTERSWEETIE' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'CANDY YUM-YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains "DRIVER'S SEAT" %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'GIVE IT TO ME' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'HIBISCUS HAZE' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'ICE, ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'INTENSITY 3.0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'INTENSITY 3.5' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MELTED CLOVER' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'NEW TERRITORY' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'PRETTY SOCIAL' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SOFT & GENTLE' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'SPILL THE TEA' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SPOILER ALERT' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SWEET NOTHING' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains '02 SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains '3D CLEOPATRA' %}{% assign hex = '#C9A040' %}
+{% elsif s contains 'ART DISTRICT' %}{% assign hex = '#C07050' %}
+{% elsif s contains 'BOLD GLITTER' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'BUTTERSCOTCH' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'DEAL BREAKER' %}{% assign hex = '#6B2840' %}
+{% elsif s contains 'DOUBLE FUDGE' %}{% assign hex = '#4A2418' %}
+{% elsif s contains 'EDGE TO EDGE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'FEMME FATALE' %}{% assign hex = '#4A2030' %}
+{% elsif s contains 'FIRE ROASTED' %}{% assign hex = '#8A4028' %}
+{% elsif s contains "HE'S WITH ME" %}{% assign hex = '#C02838' %}
+{% elsif s contains 'ICE ICE BABY' %}{% assign hex = '#E8D8E0' %}
+{% elsif s contains 'IN ABUNDANCE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'JUST CURIOUS' %}{% assign hex = '#C99090' %}
+{% elsif s contains "MAKIN' MOVES" %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MATTE TEMPER' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'MOST CURIOUS' %}{% assign hex = '#6B4058' %}
+{% elsif s contains 'MULL IT OVER' %}{% assign hex = '#8A6050' %}
+{% elsif s contains 'PEACHY PARTY' %}{% assign hex = '#E04018' %}
+{% elsif s contains 'CO-CO-CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'COCO CORAL' %}{% assign hex = '#E87880' %}
+{% elsif s contains 'SAINT HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SAINT-HONORE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'SCREEN QUEEN' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'SECRET SAUCE' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'SUGAR KISSES' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'VELVET TEDDY' %}{% assign hex = '#A07060' %}
+{% elsif s contains '3D GEMSTONE' %}{% assign hex = '#6B4050' %}
+{% elsif s contains '3D GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'BIG SPENDER' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'DAHLIA DIVA' %}{% assign hex = '#8A2850' %}
+{% elsif s contains 'EXTRA CHILI' %}{% assign hex = '#9E3C3C' %}
+{% elsif s contains 'GILT RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'GILT-RIDDEN' %}{% assign hex = '#D4B060' %}
+{% elsif s contains 'HEART CRUSH' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'INOLVIDABLE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'INTENSITY 3' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MAKIN MOVES' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'MIXED MEDIA' %}{% assign hex = '#8A6070' %}
+{% elsif s contains 'NIGHTINGALE' %}{% assign hex = '#8A4060' %}
+{% elsif s contains 'PALE YELLOW' %}{% assign hex = '#E8E0B0' %}
+{% elsif s contains 'PETAL METAL' %}{% assign hex = '#C87878' %}
+{% elsif s contains 'SHADOWHEART' %}{% assign hex = '#4A3028' %}
+{% elsif s contains 'TARAJI GLOW' %}{% assign hex = '#E8C8A0' %}
+{% elsif s contains 'TENDERHEART' %}{% assign hex = '#E898A8' %}
+{% elsif s contains 'WILD FLOWER' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '3D NEPTUNE' %}{% assign hex = '#1A3058' %}
+{% elsif s contains 'AQUADISIAC' %}{% assign hex = '#50A0B0' %}
+{% elsif s contains 'BING MATTE' %}{% assign hex = '#8A2030' %}
+{% elsif s contains 'BOTTOMLESS' %}{% assign hex = '#5C3028' %}
+{% elsif s contains 'BRICK O LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRICK-O-LA' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'CHATTERBOX' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'CHIC TRICK' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'CHILL ZONE' %}{% assign hex = '#7A8A9A' %}
+{% elsif s contains 'COOL TEDDY' %}{% assign hex = '#A08078' %}
+{% elsif s contains 'DELUSIONAL' %}{% assign hex = '#C07090' %}
+{% elsif s contains 'DESERT FOX' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'DISORDERLY' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'DREAM HUGE' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'FRESH CLAY' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'GUTTER GAL' %}{% assign hex = '#5C3A40' %}
+{% elsif s contains 'HODGEPODGE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MINIMALIST' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'RECOGNIZED' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SWEET DEAL' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'TRAP QUEEN' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'WARM MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains '3D GALAXY' %}{% assign hex = '#2A2040' %}
+{% elsif s contains '3D SPARKS' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'AUBERGINE' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BOMBASTIC' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'BOUNTIFUL' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANDY YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CREME CUP' %}{% assign hex = '#E8B0A0' %}
+{% elsif s contains 'FAST PLAY' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'FLASHBACK' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'GIRL GANG' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'HAIR FLIP' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'HAZEL 4W0' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'HEADLINER' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'HELLEBORE' %}{% assign hex = '#6B3048' %}
+{% elsif s contains 'IDOL EYES' %}{% assign hex = '#4A5080' %}
+{% elsif s contains 'JAM ON IT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'LIKE MINK' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'LIP CANDY' %}{% assign hex = '#E86090' %}
+{% elsif s contains 'MOLLY WOW' %}{% assign hex = '#E870A0' %}
+{% elsif s contains 'NIGHTMOTH' %}{% assign hex = '#2A1818' %}
+{% elsif s contains 'PARADISCO' %}{% assign hex = '#E07090' %}
+{% elsif s contains 'PINOT POP' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PURGATORY' %}{% assign hex = '#7A2848' %}
+{% elsif s contains 'RAVE CHIC' %}{% assign hex = '#E060C0' %}
+{% elsif s contains 'REVVED UP' %}{% assign hex = '#C04040' %}
+{% elsif s contains 'SAFE WORD' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'SOFT HINT' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'SUNKISSED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'TOP SHELF' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'AIR KISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'AUDITION' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BAD MOOD' %}{% assign hex = '#5C2838' %}
+{% elsif s contains 'BIG BANG' %}{% assign hex = '#C0A060' %}
+{% elsif s contains 'CAMISOLE' %}{% assign hex = '#E8C8C0' %}
+{% elsif s contains 'COQUETTE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'DIONYSUS' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'DUBONNET' %}{% assign hex = '#7A1C20' %}
+{% elsif s contains 'FLESHPOT' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'GUNMETAL' %}{% assign hex = '#4A4A50' %}
+{% elsif s contains 'HABANERO' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'JAM SESH' %}{% assign hex = '#8A2840' %}
+{% elsif hex == blank and s contains 'METALLIC' %}{% assign hex = '#A8A8B0' %}
+{% elsif s contains 'MISCHIEF' %}{% assign hex = '#C04060' %}
+{% elsif s contains 'NEW LOVE' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'NO CHILL' %}{% assign hex = '#8A3048' %}
+{% elsif s contains 'PAID OFF' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'PECAN WN' %}{% assign hex = '#C99060' %}
+{% elsif s contains 'REGULATE' %}{% assign hex = '#6B4030' %}
+{% elsif s contains 'SO JELLY' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'STALLION' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'UNZIPPED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'UPGRADED' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'AIRKISS' %}{% assign hex = '#E8B8C0' %}
+{% elsif s contains 'BADDEST' %}{% assign hex = '#4A1828' %}
+{% elsif s contains 'BOSS UP' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'CHICORY' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'DERVISH' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'ELECTRA' %}{% assign hex = '#40A0C0' %}
+{% elsif s contains 'HEROINE' %}{% assign hex = '#5A2060' %}
+{% elsif s contains 'MARSALA' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'STYLIST' %}{% assign hex = '#C99090' %}
+{% elsif s contains 'SUMATRA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'VICIOUS' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'WILLFUL' %}{% assign hex = '#E85850' %}
+{% elsif s contains '9 TO 5' %}{% assign hex = '#C04070' %}
+{% elsif s contains 'ABLAZE' %}{% assign hex = '#E06030' %}
+{% elsif s contains 'BRAZEN' %}{% assign hex = '#A02840' %}
+{% elsif s contains 'BREEZE' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'CHINTZ' %}{% assign hex = '#E89090' %}
+{% elsif s contains 'GOSSIP' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'LITTER' %}{% assign hex = '#8A7860' %}
+{% elsif s contains 'PSYCHO' %}{% assign hex = '#8A2040' %}
+{% elsif s contains 'PUNKED' %}{% assign hex = '#4A2838' %}
+{% elsif s contains 'RICHES' %}{% assign hex = '#C9A030' %}
+{% elsif s contains "S'SEXY" %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TEASER' %}{% assign hex = '#B06070' %}
+{% elsif s contains 'TWITCH' %}{% assign hex = '#C05070' %}
+{% elsif s contains 'VANITY' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'WITCHY' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'BAWSE' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'BRICK' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'BRUJA' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DENIM' %}{% assign hex = '#3A5080' %}
+{% elsif s contains 'GESSO' %}{% assign hex = '#F0E8E0' %}
+{% elsif s contains 'GUTSY' %}{% assign hex = '#8A2038' %}
+{% elsif s contains 'HAZEL' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'MYLAR' %}{% assign hex = '#C0C0C8' %}
+{% elsif s contains 'PRISM' %}{% assign hex = '#C0A0C8' %}
+{% elsif s contains 'SMOKY' %}{% assign hex = '#4A4038' %}
+{% elsif s contains 'SSEXY' %}{% assign hex = '#8A3040' %}
+{% elsif s contains 'TRYST' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'VIXEN' %}{% assign hex = '#8A1830' %}
+{% elsif s contains 'ACAI' %}{% assign hex = '#5A2848' %}
+{% elsif s contains 'DIVA' %}{% assign hex = '#7C2021' %}
+{% elsif s contains 'GOJI' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'NOVA' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'POSH' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'VINO' %}{% assign hex = '#6B2030' %}
+{% comment %} Sitewide expand batch2 — remaining high-inv gaps {% endcomment %}
+{% elsif s == 'C40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s == 'NAKED' %}{% assign hex = '#C9A090' %}
+{% elsif s == 'SHAME' %}{% assign hex = '#8A4050' %}
+{% elsif s == 'ANARCHY' %}{% assign hex = '#C04050' %}
+{% elsif s == 'OMEGA' %}{% assign hex = '#8A7868' %}
+{% elsif s == 'CRANK' %}{% assign hex = '#6B3040' %}
+{% elsif s == 'BLANK' %}{% assign hex = '#E8E4D8' %}
+{% elsif s == 'FAMOUS' %}{% assign hex = '#C05070' %}
+{% elsif s == 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif s == 'ROBUST' %}{% assign hex = '#C07080' %}
+{% elsif s == 'SEETHER' %}{% assign hex = '#5C2830' %}
+{% elsif s contains 'NYMPH' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'BREWED' %}{% assign hex = '#4A3020' %}
+{% elsif s == 'LUST' %}{% assign hex = '#C02838' %}
+{% elsif s contains "CAN'T STOP, DON'T STOP" %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'CANT STOP, DONT STOP' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'SPARKLING AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'MATTE BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'PARTY OF PASTELS' %}{% assign hex = '#E8C0D0' %}
+{% elsif s contains 'FIRST TIME MATTE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BRIDE OF CHUCKY' %}{% assign hex = '#C02840' %}
+{% elsif s contains 'DOUBLE CROSSED' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'CELEB SIGHTING' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'I LIKE 2 WATCH' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'DAY INTO DATE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'CORAIL LINGOT' %}{% assign hex = '#E87858' %}
+{% elsif s contains 'INTENSITY 0.5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'SHEER ANARCHY' %}{% assign hex = '#C06070' %}
+{% elsif s contains 'JINGLE TINGLE' %}{% assign hex = '#E8C878' %}
+{% elsif s contains 'CALA DI VOLPE' %}{% assign hex = '#E87870' %}
+{% elsif s contains 'OR FARNIENTE' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'MISS CONDUCT' %}{% assign hex = '#8A2848' %}
+{% elsif s contains 'PRICKLY PEAR' %}{% assign hex = '#E07070' %}
+{% elsif s contains 'INTENSITY .5' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'BITTERSWEET' %}{% assign hex = '#8A4038' %}
+{% elsif s contains 'LEOPARD SUN' %}{% assign hex = '#C99050' %}
+{% elsif s contains 'LOOK LIVELY' %}{% assign hex = '#E87080' %}
+{% elsif s contains 'DIRTY MATTE' %}{% assign hex = '#6B4A40' %}
+{% elsif s contains 'SHIMMERLINE' %}{% assign hex = '#C0A0B0' %}
+{% elsif s contains 'ACTORS GILD' %}{% assign hex = '#C9A060' %}
+{% elsif s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif s contains 'PRESS TOUR' %}{% assign hex = '#C99090' %}
+{% elsif s contains '4 RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'LADY BALLS' %}{% assign hex = '#E890A0' %}
+{% elsif s contains 'LUSH LOTUS' %}{% assign hex = '#C05080' %}
+{% elsif s contains 'SURF BUNNY' %}{% assign hex = '#E8B0C0' %}
+{% elsif s contains 'MEGA MATTE' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUNIE BEE' %}{% assign hex = '#8A5090' %}
+{% elsif s contains 'SESAME WN' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LAVA FLOW' %}{% assign hex = '#C04030' %}
+{% elsif s contains '4RADIANCE' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'CANDY BOX' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'SUGAR POP' %}{% assign hex = '#E890B0' %}
+{% elsif s contains '139 (M-G)' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '7.2 SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif s contains 'LOVE POP' %}{% assign hex = '#E87090' %}
+{% elsif s contains 'KEEPSAKE' %}{% assign hex = '#C07080' %}
+{% elsif s contains 'MIDNIGHT' %}{% assign hex = '#1A1828' %}
+{% elsif s contains 'SCANDOLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'IMPEROLA' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'LOU LOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'CANA 04' %}{% assign hex = '#C07060' %}
+{% elsif s contains 'MAI TAI' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'OTRANTO' %}{% assign hex = '#8A4050' %}
+{% elsif s contains 'LUST 13' %}{% assign hex = '#C02838' %}
+{% elsif s contains 'SESAME' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'LOULOU' %}{% assign hex = '#E87890' %}
+{% elsif s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif s contains 'IVOIRE' %}{% assign hex = '#EFE8D8' %}
+{% elsif s contains 'AMPED' %}{% assign hex = '#E06080' %}
+{% elsif s contains 'MOTIF' %}{% assign hex = '#C0A090' %}
+{% elsif s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif s contains 'PSL' %}{% assign hex = '#C07040' %}
+{% elsif s contains '139' %}{% assign hex = '#D4B090' %}
+{% elsif s contains '714' %}{% assign hex = '#6B3040' %}
+{% comment %} Sitewide expand batch2b fixes {% endcomment %}
+{% elsif s == 'C40 / C 40' %}{% assign hex = '#D4A878' %}
+{% elsif s contains 'TOASTED' %}{% assign hex = '#C99070' %}
+{% elsif s contains 'LAVA POP' %}{% assign hex = '#E05030' %}
+{% elsif s contains 'MEGA MELON' %}{% assign hex = '#E87060' %}
+{% elsif s contains 'JADE' %}{% assign hex = '#3A6B48' %}
+{% elsif s contains 'ROSY CONTOURING' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'LIP ROUGE' %}{% assign hex = '#C04050' %}
+{% comment %} Sitewide expand batch2c {% endcomment %}
+{% elsif s contains 'NEUTRAL TERRITORY' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'PETAL POP' %}{% assign hex = '#E890A8' %}
+{% elsif s contains '08 TOAST' %}{% assign hex = '#C99070' %}
+{% elsif s == 'TOAST' %}{% assign hex = '#C99070' %}
 {% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
 {% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
 {% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
@@ -1554,6 +2649,33 @@
 {% elsif hex == blank and s contains 'CLEAR' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'CRYSTAL' %}{% assign hex = '#E8E4D8' %}
 {% elsif hex == blank and s contains 'TRANSPARENT' %}{% assign hex = '#E8E4D8' %}
+{% elsif hex == blank and s contains 'YELLOW' %}{% assign hex = '#E8D080' %}
+{% elsif hex == blank and s contains 'MUSTARD' %}{% assign hex = '#C9A030' %}
+{% elsif hex == blank and s contains 'LEMON' %}{% assign hex = '#E8E060' %}
+{% elsif hex == blank and s contains 'LILAC' %}{% assign hex = '#B898C8' %}
+{% elsif hex == blank and s contains 'AQUA' %}{% assign hex = '#50A0B0' %}
+{% elsif hex == blank and s contains 'TURQUOISE' %}{% assign hex = '#40A090' %}
+{% elsif hex == blank and s contains 'PEWTER' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'MAUVE' %}{% assign hex = '#8A6070' %}
+{% elsif hex == blank and s contains 'GRAPE' %}{% assign hex = '#6A3A70' %}
+{% elsif hex == blank and s contains 'EGGPLANT' %}{% assign hex = '#5A2848' %}
+{% elsif hex == blank and s contains 'SAPPHIRE' %}{% assign hex = '#2A4080' %}
+{% elsif hex == blank and s contains 'COBALT' %}{% assign hex = '#2A4888' %}
+{% elsif hex == blank and s contains 'MOSS' %}{% assign hex = '#6B6B40' %}
+{% elsif hex == blank and s contains 'FOREST' %}{% assign hex = '#2A4830' %}
+{% elsif hex == blank and s contains 'SMOKE' %}{% assign hex = '#5A5048' %}
+{% elsif hex == blank and s contains 'CAMEL' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'KHAKI' %}{% assign hex = '#8A8860' %}
+{% elsif hex == blank and s contains 'STEEL' %}{% assign hex = '#8A8880' %}
+{% elsif hex == blank and s contains 'WISTERIA' %}{% assign hex = '#A888C0' %}
+{% elsif hex == blank and s contains 'SUNFLOWER' %}{% assign hex = '#E8B030' %}
+{% elsif hex == blank and s contains 'SEPIA' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'AMETHYST' %}{% assign hex = '#7A5090' %}
+{% elsif hex == blank and s contains 'LYCHEE' %}{% assign hex = '#E8A0B0' %}
+{% elsif hex == blank and s contains 'LATTE' %}{% assign hex = '#C9A078' %}
+{% elsif hex == blank and s contains 'SUEDE' %}{% assign hex = '#8A6A50' %}
+{% elsif hex == blank and s contains 'BUTTERMILK' %}{% assign hex = '#E8D0B0' %}
+{% elsif hex == blank and s contains 'SESAME' %}{% assign hex = '#D4B090' %}
 {% endif %}
 {% assign chip_hex = hex | strip %}
 {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
