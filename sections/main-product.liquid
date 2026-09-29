@@ -130,6 +130,7 @@
 {% elsif s contains 'DAIQUIRI' %}{% assign hex = '#F090A8' %}
 {% elsif s contains 'MIRACLE' %}{% assign hex = '#F08CAE' %}
 {% elsif s contains 'SIMMER' %}{% assign hex = '#C09080' %}
+{% comment %} Pilot sitewide specific contains (restored) {% endcomment %}
 {% elsif s contains 'BERRY KISS' %}{% assign hex = '#8B2040' %}
 {% elsif s contains 'CELESTIAL BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif s contains 'BLOOMING PINK' %}{% assign hex = '#E878A0' %}
@@ -143,6 +144,325 @@
 {% elsif s contains 'GRANITE' %}{% assign hex = '#4A4A48' %}
 {% elsif s contains 'ESPRESSO' %}{% assign hex = '#3A2418' %}
 {% elsif s contains 'BLONDE' %}{% assign hex = '#C9B078' %}
+{% comment %} Catalog expand — high-traffic named shades {% endcomment %}
+{% elsif s contains 'RAISIN THE ROOF' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUST GORGEOUS' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'SOFT BLONDE' %}{% assign hex = '#C9B078' %}
+{% elsif s contains 'LINEN CN 08' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'SUNSET GLOW' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'SHORTBREAD' %}{% assign hex = '#E0C090' %}
+{% elsif s contains 'WILD EARTH' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MOONSTONE' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'TELLURIDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'BUTTERFLY' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'VIVA GLAM' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'COLA POP' %}{% assign hex = '#5C3020' %}
+{% elsif s contains 'CONFETTI' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'MACASSAR' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'ACHIOTE' %}{% assign hex = '#C06030' %}
+{% elsif s contains 'RAPTURE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SUNSET' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'COGNAC' %}{% assign hex = '#8A4A28' %}
+{% elsif s contains 'VELLUM' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'LINEN' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'MAPLE' %}{% assign hex = '#A07040' %}
+{% elsif s contains 'VENOM' %}{% assign hex = '#4A2040' %}
+{% elsif s contains 'BEACH' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'SHORE' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'SNOW' %}{% assign hex = '#F5F2EA' %}
+{% elsif s contains 'LUNA' %}{% assign hex = '#D8D0C8' %}
+{% elsif s contains 'CHAI' %}{% assign hex = '#B08878' %}
+{% elsif s contains 'DUNE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'WARM PORCELAIN 1W0' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH MAHOGANY 7C1' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'HONEY WHEAT WN 54' %}{% assign hex = '#D99E6E' %}
+{% elsif s contains 'WARM PORCELAIN' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH COCOA 6C1' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER 7N1' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'MERINGUE WN 12' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'COOL BONE 1C1' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'RICH MAHOGANY' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'BISCUIT WN 30' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'CANDY YUM YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CHAMPAGNE POP' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'DESERT BEIGE' %}{% assign hex = '#E8C49E' %}
+{% elsif s contains 'HONEY BRONZE' %}{% assign hex = '#D6A16B' %}
+{% elsif s contains 'CASHEW WN 56' %}{% assign hex = '#E5B58B' %}
+{% elsif s contains 'IVORY BEIGE' %}{% assign hex = '#D3A782' %}
+{% elsif s contains 'SHELL BEIGE' %}{% assign hex = '#CCA075' %}
+{% elsif s contains 'SPICED SAND' %}{% assign hex = '#C69D66' %}
+{% elsif s contains 'NATURAL TAN' %}{% assign hex = '#DFB28C' %}
+{% elsif s contains 'NUTTY CN 78' %}{% assign hex = '#CE9467' %}
+{% elsif s contains 'EXTRA LIGHT' %}{% assign hex = '#F0D8C8' %}
+{% elsif s contains 'MEDIUM DEEP' %}{% assign hex = '#A07050' %}
+{% elsif s contains 'MEDIUM DARK' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MEDIUM PLUS' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'FAWN 3W1.5' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'RATTAN 2W2' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'RICH COCOA' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'IVORY NUDE' %}{% assign hex = '#E9CDAA' %}
+{% elsif s contains 'SANDALWOOD' %}{% assign hex = '#A97245' %}
+{% elsif s contains 'WARM HONEY' %}{% assign hex = '#D29A68' %}
+{% elsif s contains 'FAIR CN 20' %}{% assign hex = '#EEBB97' %}
+{% elsif s contains 'BONE WN 04' %}{% assign hex = '#F3C9A7' %}
+{% elsif s contains 'BUFF WN 16' %}{% assign hex = '#E9BD9C' %}
+{% elsif s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif s contains 'LIGHT PLUS' %}{% assign hex = '#E0C0A0' %}
+{% elsif s contains 'TAWNY 3W1' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'COOL BONE' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif s contains 'MERINGUE' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'NATURAL' %}{% assign hex = '#C9A888' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'CASHEW' %}{% assign hex = '#D6AB73' %}
+{% elsif s contains 'PEBBLE' %}{% assign hex = '#D2AD8E' %}
+{% elsif s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif s contains 'WHEAT' %}{% assign hex = '#D9AD88' %}
+{% elsif s contains 'SHELL' %}{% assign hex = '#E6BEA8' %}
+{% elsif s contains 'MOCHA' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'HUSH' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'POUT' %}{% assign hex = '#C47878' %}
+{% elsif s contains 'BARE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif s contains 'ECRU' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'BONE' %}{% assign hex = '#DABC9A' %}
+{% elsif s contains 'DAWN' %}{% assign hex = '#E3B88D' %}
+{% elsif s contains 'DUSK' %}{% assign hex = '#D3B08A' %}
+{% elsif s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'FIG' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'JET' %}{% assign hex = '#141210' %}
+{% comment %} MAC NC/NW foundation codes — The Pudding Ulta chip averages {% endcomment %}
+{% elsif s contains 'NC45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC 45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC 44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC 43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC 60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC 58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC 55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC 50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC 47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC 46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC 45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC 44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC 43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC 42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC 41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC 40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC 38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC 37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC 35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC 30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC 27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC 25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC 20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC 18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC 17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC 16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC 15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC 13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC 12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC 10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NC 5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NW60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW 60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW 58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW 57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW 55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW 53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW 50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW 48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW 47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW 46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW 45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW 44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW 43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW 40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW 35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW 33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW 30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW 25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW 22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW 20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW 18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW 15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW 13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW10' %}{% assign hex = '#ECD0B8' %}
+{% elsif s contains 'NW 10' %}{% assign hex = '#ECD0B8' %}
+{% comment %} MAC Face & Body / Studio short C·N·W codes (exact) {% endcomment %}
+{% elsif s == 'C35' %}{% assign hex = '#F0CEA0' %}
+{% elsif s == 'C30' %}{% assign hex = '#F3CEA2' %}
+{% elsif s == 'C8' %}{% assign hex = '#DA9D63' %}
+{% elsif s == 'C7' %}{% assign hex = '#E8B383' %}
+{% elsif s == 'C6' %}{% assign hex = '#E8B988' %}
+{% elsif s == 'C5.5' %}{% assign hex = '#EDC19D' %}
+{% elsif s == 'C5' %}{% assign hex = '#E0B88E' %}
+{% elsif s == 'C4.5' %}{% assign hex = '#E1BC96' %}
+{% elsif s == 'C4' %}{% assign hex = '#F4C298' %}
+{% elsif s == 'C3.5' %}{% assign hex = '#E4C09E' %}
+{% elsif s == 'C3' %}{% assign hex = '#F0CEA9' %}
+{% elsif s == 'C2' %}{% assign hex = '#EED1AF' %}
+{% elsif s == 'C1' %}{% assign hex = '#F2D8BC' %}
+{% elsif s == 'C0' %}{% assign hex = '#F5E0C8' %}
+{% elsif s == 'N9' %}{% assign hex = '#D8A273' %}
+{% elsif s == 'N8' %}{% assign hex = '#DCA878' %}
+{% elsif s == 'N7' %}{% assign hex = '#E5B890' %}
+{% elsif s == 'N5' %}{% assign hex = '#F8CAA8' %}
+{% elsif s == 'N4' %}{% assign hex = '#F8DAC4' %}
+{% elsif s == 'N3' %}{% assign hex = '#F5DFCF' %}
+{% elsif s == 'N2' %}{% assign hex = '#F5DCC8' %}
+{% elsif s == 'N1' %}{% assign hex = '#F6E0D0' %}
+{% elsif s == 'N0' %}{% assign hex = '#F8E6D8' %}
+{% elsif s == 'W8' %}{% assign hex = '#A07048' %}
+{% elsif s == 'W5' %}{% assign hex = '#C09060' %}
+{% elsif s == 'W4' %}{% assign hex = '#D0A070' %}
+{% elsif s == 'W3' %}{% assign hex = '#DDB888' %}
+{% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
+{% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
+{% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
+{% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif hex == blank and s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif hex == blank and s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif hex == blank and s contains 'TAN' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif hex == blank and s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif hex == blank and s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif hex == blank and s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif hex == blank and s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif hex == blank and s contains 'GINGER' %}{% assign hex = '#C07840' %}
+{% elsif hex == blank and s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif hex == blank and s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif hex == blank and s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif hex == blank and s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif hex == blank and s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif hex == blank and s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif hex == blank and s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif hex == blank and s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif hex == blank and s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif hex == blank and s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif hex == blank and s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif hex == blank and s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif hex == blank and s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'WALNUT' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif hex == blank and s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif hex == blank and s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif hex == blank and s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif hex == blank and s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif hex == blank and s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif hex == blank and s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif hex == blank and s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif hex == blank and s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif hex == blank and s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif hex == blank and s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif hex == blank and s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif hex == blank and s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif hex == blank and s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif hex == blank and s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif hex == blank and s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif hex == blank and s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif hex == blank and s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif hex == blank and s contains 'DEEP' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'DARK' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'MEDIUM' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'LIGHT' %}{% assign hex = '#E8C8A8' %}
 {% elsif hex == blank and s contains 'BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif hex == blank and s contains 'WHITE' %}{% assign hex = '#F5F2EA' %}
 {% elsif hex == blank and s contains 'NUDE' %}{% assign hex = '#C9A090' %}
@@ -322,6 +642,7 @@
 {% elsif s contains 'DAIQUIRI' %}{% assign hex = '#F090A8' %}
 {% elsif s contains 'MIRACLE' %}{% assign hex = '#F08CAE' %}
 {% elsif s contains 'SIMMER' %}{% assign hex = '#C09080' %}
+{% comment %} Pilot sitewide specific contains (restored) {% endcomment %}
 {% elsif s contains 'BERRY KISS' %}{% assign hex = '#8B2040' %}
 {% elsif s contains 'CELESTIAL BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif s contains 'BLOOMING PINK' %}{% assign hex = '#E878A0' %}
@@ -335,6 +656,325 @@
 {% elsif s contains 'GRANITE' %}{% assign hex = '#4A4A48' %}
 {% elsif s contains 'ESPRESSO' %}{% assign hex = '#3A2418' %}
 {% elsif s contains 'BLONDE' %}{% assign hex = '#C9B078' %}
+{% comment %} Catalog expand — high-traffic named shades {% endcomment %}
+{% elsif s contains 'RAISIN THE ROOF' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUST GORGEOUS' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'SOFT BLONDE' %}{% assign hex = '#C9B078' %}
+{% elsif s contains 'LINEN CN 08' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'SUNSET GLOW' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'SHORTBREAD' %}{% assign hex = '#E0C090' %}
+{% elsif s contains 'WILD EARTH' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MOONSTONE' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'TELLURIDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'BUTTERFLY' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'VIVA GLAM' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'COLA POP' %}{% assign hex = '#5C3020' %}
+{% elsif s contains 'CONFETTI' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'MACASSAR' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'ACHIOTE' %}{% assign hex = '#C06030' %}
+{% elsif s contains 'RAPTURE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SUNSET' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'COGNAC' %}{% assign hex = '#8A4A28' %}
+{% elsif s contains 'VELLUM' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'LINEN' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'MAPLE' %}{% assign hex = '#A07040' %}
+{% elsif s contains 'VENOM' %}{% assign hex = '#4A2040' %}
+{% elsif s contains 'BEACH' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'SHORE' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'SNOW' %}{% assign hex = '#F5F2EA' %}
+{% elsif s contains 'LUNA' %}{% assign hex = '#D8D0C8' %}
+{% elsif s contains 'CHAI' %}{% assign hex = '#B08878' %}
+{% elsif s contains 'DUNE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'WARM PORCELAIN 1W0' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH MAHOGANY 7C1' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'HONEY WHEAT WN 54' %}{% assign hex = '#D99E6E' %}
+{% elsif s contains 'WARM PORCELAIN' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH COCOA 6C1' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER 7N1' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'MERINGUE WN 12' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'COOL BONE 1C1' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'RICH MAHOGANY' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'BISCUIT WN 30' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'CANDY YUM YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CHAMPAGNE POP' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'DESERT BEIGE' %}{% assign hex = '#E8C49E' %}
+{% elsif s contains 'HONEY BRONZE' %}{% assign hex = '#D6A16B' %}
+{% elsif s contains 'CASHEW WN 56' %}{% assign hex = '#E5B58B' %}
+{% elsif s contains 'IVORY BEIGE' %}{% assign hex = '#D3A782' %}
+{% elsif s contains 'SHELL BEIGE' %}{% assign hex = '#CCA075' %}
+{% elsif s contains 'SPICED SAND' %}{% assign hex = '#C69D66' %}
+{% elsif s contains 'NATURAL TAN' %}{% assign hex = '#DFB28C' %}
+{% elsif s contains 'NUTTY CN 78' %}{% assign hex = '#CE9467' %}
+{% elsif s contains 'EXTRA LIGHT' %}{% assign hex = '#F0D8C8' %}
+{% elsif s contains 'MEDIUM DEEP' %}{% assign hex = '#A07050' %}
+{% elsif s contains 'MEDIUM DARK' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MEDIUM PLUS' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'FAWN 3W1.5' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'RATTAN 2W2' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'RICH COCOA' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'IVORY NUDE' %}{% assign hex = '#E9CDAA' %}
+{% elsif s contains 'SANDALWOOD' %}{% assign hex = '#A97245' %}
+{% elsif s contains 'WARM HONEY' %}{% assign hex = '#D29A68' %}
+{% elsif s contains 'FAIR CN 20' %}{% assign hex = '#EEBB97' %}
+{% elsif s contains 'BONE WN 04' %}{% assign hex = '#F3C9A7' %}
+{% elsif s contains 'BUFF WN 16' %}{% assign hex = '#E9BD9C' %}
+{% elsif s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif s contains 'LIGHT PLUS' %}{% assign hex = '#E0C0A0' %}
+{% elsif s contains 'TAWNY 3W1' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'COOL BONE' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif s contains 'MERINGUE' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'NATURAL' %}{% assign hex = '#C9A888' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'CASHEW' %}{% assign hex = '#D6AB73' %}
+{% elsif s contains 'PEBBLE' %}{% assign hex = '#D2AD8E' %}
+{% elsif s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif s contains 'WHEAT' %}{% assign hex = '#D9AD88' %}
+{% elsif s contains 'SHELL' %}{% assign hex = '#E6BEA8' %}
+{% elsif s contains 'MOCHA' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'HUSH' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'POUT' %}{% assign hex = '#C47878' %}
+{% elsif s contains 'BARE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif s contains 'ECRU' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'BONE' %}{% assign hex = '#DABC9A' %}
+{% elsif s contains 'DAWN' %}{% assign hex = '#E3B88D' %}
+{% elsif s contains 'DUSK' %}{% assign hex = '#D3B08A' %}
+{% elsif s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'FIG' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'JET' %}{% assign hex = '#141210' %}
+{% comment %} MAC NC/NW foundation codes — The Pudding Ulta chip averages {% endcomment %}
+{% elsif s contains 'NC45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC 45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC 44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC 43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC 60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC 58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC 55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC 50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC 47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC 46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC 45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC 44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC 43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC 42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC 41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC 40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC 38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC 37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC 35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC 30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC 27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC 25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC 20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC 18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC 17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC 16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC 15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC 13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC 12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC 10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NC 5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NW60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW 60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW 58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW 57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW 55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW 53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW 50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW 48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW 47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW 46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW 45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW 44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW 43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW 40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW 35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW 33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW 30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW 25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW 22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW 20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW 18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW 15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW 13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW10' %}{% assign hex = '#ECD0B8' %}
+{% elsif s contains 'NW 10' %}{% assign hex = '#ECD0B8' %}
+{% comment %} MAC Face & Body / Studio short C·N·W codes (exact) {% endcomment %}
+{% elsif s == 'C35' %}{% assign hex = '#F0CEA0' %}
+{% elsif s == 'C30' %}{% assign hex = '#F3CEA2' %}
+{% elsif s == 'C8' %}{% assign hex = '#DA9D63' %}
+{% elsif s == 'C7' %}{% assign hex = '#E8B383' %}
+{% elsif s == 'C6' %}{% assign hex = '#E8B988' %}
+{% elsif s == 'C5.5' %}{% assign hex = '#EDC19D' %}
+{% elsif s == 'C5' %}{% assign hex = '#E0B88E' %}
+{% elsif s == 'C4.5' %}{% assign hex = '#E1BC96' %}
+{% elsif s == 'C4' %}{% assign hex = '#F4C298' %}
+{% elsif s == 'C3.5' %}{% assign hex = '#E4C09E' %}
+{% elsif s == 'C3' %}{% assign hex = '#F0CEA9' %}
+{% elsif s == 'C2' %}{% assign hex = '#EED1AF' %}
+{% elsif s == 'C1' %}{% assign hex = '#F2D8BC' %}
+{% elsif s == 'C0' %}{% assign hex = '#F5E0C8' %}
+{% elsif s == 'N9' %}{% assign hex = '#D8A273' %}
+{% elsif s == 'N8' %}{% assign hex = '#DCA878' %}
+{% elsif s == 'N7' %}{% assign hex = '#E5B890' %}
+{% elsif s == 'N5' %}{% assign hex = '#F8CAA8' %}
+{% elsif s == 'N4' %}{% assign hex = '#F8DAC4' %}
+{% elsif s == 'N3' %}{% assign hex = '#F5DFCF' %}
+{% elsif s == 'N2' %}{% assign hex = '#F5DCC8' %}
+{% elsif s == 'N1' %}{% assign hex = '#F6E0D0' %}
+{% elsif s == 'N0' %}{% assign hex = '#F8E6D8' %}
+{% elsif s == 'W8' %}{% assign hex = '#A07048' %}
+{% elsif s == 'W5' %}{% assign hex = '#C09060' %}
+{% elsif s == 'W4' %}{% assign hex = '#D0A070' %}
+{% elsif s == 'W3' %}{% assign hex = '#DDB888' %}
+{% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
+{% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
+{% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
+{% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif hex == blank and s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif hex == blank and s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif hex == blank and s contains 'TAN' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif hex == blank and s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif hex == blank and s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif hex == blank and s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif hex == blank and s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif hex == blank and s contains 'GINGER' %}{% assign hex = '#C07840' %}
+{% elsif hex == blank and s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif hex == blank and s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif hex == blank and s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif hex == blank and s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif hex == blank and s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif hex == blank and s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif hex == blank and s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif hex == blank and s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif hex == blank and s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif hex == blank and s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif hex == blank and s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif hex == blank and s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif hex == blank and s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'WALNUT' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif hex == blank and s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif hex == blank and s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif hex == blank and s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif hex == blank and s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif hex == blank and s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif hex == blank and s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif hex == blank and s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif hex == blank and s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif hex == blank and s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif hex == blank and s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif hex == blank and s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif hex == blank and s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif hex == blank and s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif hex == blank and s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif hex == blank and s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif hex == blank and s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif hex == blank and s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif hex == blank and s contains 'DEEP' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'DARK' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'MEDIUM' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'LIGHT' %}{% assign hex = '#E8C8A8' %}
 {% elsif hex == blank and s contains 'BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif hex == blank and s contains 'WHITE' %}{% assign hex = '#F5F2EA' %}
 {% elsif hex == blank and s contains 'NUDE' %}{% assign hex = '#C9A090' %}
@@ -536,6 +1176,7 @@
 {% elsif s contains 'DAIQUIRI' %}{% assign hex = '#F090A8' %}
 {% elsif s contains 'MIRACLE' %}{% assign hex = '#F08CAE' %}
 {% elsif s contains 'SIMMER' %}{% assign hex = '#C09080' %}
+{% comment %} Pilot sitewide specific contains (restored) {% endcomment %}
 {% elsif s contains 'BERRY KISS' %}{% assign hex = '#8B2040' %}
 {% elsif s contains 'CELESTIAL BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif s contains 'BLOOMING PINK' %}{% assign hex = '#E878A0' %}
@@ -549,6 +1190,325 @@
 {% elsif s contains 'GRANITE' %}{% assign hex = '#4A4A48' %}
 {% elsif s contains 'ESPRESSO' %}{% assign hex = '#3A2418' %}
 {% elsif s contains 'BLONDE' %}{% assign hex = '#C9B078' %}
+{% comment %} Catalog expand — high-traffic named shades {% endcomment %}
+{% elsif s contains 'RAISIN THE ROOF' %}{% assign hex = '#6B3040' %}
+{% elsif s contains 'JUST GORGEOUS' %}{% assign hex = '#C05060' %}
+{% elsif s contains 'SOFT BLONDE' %}{% assign hex = '#C9B078' %}
+{% elsif s contains 'LINEN CN 08' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'SUNSET GLOW' %}{% assign hex = '#E87850' %}
+{% elsif s contains 'SHORTBREAD' %}{% assign hex = '#E0C090' %}
+{% elsif s contains 'WILD EARTH' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MOONSTONE' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'TELLURIDE' %}{% assign hex = '#8A6A50' %}
+{% elsif s contains 'BUTTERFLY' %}{% assign hex = '#E8A0C0' %}
+{% elsif s contains 'VIVA GLAM' %}{% assign hex = '#C02850' %}
+{% elsif s contains 'COLA POP' %}{% assign hex = '#5C3020' %}
+{% elsif s contains 'CONFETTI' %}{% assign hex = '#E890A8' %}
+{% elsif s contains 'MACASSAR' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'ACHIOTE' %}{% assign hex = '#C06030' %}
+{% elsif s contains 'RAPTURE' %}{% assign hex = '#C04050' %}
+{% elsif s contains 'SUNSET' %}{% assign hex = '#E07040' %}
+{% elsif s contains 'COGNAC' %}{% assign hex = '#8A4A28' %}
+{% elsif s contains 'VELLUM' %}{% assign hex = '#E8D8C8' %}
+{% elsif s contains 'LINEN' %}{% assign hex = '#E8D0B8' %}
+{% elsif s contains 'MAPLE' %}{% assign hex = '#A07040' %}
+{% elsif s contains 'VENOM' %}{% assign hex = '#4A2040' %}
+{% elsif s contains 'BEACH' %}{% assign hex = '#C9A070' %}
+{% elsif s contains 'SHORE' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'SNOW' %}{% assign hex = '#F5F2EA' %}
+{% elsif s contains 'LUNA' %}{% assign hex = '#D8D0C8' %}
+{% elsif s contains 'CHAI' %}{% assign hex = '#B08878' %}
+{% elsif s contains 'DUNE' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'WARM PORCELAIN 1W0' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH MAHOGANY 7C1' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'HONEY WHEAT WN 54' %}{% assign hex = '#D99E6E' %}
+{% elsif s contains 'WARM PORCELAIN' %}{% assign hex = '#F6D6A9' %}
+{% elsif s contains 'RICH COCOA 6C1' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER 7N1' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'MERINGUE WN 12' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'COOL BONE 1C1' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'RICH MAHOGANY' %}{% assign hex = '#9C6040' %}
+{% elsif s contains 'BISCUIT WN 30' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'CANDY YUM YUM' %}{% assign hex = '#E83A9A' %}
+{% elsif s contains 'CHAMPAGNE POP' %}{% assign hex = '#E8C090' %}
+{% elsif s contains 'DESERT BEIGE' %}{% assign hex = '#E8C49E' %}
+{% elsif s contains 'HONEY BRONZE' %}{% assign hex = '#D6A16B' %}
+{% elsif s contains 'CASHEW WN 56' %}{% assign hex = '#E5B58B' %}
+{% elsif s contains 'IVORY BEIGE' %}{% assign hex = '#D3A782' %}
+{% elsif s contains 'SHELL BEIGE' %}{% assign hex = '#CCA075' %}
+{% elsif s contains 'SPICED SAND' %}{% assign hex = '#C69D66' %}
+{% elsif s contains 'NATURAL TAN' %}{% assign hex = '#DFB28C' %}
+{% elsif s contains 'NUTTY CN 78' %}{% assign hex = '#CE9467' %}
+{% elsif s contains 'EXTRA LIGHT' %}{% assign hex = '#F0D8C8' %}
+{% elsif s contains 'MEDIUM DEEP' %}{% assign hex = '#A07050' %}
+{% elsif s contains 'MEDIUM DARK' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MEDIUM PLUS' %}{% assign hex = '#C09070' %}
+{% elsif s contains 'FAWN 3W1.5' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'RATTAN 2W2' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'RICH COCOA' %}{% assign hex = '#B07346' %}
+{% elsif s contains 'DEEP AMBER' %}{% assign hex = '#8F5A3B' %}
+{% elsif s contains 'IVORY NUDE' %}{% assign hex = '#E9CDAA' %}
+{% elsif s contains 'SANDALWOOD' %}{% assign hex = '#A97245' %}
+{% elsif s contains 'WARM HONEY' %}{% assign hex = '#D29A68' %}
+{% elsif s contains 'FAIR CN 20' %}{% assign hex = '#EEBB97' %}
+{% elsif s contains 'BONE WN 04' %}{% assign hex = '#F3C9A7' %}
+{% elsif s contains 'BUFF WN 16' %}{% assign hex = '#E9BD9C' %}
+{% elsif s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif s contains 'LIGHT PLUS' %}{% assign hex = '#E0C0A0' %}
+{% elsif s contains 'TAWNY 3W1' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'COOL BONE' %}{% assign hex = '#E4C4AD' %}
+{% elsif s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif s contains 'MERINGUE' %}{% assign hex = '#E5B68C' %}
+{% elsif s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'NATURAL' %}{% assign hex = '#C9A888' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif s contains 'RATTAN' %}{% assign hex = '#DAB47B' %}
+{% elsif s contains 'CASHEW' %}{% assign hex = '#D6AB73' %}
+{% elsif s contains 'PEBBLE' %}{% assign hex = '#D2AD8E' %}
+{% elsif s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif s contains 'WHEAT' %}{% assign hex = '#D9AD88' %}
+{% elsif s contains 'SHELL' %}{% assign hex = '#E6BEA8' %}
+{% elsif s contains 'MOCHA' %}{% assign hex = '#6B4A38' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'HUSH' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'POUT' %}{% assign hex = '#C47878' %}
+{% elsif s contains 'BARE' %}{% assign hex = '#C9A090' %}
+{% elsif s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif s contains 'ECRU' %}{% assign hex = '#E8D8C0' %}
+{% elsif s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif s contains 'BONE' %}{% assign hex = '#DABC9A' %}
+{% elsif s contains 'DAWN' %}{% assign hex = '#E3B88D' %}
+{% elsif s contains 'DUSK' %}{% assign hex = '#D3B08A' %}
+{% elsif s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif s contains 'FIG' %}{% assign hex = '#8A4058' %}
+{% elsif s contains 'JET' %}{% assign hex = '#141210' %}
+{% comment %} MAC NC/NW foundation codes — The Pudding Ulta chip averages {% endcomment %}
+{% elsif s contains 'NC45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC 45.5' %}{% assign hex = '#CF8E53' %}
+{% elsif s contains 'NC44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC 44.5' %}{% assign hex = '#EDB694' %}
+{% elsif s contains 'NC43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC 43.5' %}{% assign hex = '#EFC2A1' %}
+{% elsif s contains 'NC60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC 60' %}{% assign hex = '#955930' %}
+{% elsif s contains 'NC58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC 58' %}{% assign hex = '#9D683B' %}
+{% elsif s contains 'NC55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC 55' %}{% assign hex = '#BD8553' %}
+{% elsif s contains 'NC50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC 50' %}{% assign hex = '#C08959' %}
+{% elsif s contains 'NC47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC 47' %}{% assign hex = '#E49058' %}
+{% elsif s contains 'NC46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC 46' %}{% assign hex = '#D28458' %}
+{% elsif s contains 'NC45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC 45' %}{% assign hex = '#D09867' %}
+{% elsif s contains 'NC44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC 44' %}{% assign hex = '#D09866' %}
+{% elsif s contains 'NC43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC 43' %}{% assign hex = '#F4C48A' %}
+{% elsif s contains 'NC42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC 42' %}{% assign hex = '#E1AB77' %}
+{% elsif s contains 'NC41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC 41' %}{% assign hex = '#EDC4A6' %}
+{% elsif s contains 'NC40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC 40' %}{% assign hex = '#DEAE7D' %}
+{% elsif s contains 'NC38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC 38' %}{% assign hex = '#D59E62' %}
+{% elsif s contains 'NC37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC 37' %}{% assign hex = '#DAA879' %}
+{% elsif s contains 'NC35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC 35' %}{% assign hex = '#E3B585' %}
+{% elsif s contains 'NC30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC 30' %}{% assign hex = '#E0B785' %}
+{% elsif s contains 'NC27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC 27' %}{% assign hex = '#D7A463' %}
+{% elsif s contains 'NC25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC 25' %}{% assign hex = '#E5BA90' %}
+{% elsif s contains 'NC20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC 20' %}{% assign hex = '#E7C299' %}
+{% elsif s contains 'NC18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC 18' %}{% assign hex = '#F3BC8C' %}
+{% elsif s contains 'NC17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC 17' %}{% assign hex = '#EFCB9B' %}
+{% elsif s contains 'NC16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC 16' %}{% assign hex = '#F2C090' %}
+{% elsif s contains 'NC15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC 15' %}{% assign hex = '#EAC8A8' %}
+{% elsif s contains 'NC13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC 13' %}{% assign hex = '#F2D0A5' %}
+{% elsif s contains 'NC12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC 12' %}{% assign hex = '#ECCDA1' %}
+{% elsif s contains 'NC10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC 10' %}{% assign hex = '#FEE0C6' %}
+{% elsif s contains 'NC5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NC 5' %}{% assign hex = '#ECCFA5' %}
+{% elsif s contains 'NW60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW 60' %}{% assign hex = '#663526' %}
+{% elsif s contains 'NW58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW 58' %}{% assign hex = '#8A6044' %}
+{% elsif s contains 'NW57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW 57' %}{% assign hex = '#893A1B' %}
+{% elsif s contains 'NW55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW 55' %}{% assign hex = '#B36C45' %}
+{% elsif s contains 'NW53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW 53' %}{% assign hex = '#9C5024' %}
+{% elsif s contains 'NW50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW 50' %}{% assign hex = '#B08058' %}
+{% elsif s contains 'NW48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW 48' %}{% assign hex = '#B48154' %}
+{% elsif s contains 'NW47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW 47' %}{% assign hex = '#A76A42' %}
+{% elsif s contains 'NW46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW 46' %}{% assign hex = '#C28856' %}
+{% elsif s contains 'NW45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW 45' %}{% assign hex = '#C69062' %}
+{% elsif s contains 'NW44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW 44' %}{% assign hex = '#C69260' %}
+{% elsif s contains 'NW43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW 43' %}{% assign hex = '#CA8E61' %}
+{% elsif s contains 'NW40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW 40' %}{% assign hex = '#CC9E74' %}
+{% elsif s contains 'NW35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW 35' %}{% assign hex = '#D3A075' %}
+{% elsif s contains 'NW33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW 33' %}{% assign hex = '#DAB190' %}
+{% elsif s contains 'NW30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW 30' %}{% assign hex = '#D6A580' %}
+{% elsif s contains 'NW25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW 25' %}{% assign hex = '#D7AA88' %}
+{% elsif s contains 'NW22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW 22' %}{% assign hex = '#E5B28B' %}
+{% elsif s contains 'NW20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW 20' %}{% assign hex = '#E2B897' %}
+{% elsif s contains 'NW18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW 18' %}{% assign hex = '#E3BA98' %}
+{% elsif s contains 'NW15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW 15' %}{% assign hex = '#E9C19E' %}
+{% elsif s contains 'NW13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW 13' %}{% assign hex = '#EBC9AA' %}
+{% elsif s contains 'NW10' %}{% assign hex = '#ECD0B8' %}
+{% elsif s contains 'NW 10' %}{% assign hex = '#ECD0B8' %}
+{% comment %} MAC Face & Body / Studio short C·N·W codes (exact) {% endcomment %}
+{% elsif s == 'C35' %}{% assign hex = '#F0CEA0' %}
+{% elsif s == 'C30' %}{% assign hex = '#F3CEA2' %}
+{% elsif s == 'C8' %}{% assign hex = '#DA9D63' %}
+{% elsif s == 'C7' %}{% assign hex = '#E8B383' %}
+{% elsif s == 'C6' %}{% assign hex = '#E8B988' %}
+{% elsif s == 'C5.5' %}{% assign hex = '#EDC19D' %}
+{% elsif s == 'C5' %}{% assign hex = '#E0B88E' %}
+{% elsif s == 'C4.5' %}{% assign hex = '#E1BC96' %}
+{% elsif s == 'C4' %}{% assign hex = '#F4C298' %}
+{% elsif s == 'C3.5' %}{% assign hex = '#E4C09E' %}
+{% elsif s == 'C3' %}{% assign hex = '#F0CEA9' %}
+{% elsif s == 'C2' %}{% assign hex = '#EED1AF' %}
+{% elsif s == 'C1' %}{% assign hex = '#F2D8BC' %}
+{% elsif s == 'C0' %}{% assign hex = '#F5E0C8' %}
+{% elsif s == 'N9' %}{% assign hex = '#D8A273' %}
+{% elsif s == 'N8' %}{% assign hex = '#DCA878' %}
+{% elsif s == 'N7' %}{% assign hex = '#E5B890' %}
+{% elsif s == 'N5' %}{% assign hex = '#F8CAA8' %}
+{% elsif s == 'N4' %}{% assign hex = '#F8DAC4' %}
+{% elsif s == 'N3' %}{% assign hex = '#F5DFCF' %}
+{% elsif s == 'N2' %}{% assign hex = '#F5DCC8' %}
+{% elsif s == 'N1' %}{% assign hex = '#F6E0D0' %}
+{% elsif s == 'N0' %}{% assign hex = '#F8E6D8' %}
+{% elsif s == 'W8' %}{% assign hex = '#A07048' %}
+{% elsif s == 'W5' %}{% assign hex = '#C09060' %}
+{% elsif s == 'W4' %}{% assign hex = '#D0A070' %}
+{% elsif s == 'W3' %}{% assign hex = '#DDB888' %}
+{% elsif s == 'W2' %}{% assign hex = '#E8C498' %}
+{% elsif s == 'W1' %}{% assign hex = '#F0D4B0' %}
+{% elsif s == 'W0' %}{% assign hex = '#F5E2C8' %}
+{% comment %} Sitewide keyword heuristics — catalog expand + pilot {% endcomment %}
+{% elsif hex == blank and s contains 'CHAMPAGNE' %}{% assign hex = '#E8D0A0' %}
+{% elsif hex == blank and s contains 'AUBURN' %}{% assign hex = '#8A4030' %}
+{% elsif hex == blank and s contains 'HONEY' %}{% assign hex = '#D4A060' %}
+{% elsif hex == blank and s contains 'BUFF' %}{% assign hex = '#D4B090' %}
+{% elsif hex == blank and s contains 'TAN' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'PEARL' %}{% assign hex = '#E8DCC8' %}
+{% elsif hex == blank and s contains 'BLUSH' %}{% assign hex = '#E8909A' %}
+{% elsif hex == blank and s contains 'MAHOGANY' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'CHESTNUT' %}{% assign hex = '#6B3A28' %}
+{% elsif hex == blank and s contains 'COCOA' %}{% assign hex = '#5C3A28' %}
+{% elsif hex == blank and s contains 'CINNAMON' %}{% assign hex = '#A06840' %}
+{% elsif hex == blank and s contains 'SPICE' %}{% assign hex = '#8A4A30' %}
+{% elsif hex == blank and s contains 'GINGER' %}{% assign hex = '#C07840' %}
+{% elsif hex == blank and s contains 'SIENNA' %}{% assign hex = '#A06040' %}
+{% elsif hex == blank and s contains 'AMBER' %}{% assign hex = '#B07030' %}
+{% elsif hex == blank and s contains 'COPPER' %}{% assign hex = '#B8733A' %}
+{% elsif hex == blank and s contains 'TERRACOTTA' %}{% assign hex = '#C06040' %}
+{% elsif hex == blank and s contains 'BURGUNDY' %}{% assign hex = '#6B2038' %}
+{% elsif hex == blank and s contains 'MAROON' %}{% assign hex = '#6B2028' %}
+{% elsif hex == blank and s contains 'SCARLET' %}{% assign hex = '#C02830' %}
+{% elsif hex == blank and s contains 'MERLOT' %}{% assign hex = '#6B2030' %}
+{% elsif hex == blank and s contains 'MULBERRY' %}{% assign hex = '#6A3048' %}
+{% elsif hex == blank and s contains 'WATERMELON' %}{% assign hex = '#E85870' %}
+{% elsif hex == blank and s contains 'VANILLA' %}{% assign hex = '#E8D8C0' %}
+{% elsif hex == blank and s contains 'ALMOND' %}{% assign hex = '#C9A878' %}
+{% elsif hex == blank and s contains 'HAZELNUT' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'WALNUT' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'PORCELAIN' %}{% assign hex = '#F1D6C3' %}
+{% elsif hex == blank and s contains 'ALABASTER' %}{% assign hex = '#F5E6D8' %}
+{% elsif hex == blank and s contains 'BISQUE' %}{% assign hex = '#E5C4A8' %}
+{% elsif hex == blank and s contains 'BISCUIT' %}{% assign hex = '#DBA47C' %}
+{% elsif hex == blank and s contains 'FAWN' %}{% assign hex = '#D7A570' %}
+{% elsif hex == blank and s contains 'TAWNY' %}{% assign hex = '#D5A979' %}
+{% elsif hex == blank and s contains 'BRUNETTE' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'OPAL' %}{% assign hex = '#E8D8D0' %}
+{% elsif hex == blank and s contains 'ONYX' %}{% assign hex = '#1A1613' %}
+{% elsif hex == blank and s contains 'EBONY' %}{% assign hex = '#1A1410' %}
+{% elsif hex == blank and s contains 'INDIGO' %}{% assign hex = '#2A3058' %}
+{% elsif hex == blank and s contains 'SLATE' %}{% assign hex = '#5A5860' %}
+{% elsif hex == blank and s contains 'CHARCOAL' %}{% assign hex = '#3A3838' %}
+{% elsif hex == blank and s contains 'EMERALD' %}{% assign hex = '#2A6848' %}
+{% elsif hex == blank and s contains 'MINT' %}{% assign hex = '#88C0A0' %}
+{% elsif hex == blank and s contains 'SAGE' %}{% assign hex = '#8A9868' %}
+{% elsif hex == blank and s contains 'TRUFFLE' %}{% assign hex = '#6B4A38' %}
+{% elsif hex == blank and s contains 'NUTMEG' %}{% assign hex = '#8A6040' %}
+{% elsif hex == blank and s contains 'JAVA' %}{% assign hex = '#3A2418' %}
+{% elsif hex == blank and s contains 'FAIR' %}{% assign hex = '#E8C8B0' %}
+{% elsif hex == blank and s contains 'DEEP' %}{% assign hex = '#6B4A30' %}
+{% elsif hex == blank and s contains 'DARK' %}{% assign hex = '#4A3020' %}
+{% elsif hex == blank and s contains 'MEDIUM' %}{% assign hex = '#C9A070' %}
+{% elsif hex == blank and s contains 'LIGHT' %}{% assign hex = '#E8C8A8' %}
 {% elsif hex == blank and s contains 'BLACK' %}{% assign hex = '#1A1613' %}
 {% elsif hex == blank and s contains 'WHITE' %}{% assign hex = '#F5F2EA' %}
 {% elsif hex == blank and s contains 'NUDE' %}{% assign hex = '#C9A090' %}
