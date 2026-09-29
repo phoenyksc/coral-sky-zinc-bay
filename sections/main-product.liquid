@@ -1,4 +1,11 @@
 {% assign current = product.selected_or_first_available_variant %}
+{% comment %}
+  2026-09-28 Dru/Eve: brush-stroke color swatches on ALL PDPs (multi + single shade).
+  Color-like option names → brush-stroke inline SVG + label. OOS grey like prior lock.
+  Single default-variant products still show one chip (Shade).
+  Hex: variant.metafields.custom.swatch_hex → else pilot snippet map → else #c8c4bc.
+  NO Shopify media upload required for brush swatches.
+{% endcomment %}
 <div class="page-width pdp">
   <div class="pdp-media">
     {% if product.featured_image %}
@@ -24,40 +31,95 @@
     {% endif %}
     {% form 'product', product, data-product-form: '' %}
       <input type="hidden" name="id" value="{{ current.id }}">
-      {% unless product.has_only_default_variant %}
-        {% comment %} Dru 2026-09-22 / Grok Build master: all variants on same PDP; sold-out stay visible+greyed; available selectable; never page-level Sold Out if any variant in stock (use selected_or_first_available_variant). {% endcomment %}
+
+      {% if product.has_only_default_variant %}
+        {% comment %} Single-shade: still show one chip {% endcomment %}
+        {% assign sold_out = false %}
+        {% unless current.available %}{% assign sold_out = true %}{% endunless %}
+        {% if current.inventory_management != blank and current.inventory_quantity <= 0 and current.inventory_policy != 'continue' %}
+          {% assign sold_out = true %}
+        {% endif %}
+        {% assign shade_label = current.title %}
+        {% if shade_label == 'Default Title' %}
+          {% assign shade_label = 'Shade' %}
+        {% endif %}
+        {% assign chip_hex = current.metafields.custom.swatch_hex.value | default: current.metafields.custom.swatch_hex %}
+        {% if chip_hex == blank %}
+          {% capture chip_hex %}{% render 'swatch-hex', shade: shade_label, product_title: product.title %}{% endcapture %}
+          {% assign chip_hex = chip_hex | strip %}
+        {% endif %}
+        {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
+        <p class="kicker" style="margin-top:1rem">Shade</p>
+        <div class="option-grid option-grid--brush">
+          <button
+            type="button"
+            class="swatch swatch--brush is-active{% if sold_out %} is-soldout{% endif %}"
+            data-variant-id="{{ current.id }}"
+            data-available="{% if sold_out %}false{% else %}true{% endif %}"
+            data-price="{{ current.price | money }}"
+            data-hex="{{ chip_hex }}"
+            aria-label="{{ shade_label }}"
+            {% if sold_out %}aria-disabled="true" disabled{% endif %}
+          >
+            {% render 'swatch-brush', hex: chip_hex %}
+            <span class="swatch-label">{{ shade_label }}</span>
+            {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
+          </button>
+        </div>
+      {% else %}
+        {% comment %} Dru 2026-09-22 / Grok Build: all variants visible; OOS greyed; never page Sold Out if any in stock {% endcomment %}
         {% if product.options.size == 1 %}
-          <p class="kicker" style="margin-top:1rem">{{ product.options.first }}</p>
-          <div class="option-grid">
+          {% assign opt_name = product.options.first %}
+          {% assign opt_down = opt_name | downcase %}
+          {% assign is_color_opt = false %}
+          {% if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'shade' or opt_down == 'style' or opt_down contains 'product color' or opt_down contains 'kit color' %}
+            {% assign is_color_opt = true %}
+          {% endif %}
+          <p class="kicker" style="margin-top:1rem">{{ opt_name }}</p>
+          <div class="option-grid{% if is_color_opt %} option-grid--brush{% endif %}">
             {% for variant in product.variants %}
               {% assign sold_out = false %}
-              {% unless variant.available %}
-                {% assign sold_out = true %}
-              {% endunless %}
+              {% unless variant.available %}{% assign sold_out = true %}{% endunless %}
               {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
                 {% assign sold_out = true %}
               {% endif %}
+              {% assign shade_label = variant.title %}
+              {% assign chip_hex = variant.metafields.custom.swatch_hex.value | default: variant.metafields.custom.swatch_hex %}
+              {% if chip_hex == blank and is_color_opt %}
+                {% capture chip_hex %}{% render 'swatch-hex', shade: shade_label, product_title: product.title %}{% endcapture %}
+                {% assign chip_hex = chip_hex | strip %}
+              {% endif %}
+              {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
               <button
                 type="button"
-                class="swatch{% if variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
+                class="swatch{% if is_color_opt %} swatch--brush{% endif %}{% if variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
                 data-variant-id="{{ variant.id }}"
                 data-available="{% if sold_out %}false{% else %}true{% endif %}"
                 data-price="{{ variant.price | money }}"
-                {% if variant.compare_at_price > variant.price %}
-                  data-compare="{{ variant.compare_at_price | money }}"
-                {% endif %}
+                {% if variant.compare_at_price > variant.price %}data-compare="{{ variant.compare_at_price | money }}"{% endif %}
+                {% if is_color_opt %}data-hex="{{ chip_hex }}" aria-label="{{ shade_label }}"{% endif %}
                 {% if sold_out %}aria-disabled="true" disabled{% endif %}
               >
-                {{ variant.title }}
+                {% if is_color_opt %}
+                  {% render 'swatch-brush', hex: chip_hex %}
+                  <span class="swatch-label">{{ shade_label }}</span>
+                {% else %}
+                  {{ shade_label }}
+                {% endif %}
                 {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
               </button>
             {% endfor %}
           </div>
         {% else %}
           {% for option in product.options_with_values %}
+            {% assign opt_down = option.name | downcase %}
+            {% assign is_color_opt = false %}
+            {% if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'shade' or opt_down == 'style' or opt_down contains 'product color' or opt_down contains 'kit color' %}
+              {% assign is_color_opt = true %}
+            {% endif %}
             <div class="option-block" data-option-index="{{ forloop.index0 }}">
               <p class="kicker">{{ option.name }}</p>
-              <div class="option-grid">
+              <div class="option-grid{% if is_color_opt %} option-grid--brush{% endif %}">
                 {% for value in option.values %}
                   {% assign value_available = false %}
                   {% assign matched_variant = nil %}
@@ -71,13 +133,9 @@
                       {% assign opt_match = true %}
                     {% endif %}
                     {% if opt_match %}
-                      {% if matched_variant == nil %}
-                        {% assign matched_variant = variant %}
-                      {% endif %}
+                      {% if matched_variant == nil %}{% assign matched_variant = variant %}{% endif %}
                       {% assign v_sold = false %}
-                      {% unless variant.available %}
-                        {% assign v_sold = true %}
-                      {% endunless %}
+                      {% unless variant.available %}{% assign v_sold = true %}{% endunless %}
                       {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
                         {% assign v_sold = true %}
                       {% endif %}
@@ -88,21 +146,29 @@
                     {% endif %}
                   {% endfor %}
                   {% assign sold_out = true %}
-                  {% if value_available %}
-                    {% assign sold_out = false %}
+                  {% if value_available %}{% assign sold_out = false %}{% endif %}
+                  {% assign chip_hex = matched_variant.metafields.custom.swatch_hex.value | default: matched_variant.metafields.custom.swatch_hex %}
+                  {% if chip_hex == blank and is_color_opt %}
+                    {% capture chip_hex %}{% render 'swatch-hex', shade: value, product_title: product.title %}{% endcapture %}
+                    {% assign chip_hex = chip_hex | strip %}
                   {% endif %}
+                  {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
                   <button
                     type="button"
-                    class="swatch{% if matched_variant and matched_variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
+                    class="swatch{% if is_color_opt %} swatch--brush{% endif %}{% if matched_variant and matched_variant.id == current.id %} is-active{% endif %}{% if sold_out %} is-soldout{% endif %}"
                     data-variant-id="{{ matched_variant.id }}"
                     data-available="{% if sold_out %}false{% else %}true{% endif %}"
                     data-price="{{ matched_variant.price | money }}"
-                    {% if matched_variant.compare_at_price > matched_variant.price %}
-                      data-compare="{{ matched_variant.compare_at_price | money }}"
-                    {% endif %}
+                    {% if matched_variant.compare_at_price > matched_variant.price %}data-compare="{{ matched_variant.compare_at_price | money }}"{% endif %}
+                    {% if is_color_opt %}data-hex="{{ chip_hex }}" aria-label="{{ value }}"{% endif %}
                     {% if sold_out %}aria-disabled="true" disabled{% endif %}
                   >
-                    {{ value }}
+                    {% if is_color_opt %}
+                      {% render 'swatch-brush', hex: chip_hex %}
+                      <span class="swatch-label">{{ value }}</span>
+                    {% else %}
+                      {{ value }}
+                    {% endif %}
                     {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
                   </button>
                 {% endfor %}
@@ -110,7 +176,8 @@
             </div>
           {% endfor %}
         {% endif %}
-      {% endunless %}
+      {% endif %}
+
       {% if current.sku != blank %}
         <p class="kicker" style="margin-top:1rem">SKU {{ current.sku }}{% if current.barcode != blank %} · UPC {{ current.barcode }}{% endif %}</p>
       {% endif %}
@@ -127,10 +194,7 @@
       <li>Authenticity guaranteed</li>
     </ul>
     {% comment %}
-      Dru 2026-09-23: Free shipping / Curated by · Ships from USA / Authenticity guaranteed
-      ONLY in the trust block above (once). Strip those boilerplate lines from descriptionHtml
-      so we never double when catalog still has Sold by / Curated by / ships / authenticity.
-      Do not imply Sol Beautiful made branded goods. Vendor may stay Sol Beautiful.
+      Dru 2026-09-23: trust block once; strip description boilerplate.
     {% endcomment %}
     {% assign pdp_desc = product.description
       | replace: '<p>Sold by Sol Beautiful and ships from the USA.</p>', ''
