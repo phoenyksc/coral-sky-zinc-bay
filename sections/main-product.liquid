@@ -2776,7 +2776,7 @@
         {% endif %}
       {% endif %}
 
-      {% if current.sku != blank %}
+      {% if current.sku != blank and sb_inner_shades != true %}
         <p class="kicker" style="margin-top:1rem">SKU {{ current.sku }}{% if current.barcode != blank %} · UPC {{ current.barcode }}{% endif %}</p>
       {% endif %}
       <div class="pdp-actions">
