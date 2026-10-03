@@ -75,11 +75,30 @@
 {% if sb_hay contains ' brush ' or sb_hay contains ' brushes ' or sb_hay contains ' tweezer ' or sb_hay contains ' tweezers ' or sb_hay contains ' lash ' or sb_hay contains ' lashes ' or sb_hay contains ' eyelash ' or sb_hay contains ' eyelashes ' or sb_hay contains ' fragrance ' or sb_hay contains ' perfume ' or sb_hay contains ' serum ' or sb_hay contains ' serums ' or sb_hay contains ' lotion ' or sb_hay contains ' lotions ' or sb_hay contains ' shampoo ' or sb_hay contains ' shampoos ' or sb_hay contains ' conditioner ' or sb_hay contains ' conditioners ' or sb_hay contains ' tool ' or sb_hay contains ' tools ' or sb_hay contains ' case ' or sb_hay contains ' cases ' or sb_hay contains ' bag ' or sb_hay contains ' bags ' %}
   {% assign sb_no_brush = true %}
 {% endif %}
+{% assign sb_disclaimer = false %}
+{% assign sb_disc_skip = false %}
+{% if sb_hay contains ' cream ' or sb_hay contains ' creams ' or sb_hay contains ' brush ' or sb_hay contains ' brushes ' or sb_hay contains ' tweezer ' or sb_hay contains ' tweezers ' or sb_hay contains ' tool ' or sb_hay contains ' tools ' or sb_hay contains ' case ' or sb_hay contains ' cases ' or sb_hay contains ' fragrance ' or sb_hay contains ' perfume ' or sb_hay contains ' serum ' or sb_hay contains ' serums ' or sb_hay contains ' lotion ' or sb_hay contains ' lotions ' or sb_hay contains ' shampoo ' or sb_hay contains ' shampoos ' or sb_hay contains ' conditioner ' or sb_hay contains ' conditioners ' %}
+  {% assign sb_disc_skip = true %}
+{% endif %}
+{% if sb_palette %}
+  {% assign sb_disclaimer = true %}
+{% elsif sb_disc_skip == false %}
+  {% for option in product.options_with_values %}
+    {% assign sb_on = option.name | downcase %}
+    {% if sb_on == 'color' or sb_on == 'colour' or sb_on == 'shade' or sb_on == 'product color' or sb_on contains 'color' or sb_on contains 'colour' or sb_on contains 'shade' %}
+      {% if option.values.size > 1 %}
+        {% assign sb_disclaimer = true %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 <div class="page-width pdp">
   <div class="pdp-media" style="position:relative">
     {% if product.featured_image %}
       {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
-      <p style="position:absolute;left:12px;right:12px;bottom:8px;margin:0;padding:0;background:transparent;color:rgba(90,84,76,.62);font-family:system-ui,sans-serif;font-size:10px;font-weight:400;line-height:1.3;text-align:center;letter-spacing:.01em">stock photo and may not accurately represent product received</p>
+      {% if sb_disclaimer %}
+      <p style="position:absolute;left:12px;right:12px;bottom:8px;margin:0;padding:0;background:transparent;color:rgba(90,84,76,.62);font-family:system-ui,sans-serif;font-size:10px;font-weight:400;line-height:1.3;text-align:center;letter-spacing:.01em">Photo is a stock image and may not match the selected color</p>
+      {% endif %}
     {% endif %}
   </div>
   <div>
