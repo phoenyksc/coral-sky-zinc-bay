@@ -5,13 +5,80 @@
   Single default-variant products still show one chip (Shade).
   Hex: variant.metafields.custom.swatch_hex → else pilot snippet map → else #c8c4bc.
   NO Shopify media upload required for brush swatches.
+  2026-10-02: stock-photo disclaimer on every PDP with a featured image.
+  Sourced palette colorways use a plain selector; inner pans are the chips.
+  Brushes, tools, cases, bags, lashes, fragrance, serum, lotion, shampoo, conditioner, tweezers stay plain text.
+  One SKU line follows the selected variant via data-sku.
 {% endcomment %}
+{% assign sb_palette = false %}
+{% assign sb_eq = false %}
+{% case product.handle %}
+  {% when 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %}
+    {% assign sb_palette = true %}
+    {% assign sb_eq = true %}
+  {% when 'mac-eye-shadow-x-4-eyeshadow-palette-5-6g-19oz-net-wt-rare-htf-limited-ed-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'mac-eye-shadow-x-9-eyeshadow-palette-7-2g-18oz-net-wt-rare-htf-limited-ed-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'mac-treasured-eye-shadow-6-color-eyeshadow-palette-limited-edition-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'smashbox-cover-shot-eye-palette-eyeshadow-shadow-21-oz-6-2-g-full-size-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'too-faced-born-this-way-turn-up-the-light-complexion-highlighting-palette-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'urban-decay-jean-michel-basquiat-limited-edition-eyeshadow-palette-w-brush-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'clinique-glow-all-out-blushing-blush-face-uplighting-stay-matte-powder-palette-1' %}
+    {% assign sb_palette = true %}
+  {% when 'clinique-glow-all-out-blushing-blush-stay-matte-powder-true-bronzer-palette-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'estee-lauder-pure-color-envy-luxe-4-color-eyeshadow-quad-palette-21-oz-f-s-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'estee-lauder-pure-color-envy-luxe-eyeshadow-quad-palette-refill-21-oz-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'loreal-soft-effects-all-day-wear-silky-eyecolour-coordinates-eyeshadow-quad' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-belle-de-teint-liquid-glow-trio-bronzer-1-66-oz-f-s-choose-color-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-colour-focus-exceptional-wear-eyecolour-eye-shadow-quad-16-oz-f-s-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-ombre-absolue-radiant-smoothing-eyecolour-eye-shadow-duo-08-oz-fs-new-1' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-ombre-couture-multi-effect-eyecolour-eye-shadow-deluxe-sample-duo-choose-1' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-proenza-schouler-chroma-10-color-eye-shadow-palette-w-duo-brush-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'lancome-sonia-rykiel-parisian-lips-le-crayon-lip-duet-pencil-liner-duo-15oz-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'mac-brow-duo-pressed-powder-eyebrow-enhancer-09-oz-2-8-g-rare-htf-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'mac-mineralize-eye-shadow-x-4-eyeshadow-palette-2g-04oz-net-wt-rare-htf-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'mac-veluxe-pearlfusion-shadow-5color-eyeshadow-eye-palette-4-0g-14-oz-rare-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'prescriptives-sunsheen-bronzing-trio-pressed-powder-compact-35oz-10g-rare-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'revlon-new-complexion-condition-color-lip-stick-duo-pencil-choose-color' %}
+    {% assign sb_palette = true %}
+  {% when 'tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'yves-saint-laurent-ysl-couture-contouring-face-sculpting-palette-24-oz-nib-1' %}
+    {% assign sb_palette = true %}
+  {% when 'yves-saint-laurent-couture-palette-collector-5-color-ready-to-wear-eyeshadow-nib' %}
+    {% assign sb_palette = true %}
+  {% when 'yves-saint-laurent-ysl-eye-smoker-duo-long-lasting-creamy-eye-shadow-f-s-nib-1' %}
+    {% assign sb_palette = true %}
+{% endcase %}
+{% capture sb_hay %} {{ product.type }} {{ product.title }} {% endcapture %}
+{% assign sb_hay = sb_hay | downcase | replace: '-', ' ' | replace: '/', ' ' | replace: ',', ' ' | replace: '.', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '&', ' ' | replace: ':', ' ' %}
+{% assign sb_no_brush = false %}
+{% if sb_hay contains ' brush ' or sb_hay contains ' brushes ' or sb_hay contains ' tweezer ' or sb_hay contains ' tweezers ' or sb_hay contains ' lash ' or sb_hay contains ' lashes ' or sb_hay contains ' eyelash ' or sb_hay contains ' eyelashes ' or sb_hay contains ' fragrance ' or sb_hay contains ' perfume ' or sb_hay contains ' serum ' or sb_hay contains ' serums ' or sb_hay contains ' lotion ' or sb_hay contains ' lotions ' or sb_hay contains ' shampoo ' or sb_hay contains ' shampoos ' or sb_hay contains ' conditioner ' or sb_hay contains ' conditioners ' or sb_hay contains ' tool ' or sb_hay contains ' tools ' or sb_hay contains ' case ' or sb_hay contains ' cases ' or sb_hay contains ' bag ' or sb_hay contains ' bags ' %}
+  {% assign sb_no_brush = true %}
+{% endif %}
 <div class="page-width pdp">
-  <div class="pdp-media"{% if product.handle == 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %} style="position:relative"{% endif %}>
+  <div class="pdp-media" style="position:relative">
     {% if product.featured_image %}
       {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
-    {% endif %}
-    {% if product.handle == 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %}
       <p style="position:absolute;left:12px;right:12px;bottom:8px;margin:0;padding:0;background:transparent;color:rgba(90,84,76,.62);font-family:system-ui,sans-serif;font-size:10px;font-weight:400;line-height:1.3;text-align:center;letter-spacing:.01em">stock photo and may not accurately represent product received</p>
     {% endif %}
   </div>
@@ -892,17 +959,19 @@
         {% endif %}
         {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
         <p class="kicker" style="margin-top:1rem">Shade</p>
-        <div class="option-grid option-grid--brush">
+        <div class="option-grid{% unless sb_no_brush %} option-grid--brush{% endunless %}">
           <button
             type="button"
-            class="swatch swatch--brush is-active{% if sold_out %} is-soldout{% endif %}"
+            class="swatch{% unless sb_no_brush %} swatch--brush{% endunless %} is-active{% if sold_out %} is-soldout{% endif %}"
             data-variant-id="{{ current.id }}"
             data-available="{% if sold_out %}false{% else %}true{% endif %}"
             data-price="{{ current.price | money }}"
-            data-hex="{{ chip_hex }}"
-            aria-label="{{ shade_label }}"
+            data-sku="{{ current.sku | escape }}"
+            data-barcode="{{ current.barcode | escape }}"
+            {% unless sb_no_brush %}data-hex="{{ chip_hex }}" aria-label="{{ shade_label }}"{% endunless %}
             {% if sold_out %}aria-disabled="true" disabled{% endif %}
           >
+            {% unless sb_no_brush %}
             <span class="swatch-brush-inline" aria-hidden="true">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="72" height="29" focusable="false">
   <path fill="{{ chip_hex }}" d="M6 34c3-12 14-24 32-26 12-1 22 4 32 10 8 5 16 8 26 6 12-2 22-9 34-10 8-1 16 3 18 10 1 5-3 10-11 12-14 4-28 2-41 6-10 3-18 9-29 10-14 2-26-3-34-12-5-6-8-12-5-16 2-3 5-4 9-4z"/>
@@ -911,6 +980,9 @@
 </svg>
 </span>
             <span class="swatch-label">{{ shade_label }}</span>
+            {% else %}
+            {{ shade_label }}
+            {% endunless %}
             {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
           </button>
         </div>
@@ -923,11 +995,12 @@
           {% if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'shade' or opt_down == 'style' or opt_down contains 'product color' or opt_down contains 'kit color' %}
             {% assign is_color_opt = true %}
           {% endif %}
-          {% comment %} 2026-10-02 Essential Quad only: colorway is a plain selector, inner shades are the chips {% endcomment %}
-          {% if product.handle == 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %}
+          {% comment %} Sourced palettes: plain colorway. Brushes/tools/cases/etc: plain text. {% endcomment %}
+          {% if sb_palette or sb_no_brush %}
             {% assign is_color_opt = false %}
+          {% endif %}
+          {% if sb_eq %}
             {% assign opt_name = 'Palette' %}
-            {% assign sb_inner_shades = true %}
           {% endif %}
           <p class="kicker" style="margin-top:1rem">{{ opt_name }}</p>
           <div class="option-grid{% if is_color_opt %} option-grid--brush{% endif %}">
@@ -1789,7 +1862,8 @@
                 data-variant-id="{{ variant.id }}"
                 data-available="{% if sold_out %}false{% else %}true{% endif %}"
                 data-price="{{ variant.price | money }}"
-                {% if sb_inner_shades %}data-sku="{{ variant.sku | escape }}"{% endif %}
+                data-sku="{{ variant.sku | escape }}"
+                data-barcode="{{ variant.barcode | escape }}"
                 {% if variant.compare_at_price > variant.price %}data-compare="{{ variant.compare_at_price | money }}"{% endif %}
                 {% if is_color_opt %}data-hex="{{ chip_hex }}" aria-label="{{ shade_label }}"{% endif %}
                 {% if sold_out %}aria-disabled="true" disabled{% endif %}
@@ -1810,65 +1884,15 @@
               </button>
             {% endfor %}
           </div>
-          {% if sb_inner_shades %}
-            <p class="kicker" style="margin-top:1rem">SKU</p>
-            <p id="sb-eq-sku" style="margin:0 0 .25rem;font-family:system-ui,sans-serif;font-size:14px">{{ current.sku }}</p>
-            <p class="kicker" style="margin-top:1rem">Shades in this palette</p>
-            <div class="option-grid option-grid--brush" id="sb-inner-shade-row" data-active="{{ current.title | escape }}"></div>
-            <script>
-              (function () {
-                var row = document.getElementById('sb-inner-shade-row');
-                if (!row) return;
-                var sets = {
-                  'Getaway': [
-                    ['burnt sunset orange', '#E07040'],
-                    ['reddish brown', '#8A4E3C'],
-                    ['burnished gold', '#C9A030'],
-                    ['rich brown', '#5C3A28']
-                  ],
-                  'Money Moves': [
-                    ['warm camel brown', '#B08968'],
-                    ['neutral taupe-green', '#8A8B6A'],
-                    ['cool champagne', '#E4D2B0'],
-                    ['neutral blackened emerald', '#1C3A32']
-                  ]
-                };
-                function brush(hex) {
-                  return '<span class="swatch-brush-inline" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="72" height="29" focusable="false"><path fill="' + hex + '" d="M6 34c3-12 14-24 32-26 12-1 22 4 32 10 8 5 16 8 26 6 12-2 22-9 34-10 8-1 16 3 18 10 1 5-3 10-11 12-14 4-28 2-41 6-10 3-18 9-29 10-14 2-26-3-34-12-5-6-8-12-5-16 2-3 5-4 9-4z"/><path fill="' + hex + '" opacity=".55" d="M22 26c8-7 20-11 32-8 10 2 17 7 27 5 12-2 22-7 34-5 7 1 11 5 9 9-2 5-8 7-16 8-14 2-27-1-40 3-9 3-17 7-26 5-8-1-14-6-16-12-1-3 1-5 4-5z"/><path fill="' + hex + '" opacity=".35" d="M40 18c6-3 14-4 20-1 4 2 7 4 12 3 6-1 10-3 15-2 3 0 5 2 4 4-1 2-4 3-8 3-7 1-13 0-19 2-5 1-9 3-14 2-4 0-7-2-8-5 0-2 1-4 2-6z"/></svg></span>';
-                }
-                function labelOf(btn) {
-                  var t = (btn.textContent || '').replace(/\s+/g, ' ').trim();
-                  t = t.replace(/Sold out/ig, '').trim();
-                  return t;
-                }
-                function paint(name, sku) {
-                  var skuEl = document.getElementById('sb-eq-sku');
-                  if (skuEl && sku) skuEl.textContent = sku;
-                  var shades = sets[name];
-                  if (!shades) { row.innerHTML = ''; return; }
-                  row.innerHTML = shades.map(function (pair) {
-                    return '<div class="swatch swatch--brush" aria-hidden="true">' + brush(pair[1]) + '<span class="swatch-label">' + pair[0] + '</span></div>';
-                  }).join('');
-                }
-                function currentBtn() {
-                  return document.querySelector('.option-grid .swatch.is-active');
-                }
-                var startBtn = currentBtn();
-                paint(startBtn ? labelOf(startBtn) : (row.getAttribute('data-active') || ''), startBtn ? startBtn.getAttribute('data-sku') : '');
-                document.addEventListener('click', function (e) {
-                  var btn = e.target.closest && e.target.closest('.option-grid .swatch');
-                  if (!btn || btn.closest('#sb-inner-shade-row')) return;
-                  paint(labelOf(btn), btn.getAttribute('data-sku') || '');
-                });
-              })();
-            </script>
-          {% endif %}
         {% else %}
           {% for option in product.options_with_values %}
             {% assign opt_down = option.name | downcase %}
             {% assign is_color_opt = false %}
             {% if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'shade' or opt_down == 'style' or opt_down contains 'product color' or opt_down contains 'kit color' %}
               {% assign is_color_opt = true %}
+            {% endif %}
+            {% if sb_palette or sb_no_brush %}
+              {% assign is_color_opt = false %}
             {% endif %}
             <div class="option-block" data-option-index="{{ forloop.index0 }}">
               <p class="kicker">{{ option.name }}</p>
@@ -2751,6 +2775,8 @@
                     data-variant-id="{{ matched_variant.id }}"
                     data-available="{% if sold_out %}false{% else %}true{% endif %}"
                     data-price="{{ matched_variant.price | money }}"
+                    data-sku="{{ matched_variant.sku | escape }}"
+                    data-barcode="{{ matched_variant.barcode | escape }}"
                     {% if matched_variant.compare_at_price > matched_variant.price %}data-compare="{{ matched_variant.compare_at_price | money }}"{% endif %}
                     {% if is_color_opt %}data-hex="{{ chip_hex }}" aria-label="{{ value }}"{% endif %}
                     {% if sold_out %}aria-disabled="true" disabled{% endif %}
@@ -2776,9 +2802,1141 @@
         {% endif %}
       {% endif %}
 
-      {% if current.sku != blank and sb_inner_shades != true %}
-        <p class="kicker" style="margin-top:1rem">SKU {{ current.sku }}{% if current.barcode != blank %} · UPC {{ current.barcode }}{% endif %}</p>
+      {% if sb_palette %}
+        <p class="kicker" id="sb-inner-shade-kicker" style="margin-top:1rem;display:none">Shades in this palette</p>
+        <div class="option-grid option-grid--brush" id="sb-inner-shade-row" data-active="{{ current.title | escape }}"></div>
+        <script>
+          (function () {
+            var row = document.getElementById('sb-inner-shade-row');
+            var kicker = document.getElementById('sb-inner-shade-kicker');
+            if (!row) return;
+            var sets = {
+  "Getaway": [
+    [
+      "burnt sunset orange",
+      "#E07040"
+    ],
+    [
+      "reddish brown",
+      "#8A4E3C"
+    ],
+    [
+      "burnished gold",
+      "#C9A030"
+    ],
+    [
+      "rich brown",
+      "#5C3A28"
+    ]
+  ],
+  "Money Moves": [
+    [
+      "warm camel brown",
+      "#B08968"
+    ],
+    [
+      "neutral taupe-green",
+      "#8A8B6A"
+    ],
+    [
+      "cool champagne",
+      "#E4D2B0"
+    ],
+    [
+      "neutral blackened emerald",
+      "#1C3A32"
+    ]
+  ],
+  "Punk Couture": [
+    [
+      "All Races",
+      "#C8C4BC"
+    ],
+    [
+      "Magic Moor",
+      "#C8C4BC"
+    ],
+    [
+      "Idol Eyes",
+      "#C8C4BC"
+    ],
+    [
+      "Carbon",
+      "#C8C4BC"
+    ]
+  ],
+  "Wild Horses (Vibe Tribe Collection)": [
+    [
+      "Brule",
+      "#C8C4BC"
+    ],
+    [
+      "Charcoal Brown",
+      "#3A3838"
+    ],
+    [
+      "Wild Horses",
+      "#C8C4BC"
+    ],
+    [
+      "Blue Mesa",
+      "#3A5080"
+    ]
+  ],
+  "4 Pillars -Brant Brothers Peter & Harry Collection": [
+    [
+      "Mother's Milk",
+      "#C8C4BC"
+    ],
+    [
+      "Sandstone",
+      "#C8C4BC"
+    ],
+    [
+      "Mystery",
+      "#C8C4BC"
+    ],
+    [
+      "Carbon",
+      "#C8C4BC"
+    ]
+  ],
+  "PatrickStarrr GoalGetter (Patrick Starrr Collectio": [
+    [
+      "Amber Lights",
+      "#B07030"
+    ],
+    [
+      "Soft Brown",
+      "#5C3A28"
+    ],
+    [
+      "Swiss Chocolate",
+      "#3A2418"
+    ],
+    [
+      "I'm Into It",
+      "#C8C4BC"
+    ]
+  ],
+  "Dusky Rose Times Nine": [
+    [
+      "M∙A∙Cnificent Me!",
+      "#C8C4BC"
+    ],
+    [
+      "Quiet Type",
+      "#C8C4BC"
+    ],
+    [
+      "Dance in the Dark",
+      "#C8C4BC"
+    ],
+    [
+      "Fabulous DNA",
+      "#C8C4BC"
+    ],
+    [
+      "Pleasing to the Eye",
+      "#C8C4BC"
+    ],
+    [
+      "Sable",
+      "#C8C4BC"
+    ],
+    [
+      "Frankly Frosty",
+      "#C8C4BC"
+    ],
+    [
+      "In My Element",
+      "#C8C4BC"
+    ],
+    [
+      "Cool Complement",
+      "#C8C4BC"
+    ]
+  ],
+  "Semi-Sweet Times Nine (new, unboxed)": [
+    [
+      "Drawing a Blanc",
+      "#C8C4BC"
+    ],
+    [
+      "Bamboo",
+      "#C8C4BC"
+    ],
+    [
+      "Outre",
+      "#C8C4BC"
+    ],
+    [
+      "Pink Sienna",
+      "#A06040"
+    ],
+    [
+      "Mocha Minded",
+      "#6B4A38"
+    ],
+    [
+      "Everyone's Darling",
+      "#C8C4BC"
+    ],
+    [
+      "Persuade",
+      "#C8C4BC"
+    ],
+    [
+      "Dance in the Dark",
+      "#C8C4BC"
+    ],
+    [
+      "Carbon",
+      "#C8C4BC"
+    ]
+  ],
+  "Amber Times Nine": [
+    [
+      "Cozy Grey",
+      "#8A8880"
+    ],
+    [
+      "Kitties",
+      "#C8C4BC"
+    ],
+    [
+      "Georgia Peach",
+      "#E8A070"
+    ],
+    [
+      "Ricepaper",
+      "#C8C4BC"
+    ],
+    [
+      "Creative Copper",
+      "#B8733A"
+    ],
+    [
+      "Cork",
+      "#8A4A30"
+    ],
+    [
+      "Don't Tell",
+      "#C8C4BC"
+    ],
+    [
+      "Aromatic",
+      "#C8C4BC"
+    ],
+    [
+      "Pepper, Please",
+      "#C8C4BC"
+    ]
+  ],
+  "Burgundy Times Nine": [
+    [
+      "Honey Lust",
+      "#D4A060"
+    ],
+    [
+      "Poppyseed",
+      "#C8C4BC"
+    ],
+    [
+      "Quarry",
+      "#C8C4BC"
+    ],
+    [
+      "Antiqued",
+      "#C8C4BC"
+    ],
+    [
+      "Embark",
+      "#C8C4BC"
+    ],
+    [
+      "#Noir",
+      "#C8C4BC"
+    ],
+    [
+      "Haux",
+      "#C8C4BC"
+    ],
+    [
+      "Star Violet",
+      "#6A3A80"
+    ],
+    [
+      "Sketch",
+      "#C8C4BC"
+    ]
+  ],
+  "Princess Jasmine's Wish (40th Disney Aladdin)": [
+    [
+      "No Ordinary Lamp",
+      "#C8C4BC"
+    ],
+    [
+      "Creative Copper",
+      "#B8733A"
+    ],
+    [
+      "Agrabah",
+      "#C8C4BC"
+    ],
+    [
+      "Riffraff",
+      "#C8C4BC"
+    ],
+    [
+      "Rags to Riches",
+      "#C8C4BC"
+    ],
+    [
+      "Live the Genie Life",
+      "#C8C4BC"
+    ],
+    [
+      "Princess Jasmine",
+      "#C8C4BC"
+    ],
+    [
+      "Abu!",
+      "#C8C4BC"
+    ],
+    [
+      "Shadowy Lady",
+      "#C8C4BC"
+    ]
+  ],
+  "Smoky Metallic Times Nine": [
+    [
+      "Simple Sensation",
+      "#C8C4BC"
+    ],
+    [
+      "Give Me Fire",
+      "#C8C4BC"
+    ],
+    [
+      "Black Factor",
+      "#1A1613"
+    ],
+    [
+      "Filament",
+      "#C8C4BC"
+    ],
+    [
+      "Spice Bar",
+      "#8A4A30"
+    ],
+    [
+      "Carbon",
+      "#C8C4BC"
+    ],
+    [
+      "By The Silver Moon",
+      "#A8A8B0"
+    ],
+    [
+      "Richy-Rich",
+      "#C8C4BC"
+    ],
+    [
+      "Petrol",
+      "#C8C4BC"
+    ]
+  ],
+  "Lunar Illusions Collection": [
+    [
+      "Honey Lust",
+      "#D4A060"
+    ],
+    [
+      "Expensive Pink",
+      "#E88A9A"
+    ],
+    [
+      "Soft Brown",
+      "#5C3A28"
+    ],
+    [
+      "Cranberry",
+      "#C8C4BC"
+    ],
+    [
+      "Phloof!",
+      "#C8C4BC"
+    ],
+    [
+      "Girlie",
+      "#C8C4BC"
+    ],
+    [
+      "Omega",
+      "#C8C4BC"
+    ],
+    [
+      "Tilt",
+      "#C8C4BC"
+    ],
+    [
+      "Black Tied",
+      "#1A1613"
+    ]
+  ],
+  "Sea of Plenty (Moon MasterPiece)": [
+    [
+      "Superior Sound",
+      "#C8C4BC"
+    ],
+    [
+      "Create Your Own Luck",
+      "#C8C4BC"
+    ],
+    [
+      "What's Your Number",
+      "#C8C4BC"
+    ],
+    [
+      "You're In Luxe",
+      "#C8C4BC"
+    ],
+    [
+      "Fortune Found",
+      "#C8C4BC"
+    ],
+    [
+      "Omega",
+      "#C8C4BC"
+    ],
+    [
+      "Free Spirit",
+      "#C8C4BC"
+    ],
+    [
+      "Sea Of Plenty",
+      "#C8C4BC"
+    ],
+    [
+      "Stroke Of Fortune",
+      "#C8C4BC"
+    ]
+  ],
+  "Age Ain't Nothing (Aaliyah)": [
+    [
+      "Creative Copper",
+      "#B8733A"
+    ],
+    [
+      "That Somebody",
+      "#C8C4BC"
+    ],
+    [
+      "Princess of Soul",
+      "#C8C4BC"
+    ],
+    [
+      "Gingersnap",
+      "#C8C4BC"
+    ],
+    [
+      "Deception",
+      "#C8C4BC"
+    ],
+    [
+      "Dance in the Dark",
+      "#C8C4BC"
+    ],
+    [
+      "Lovesmoke",
+      "#C8C4BC"
+    ],
+    [
+      "Magic Moor",
+      "#C8C4BC"
+    ],
+    [
+      "Care 4 You",
+      "#C8C4BC"
+    ]
+  ],
+  "Semi-Sweet Times Nine (new in box)": [
+    [
+      "Drawing a Blanc",
+      "#C8C4BC"
+    ],
+    [
+      "Bamboo",
+      "#C8C4BC"
+    ],
+    [
+      "Outre",
+      "#C8C4BC"
+    ],
+    [
+      "Pink Sienna",
+      "#A06040"
+    ],
+    [
+      "Mocha Minded",
+      "#6B4A38"
+    ],
+    [
+      "Everyone's Darling",
+      "#C8C4BC"
+    ],
+    [
+      "Persuade",
+      "#C8C4BC"
+    ],
+    [
+      "Dance in the Dark",
+      "#C8C4BC"
+    ],
+    [
+      "Carbon",
+      "#C8C4BC"
+    ]
+  ],
+  "All the Riches": [
+    [
+      "Dancing With Diamonds",
+      "#C8C4BC"
+    ],
+    [
+      "Cash Or Credit?",
+      "#C8C4BC"
+    ],
+    [
+      "Plummage 2.0",
+      "#C8C4BC"
+    ],
+    [
+      "Coppertunities",
+      "#C8C4BC"
+    ],
+    [
+      "Terry Gold",
+      "#C9A030"
+    ],
+    [
+      "Keep The Change",
+      "#C8C4BC"
+    ]
+  ],
+  "Minimalist (new, unboxed) Shooting Star Edition": [
+    [
+      "Deco",
+      "#C8C4BC"
+    ],
+    [
+      "Vanilla",
+      "#E8D8C0"
+    ],
+    [
+      "Nude",
+      "#C9A090"
+    ],
+    [
+      "Cinnamon",
+      "#A06840"
+    ],
+    [
+      "Java",
+      "#3A2418"
+    ],
+    [
+      "Hang",
+      "#C8C4BC"
+    ],
+    [
+      "Platinum",
+      "#C8C4BC"
+    ],
+    [
+      "Cruise",
+      "#C8C4BC"
+    ]
+  ],
+  "Prism": [
+    [
+      "Rising Sign",
+      "#C8C4BC"
+    ],
+    [
+      "Gal Palace",
+      "#C8C4BC"
+    ],
+    [
+      "Astro Not",
+      "#C8C4BC"
+    ],
+    [
+      "Gimme Space",
+      "#C8C4BC"
+    ],
+    [
+      "Prism Break",
+      "#C8C4BC"
+    ],
+    [
+      "Rocket Star",
+      "#C8C4BC"
+    ],
+    [
+      "Bratmosphere",
+      "#C8C4BC"
+    ],
+    [
+      "Tarot-fy",
+      "#C8C4BC"
+    ]
+  ],
+  "Metallic": [
+    [
+      "Inside Scoop",
+      "#C8C4BC"
+    ],
+    [
+      "Straight Up",
+      "#C8C4BC"
+    ],
+    [
+      "Let's Rage",
+      "#C8C4BC"
+    ],
+    [
+      "Liquid Fire",
+      "#C8C4BC"
+    ],
+    [
+      "Party Time",
+      "#C8C4BC"
+    ],
+    [
+      "Booty Call",
+      "#C8C4BC"
+    ],
+    [
+      "Rock Candy",
+      "#C8C4BC"
+    ],
+    [
+      "Metal Work",
+      "#C8C4BC"
+    ]
+  ],
+  "Pinks + Palms": [
+    [
+      "Borrowed Bling",
+      "#C8C4BC"
+    ],
+    [
+      "72 & Sunny",
+      "#C8C4BC"
+    ],
+    [
+      "Froyo",
+      "#C8C4BC"
+    ],
+    [
+      "Flamingo Pink",
+      "#E88A9A"
+    ],
+    [
+      "Wtfuschia",
+      "#C8C4BC"
+    ],
+    [
+      "Party Pants",
+      "#C8C4BC"
+    ],
+    [
+      "Melon Baller",
+      "#C8C4BC"
+    ],
+    [
+      "Palm Print",
+      "#C8C4BC"
+    ]
+  ],
+  "SoftLight": [
+    [
+      "Keeper",
+      "#C8C4BC"
+    ],
+    [
+      "Spectacle",
+      "#C8C4BC"
+    ],
+    [
+      "Starlight",
+      "#C8C4BC"
+    ],
+    [
+      "Fresh Take",
+      "#C8C4BC"
+    ],
+    [
+      "Cascade",
+      "#C8C4BC"
+    ],
+    [
+      "Aglow",
+      "#C8C4BC"
+    ],
+    [
+      "Well, Hello",
+      "#C8C4BC"
+    ],
+    [
+      "Beach House",
+      "#C8C4BC"
+    ]
+  ],
+  "Smoky": [
+    [
+      "Feature",
+      "#C8C4BC"
+    ],
+    [
+      "Instinct",
+      "#C8C4BC"
+    ],
+    [
+      "Headline",
+      "#C8C4BC"
+    ],
+    [
+      "Hell Ya",
+      "#C8C4BC"
+    ],
+    [
+      "Rock Me",
+      "#C8C4BC"
+    ],
+    [
+      "STFU",
+      "#C8C4BC"
+    ],
+    [
+      "Slayer",
+      "#C8C4BC"
+    ],
+    [
+      "Big Night",
+      "#C8C4BC"
+    ]
+  ],
+  "Petal Metal (Vlada Collection)": [
+    [
+      "Fresh Stem",
+      "#C8C4BC"
+    ],
+    [
+      "Opal Rose",
+      "#D07088"
+    ],
+    [
+      "Nude Rose",
+      "#D07088"
+    ],
+    [
+      "Rose Quartz",
+      "#D07088"
+    ],
+    [
+      "Floral Support",
+      "#C8C4BC"
+    ],
+    [
+      "Rose Rocked",
+      "#D07088"
+    ],
+    [
+      "XO, Vlada",
+      "#C8C4BC"
+    ],
+    [
+      "Coffee Blossom",
+      "#4A3020"
+    ]
+  ],
+  "Minimalist": [
+    [
+      "Deco",
+      "#C8C4BC"
+    ],
+    [
+      "Vanilla",
+      "#E8D8C0"
+    ],
+    [
+      "Nude",
+      "#C9A090"
+    ],
+    [
+      "Cinnamon",
+      "#A06840"
+    ],
+    [
+      "Java",
+      "#3A2418"
+    ],
+    [
+      "Hang",
+      "#C8C4BC"
+    ],
+    [
+      "Platinum",
+      "#C8C4BC"
+    ],
+    [
+      "Cruise",
+      "#C8C4BC"
+    ]
+  ],
+  "Petal Metal": [
+    [
+      "Fresh Stem",
+      "#C8C4BC"
+    ],
+    [
+      "Opal Rose",
+      "#D07088"
+    ],
+    [
+      "Nude Rose",
+      "#D07088"
+    ],
+    [
+      "Rose Quartz",
+      "#D07088"
+    ],
+    [
+      "Floral Support",
+      "#C8C4BC"
+    ],
+    [
+      "Rose Rocked",
+      "#D07088"
+    ],
+    [
+      "XO, Vlada",
+      "#C8C4BC"
+    ],
+    [
+      "Coffee Blossom",
+      "#4A3020"
+    ]
+  ],
+  "Punked": [
+    [
+      "Headliner",
+      "#C8C4BC"
+    ],
+    [
+      "Punked",
+      "#C8C4BC"
+    ],
+    [
+      "Anarkissed",
+      "#C8C4BC"
+    ],
+    [
+      "Soft Punch",
+      "#C8C4BC"
+    ],
+    [
+      "Destroyer",
+      "#C8C4BC"
+    ],
+    [
+      "Studded",
+      "#C8C4BC"
+    ],
+    [
+      "Riot Girl",
+      "#C8C4BC"
+    ],
+    [
+      "Combat Boots",
+      "#C8C4BC"
+    ]
+  ],
+  "Ablaze": [
+    [
+      "Relaxed",
+      "#C8C4BC"
+    ],
+    [
+      "Moccasin",
+      "#C8C4BC"
+    ],
+    [
+      "Siesta",
+      "#C8C4BC"
+    ],
+    [
+      "Nirvana",
+      "#C8C4BC"
+    ],
+    [
+      "Delirious",
+      "#C8C4BC"
+    ],
+    [
+      "Torch",
+      "#C8C4BC"
+    ],
+    [
+      "Throwback",
+      "#C8C4BC"
+    ],
+    [
+      "Darkhorse",
+      "#C8C4BC"
+    ]
+  ],
+  "Golden Hour": [
+    [
+      "Dope",
+      "#C8C4BC"
+    ],
+    [
+      "Hero",
+      "#C8C4BC"
+    ],
+    [
+      "Lights",
+      "#C8C4BC"
+    ],
+    [
+      "Hotline",
+      "#C8C4BC"
+    ],
+    [
+      "Turned On",
+      "#C8C4BC"
+    ],
+    [
+      "Psyched",
+      "#C8C4BC"
+    ],
+    [
+      "Rock Stars",
+      "#C8C4BC"
+    ],
+    [
+      "Stare",
+      "#C8C4BC"
+    ]
+  ],
+  "Matte": [
+    [
+      "Preview",
+      "#C8C4BC"
+    ],
+    [
+      "Assistant",
+      "#C8C4BC"
+    ],
+    [
+      "Werk It",
+      "#C8C4BC"
+    ],
+    [
+      "Publisher",
+      "#C8C4BC"
+    ],
+    [
+      "Angles",
+      "#C8C4BC"
+    ],
+    [
+      "Supermodel",
+      "#C8C4BC"
+    ],
+    [
+      "Editor",
+      "#C8C4BC"
+    ],
+    [
+      "Deadline",
+      "#C8C4BC"
+    ]
+  ],
+  "Light": [
+    [
+      "Soft Focus",
+      "#C8C4BC"
+    ],
+    [
+      "Glow",
+      "#C8C4BC"
+    ],
+    [
+      "Dazzle",
+      "#C8C4BC"
+    ]
+  ],
+  "Medium": [
+    [
+      "Soft Focus",
+      "#C8C4BC"
+    ],
+    [
+      "Glow",
+      "#C8C4BC"
+    ],
+    [
+      "Dazzle",
+      "#C8C4BC"
+    ]
+  ],
+  "Deep": [
+    [
+      "Soft Focus",
+      "#C8C4BC"
+    ],
+    [
+      "Glow",
+      "#C8C4BC"
+    ],
+    [
+      "Dazzle",
+      "#C8C4BC"
+    ]
+  ],
+  "Gold Griot": [
+    [
+      "Enigma",
+      "#C8C4BC"
+    ],
+    [
+      "Levitation",
+      "#C8C4BC"
+    ],
+    [
+      "Not for Sale",
+      "#C8C4BC"
+    ],
+    [
+      "Suckerpunch",
+      "#C8C4BC"
+    ],
+    [
+      "Influence",
+      "#C8C4BC"
+    ],
+    [
+      "BK",
+      "#C8C4BC"
+    ],
+    [
+      "Pseudonym",
+      "#C8C4BC"
+    ],
+    [
+      "Crown",
+      "#C8C4BC"
+    ]
+  ],
+  "Tenant": [
+    [
+      "Studio",
+      "#C8C4BC"
+    ],
+    [
+      "1960",
+      "#C8C4BC"
+    ],
+    [
+      "Neo",
+      "#C8C4BC"
+    ],
+    [
+      "Les",
+      "#C8C4BC"
+    ],
+    [
+      "Graffiti",
+      "#C8C4BC"
+    ],
+    [
+      "Exu",
+      "#C8C4BC"
+    ],
+    [
+      "Boom",
+      "#C8C4BC"
+    ],
+    [
+      "Untitled",
+      "#C8C4BC"
+    ]
+  ]
+};
+            var byName = {};
+            function norm(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+            Object.keys(sets).forEach(function (k) { byName[norm(k)] = sets[k]; });
+            function brush(hex) {
+              return '<span class="swatch-brush-inline" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="72" height="29" focusable="false"><path fill="' + hex + '" d="M6 34c3-12 14-24 32-26 12-1 22 4 32 10 8 5 16 8 26 6 12-2 22-9 34-10 8-1 16 3 18 10 1 5-3 10-11 12-14 4-28 2-41 6-10 3-18 9-29 10-14 2-26-3-34-12-5-6-8-12-5-16 2-3 5-4 9-4z"/><path fill="' + hex + '" opacity=".55" d="M22 26c8-7 20-11 32-8 10 2 17 7 27 5 12-2 22-7 34-5 7 1 11 5 9 9-2 5-8 7-16 8-14 2-27-1-40 3-9 3-17 7-26 5-8-1-14-6-16-12-1-3 1-5 4-5z"/><path fill="' + hex + '" opacity=".35" d="M40 18c6-3 14-4 20-1 4 2 7 4 12 3 6-1 10-3 15-2 3 0 5 2 4 4-1 2-4 3-8 3-7 1-13 0-19 2-5 1-9 3-14 2-4 0-7-2-8-5 0-2 1-4 2-6z"/></svg></span>';
+            }
+            function labelOf(btn) {
+              var t = (btn.textContent || '').replace(/\s+/g, ' ').trim();
+              t = t.replace(/Sold out/ig, '').trim();
+              return t;
+            }
+            function paint(name) {
+              var shades = byName[norm(name)];
+              if (!shades || !shades.length) {
+                row.innerHTML = '';
+                if (kicker) kicker.style.display = 'none';
+                return;
+              }
+              if (kicker) kicker.style.display = '';
+              row.innerHTML = shades.map(function (pair) {
+                return '<div class="swatch swatch--brush" aria-hidden="true">' + brush(pair[1]) + '<span class="swatch-label">' + pair[0] + '</span></div>';
+              }).join('');
+            }
+            function currentBtn() {
+              return document.querySelector('.option-grid .swatch.is-active');
+            }
+            var startBtn = currentBtn();
+            paint(startBtn ? labelOf(startBtn) : (row.getAttribute('data-active') || ''));
+            document.addEventListener('click', function (e) {
+              var btn = e.target.closest && e.target.closest('.option-grid .swatch');
+              if (!btn || btn.closest('#sb-inner-shade-row')) return;
+              paint(labelOf(btn));
+            });
+          })();
+        </script>
       {% endif %}
+      <p class="kicker" id="sb-sku-line" style="margin-top:1rem;{% if current.sku == blank %}display:none{% endif %}">SKU <span id="sb-sku">{{ current.sku }}</span><span id="sb-upc-wrap"{% if current.barcode == blank %} style="display:none"{% endif %}> · UPC <span id="sb-upc">{{ current.barcode }}</span></span></p>
+      <script>
+        (function () {
+          var line = document.getElementById('sb-sku-line');
+          var skuEl = document.getElementById('sb-sku');
+          var upcEl = document.getElementById('sb-upc');
+          var upcWrap = document.getElementById('sb-upc-wrap');
+          if (!line || !skuEl) return;
+          function apply(btn) {
+            var sku = btn.getAttribute('data-sku') || '';
+            var upc = btn.getAttribute('data-barcode') || '';
+            skuEl.textContent = sku;
+            if (upcEl) upcEl.textContent = upc;
+            if (upcWrap) upcWrap.style.display = upc ? '' : 'none';
+            line.style.display = sku ? '' : 'none';
+          }
+          document.addEventListener('click', function (e) {
+            var btn = e.target.closest && e.target.closest('button.swatch');
+            if (!btn) return;
+            apply(btn);
+          });
+        })();
+      </script>
       <div class="pdp-actions">
         <input class="qty" type="number" name="quantity" value="1" min="1">
         <button class="btn btn--lg" type="submit"{% unless current.available %} disabled{% endunless %}>
