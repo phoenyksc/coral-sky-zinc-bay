@@ -7,9 +7,12 @@
   NO Shopify media upload required for brush swatches.
 {% endcomment %}
 <div class="page-width pdp">
-  <div class="pdp-media">
+  <div class="pdp-media"{% if product.handle == 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %} style="position:relative"{% endif %}>
     {% if product.featured_image %}
       {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.title, loading: 'eager' }}
+    {% endif %}
+    {% if product.handle == 'estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60' %}
+      <p style="position:absolute;left:12px;right:12px;bottom:8px;margin:0;padding:0;background:transparent;color:rgba(90,84,76,.62);font-family:system-ui,sans-serif;font-size:10px;font-weight:400;line-height:1.3;text-align:center;letter-spacing:.01em">stock photo and may not accurately represent product received</p>
     {% endif %}
   </div>
   <div>
@@ -1786,6 +1789,7 @@
                 data-variant-id="{{ variant.id }}"
                 data-available="{% if sold_out %}false{% else %}true{% endif %}"
                 data-price="{{ variant.price | money }}"
+                {% if sb_inner_shades %}data-sku="{{ variant.sku | escape }}"{% endif %}
                 {% if variant.compare_at_price > variant.price %}data-compare="{{ variant.compare_at_price | money }}"{% endif %}
                 {% if is_color_opt %}data-hex="{{ chip_hex }}" aria-label="{{ shade_label }}"{% endif %}
                 {% if sold_out %}aria-disabled="true" disabled{% endif %}
@@ -1807,6 +1811,8 @@
             {% endfor %}
           </div>
           {% if sb_inner_shades %}
+            <p class="kicker" style="margin-top:1rem">SKU</p>
+            <p id="sb-eq-sku" style="margin:0 0 .25rem;font-family:system-ui,sans-serif;font-size:14px">{{ current.sku }}</p>
             <p class="kicker" style="margin-top:1rem">Shades in this palette</p>
             <div class="option-grid option-grid--brush" id="sb-inner-shade-row" data-active="{{ current.title | escape }}"></div>
             <script>
@@ -1835,22 +1841,24 @@
                   t = t.replace(/Sold out/ig, '').trim();
                   return t;
                 }
-                function paint(name) {
+                function paint(name, sku) {
+                  var skuEl = document.getElementById('sb-eq-sku');
+                  if (skuEl && sku) skuEl.textContent = sku;
                   var shades = sets[name];
                   if (!shades) { row.innerHTML = ''; return; }
                   row.innerHTML = shades.map(function (pair) {
                     return '<div class="swatch swatch--brush" aria-hidden="true">' + brush(pair[1]) + '<span class="swatch-label">' + pair[0] + '</span></div>';
                   }).join('');
                 }
-                function currentName() {
-                  var active = document.querySelector('.option-grid .swatch.is-active');
-                  return active ? labelOf(active) : (row.getAttribute('data-active') || '');
+                function currentBtn() {
+                  return document.querySelector('.option-grid .swatch.is-active');
                 }
-                paint(currentName());
+                var startBtn = currentBtn();
+                paint(startBtn ? labelOf(startBtn) : (row.getAttribute('data-active') || ''), startBtn ? startBtn.getAttribute('data-sku') : '');
                 document.addEventListener('click', function (e) {
                   var btn = e.target.closest && e.target.closest('.option-grid .swatch');
                   if (!btn || btn.closest('#sb-inner-shade-row')) return;
-                  paint(labelOf(btn));
+                  paint(labelOf(btn), btn.getAttribute('data-sku') || '');
                 });
               })();
             </script>
