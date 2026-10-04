@@ -75,9 +75,11 @@
 {% if sb_hay contains ' brush ' or sb_hay contains ' brushes ' or sb_hay contains ' tweezer ' or sb_hay contains ' tweezers ' or sb_hay contains ' lash ' or sb_hay contains ' lashes ' or sb_hay contains ' eyelash ' or sb_hay contains ' eyelashes ' or sb_hay contains ' fragrance ' or sb_hay contains ' perfume ' or sb_hay contains ' serum ' or sb_hay contains ' serums ' or sb_hay contains ' lotion ' or sb_hay contains ' lotions ' or sb_hay contains ' shampoo ' or sb_hay contains ' shampoos ' or sb_hay contains ' conditioner ' or sb_hay contains ' conditioners ' or sb_hay contains ' tool ' or sb_hay contains ' tools ' or sb_hay contains ' case ' or sb_hay contains ' cases ' or sb_hay contains ' bag ' or sb_hay contains ' bags ' %}
   {% assign sb_no_brush = true %}
 {% endif %}
+{% capture sb_disc_hay %} {{ product.title }} {% endcapture %}
+{% assign sb_disc_hay = sb_disc_hay | downcase | replace: '-', ' ' | replace: '/', ' ' | replace: ',', ' ' | replace: '.', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '&', ' ' | replace: ':', ' ' %}
 {% assign sb_disclaimer = false %}
 {% assign sb_disc_skip = false %}
-{% if sb_hay contains ' cream ' or sb_hay contains ' creams ' or sb_hay contains ' brush ' or sb_hay contains ' brushes ' or sb_hay contains ' tweezer ' or sb_hay contains ' tweezers ' or sb_hay contains ' tool ' or sb_hay contains ' tools ' or sb_hay contains ' case ' or sb_hay contains ' cases ' or sb_hay contains ' fragrance ' or sb_hay contains ' perfume ' or sb_hay contains ' serum ' or sb_hay contains ' serums ' or sb_hay contains ' lotion ' or sb_hay contains ' lotions ' or sb_hay contains ' shampoo ' or sb_hay contains ' shampoos ' or sb_hay contains ' conditioner ' or sb_hay contains ' conditioners ' %}
+{% if sb_disc_hay contains ' cream ' or sb_disc_hay contains ' creams ' or sb_disc_hay contains ' brush ' or sb_disc_hay contains ' brushes ' or sb_disc_hay contains ' tweezer ' or sb_disc_hay contains ' tweezers ' or sb_disc_hay contains ' tool ' or sb_disc_hay contains ' tools ' or sb_disc_hay contains ' case ' or sb_disc_hay contains ' cases ' or sb_disc_hay contains ' fragrance ' or sb_disc_hay contains ' perfume ' or sb_disc_hay contains ' serum ' or sb_disc_hay contains ' serums ' or sb_disc_hay contains ' lotion ' or sb_disc_hay contains ' lotions ' or sb_disc_hay contains ' shampoo ' or sb_disc_hay contains ' shampoos ' or sb_disc_hay contains ' conditioner ' or sb_disc_hay contains ' conditioners ' %}
   {% assign sb_disc_skip = true %}
 {% endif %}
 {% if sb_palette %}
