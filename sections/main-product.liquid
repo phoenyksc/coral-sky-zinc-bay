@@ -86,9 +86,11 @@
   {% for option in product.options_with_values %}
     {% assign sb_on = option.name | downcase %}
     {% if sb_on == 'color' or sb_on == 'colour' or sb_on == 'shade' or sb_on == 'product color' or sb_on contains 'color' or sb_on contains 'colour' or sb_on contains 'shade' %}
-      {% if option.values.size > 1 %}
-        {% assign sb_disclaimer = true %}
-      {% endif %}
+      {% for sb_val in option.values %}
+        {% unless sb_val == 'Default Title' %}
+          {% assign sb_disclaimer = true %}
+        {% endunless %}
+      {% endfor %}
     {% endif %}
   {% endfor %}
 {% endif %}
