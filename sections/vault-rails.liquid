@@ -2,8 +2,8 @@
   Vault rails — homepage product carousels with first-scroll dedupe.
   One section owns all four rails so `seen_ids` can span popular → rare → low → beauty-sets.
   First `visible_limit` cards per rail skip any product id already shown in an earlier rail.
-  MIXED inventory (Dru 2026-09-17): do NOT exclude sold-out — show OOS sprinkled with in-stock.
-  Prefer products with featured_media; fill without-media only if still short.
+  Dru 2026-10-05: do NOT feature sold-out on homepage rails — skip unavailable products.
+  Sold-out stay on site and collection pages. Prefer featured_media; fill without-media only if still short.
 {% endcomment %}
 
 {% assign seen_ids = ',' %}
@@ -57,9 +57,10 @@
           {% assign rail_shown = 0 %}
           {% assign rail_ids = ',' %}
 
-          {% comment %} Pass 1 — media, cross-rail unique; mixed availability (incl sold-out) {% endcomment %}
+          {% comment %} Pass 1 — media, cross-rail unique; in-stock only {% endcomment %}
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
+            {% unless product.available %}{% continue %}{% endunless %}
             {% unless product.featured_media %}{% continue %}{% endunless %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if seen_ids contains id_token %}{% continue %}{% endif %}
@@ -107,9 +108,10 @@
             {% assign rail_shown = rail_shown | plus: 1 %}
           {% endfor %}
 
-          {% comment %} Pass 2 — no-media fill (mixed availability) {% endcomment %}
+          {% comment %} Pass 2 — no-media fill (in-stock only) {% endcomment %}
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
+            {% unless product.available %}{% continue %}{% endunless %}
             {% if product.featured_media %}{% continue %}{% endif %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if seen_ids contains id_token %}{% continue %}{% endif %}
@@ -143,9 +145,10 @@
           {% endfor %}
 
 
-          {% comment %} Pass 3 — overflow: media first, mixed availability {% endcomment %}
+          {% comment %} Pass 3 — overflow: media first, in-stock only {% endcomment %}
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= products_per_rail %}{% break %}{% endif %}
+            {% unless product.available %}{% continue %}{% endunless %}
             {% unless product.featured_media %}{% continue %}{% endunless %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if rail_ids contains id_token %}{% continue %}{% endif %}
