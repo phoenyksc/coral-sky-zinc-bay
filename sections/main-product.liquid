@@ -4151,194 +4151,314 @@
 
 {% comment %}
   2026-10-05 Dru: Complete the look = random popular from other categories, exclude current, in-stock only.
-  Candidates: collections.popular (limit 50), fill from collections.all (limit 50).
-  Exclude current product, same product.type (case-insensitive; blank type → same manufacturer),
-  and same custom.manufacturer when current type is Skin care.
+  v2 (p11b): category = normalized, not raw product.type. QA found lipsticks typed 'Tools of the trade' /
+  'Skin care' / 'Face' (and legacy types like 'Lip Color', 'Makeup', 'Fragrance') leaking onto Lips pages.
+  Normalized category (same rules for current product and each candidate), first hit wins:
+    1. title keywords (punctuation -> spaces, word-start matching, ambiguous words need context);
+    2. product.type when it is one of the 8 known values (trimmed, case-insensitive);
+    3. keywords in product.type + tags; else 'other'.
+  Candidates: collections.popular (limit 50), fill from collections.all (limit 50); each product categorized once.
+  Exclude current product, same normalized category, and same custom.manufacturer when the current
+  category is Skin care (or 'other', i.e. unclassifiable).
   Guards: in-stock only, skip blank/<=0/>=99999 price_max, require featured_media.
-  Diversity: at most 2 per other type (round-robin). Render ~12 server-side; client shuffle shows 4.
+  Diversity: at most 2 per category; 1st of every category first (round-robin), then 2nds, up to 12 rendered;
+  client shuffle shows 4.
 {% endcomment %}
 {% assign ctl_visible = 4 %}
 {% assign ctl_render_cap = 12 %}
 {% assign ctl_per_type_max = 2 %}
-{% assign ctl_current_type = product.type | strip | downcase %}
+{% assign ctl_known_csv = '|lips|eyes|blush|face|skin care|hair and scalp|scent|tools of the trade|' %}
+{% assign ctl_tags_joined = product.tags | join: ' ' %}
+{% assign ctl_ct_cat = '' %}
+{% assign ctl_ct_known = product.type | strip | downcase %}
+{% assign ctl_ct_known_tok = ctl_ct_known | prepend: '|' | append: '|' %}
+{% assign ctl_ct_alt = product.type | append: ' ' | append: ctl_tags_joined %}
+{% for ctl_ct_pass in (1..2) %}
+  {% if ctl_ct_pass == 1 %}
+    {% assign ctl_t = product.title %}
+  {% else %}
+    {% if ctl_ct_known != blank and ctl_known_csv contains ctl_ct_known_tok %}
+      {% assign ctl_ct_cat = ctl_ct_known %}
+      {% break %}
+    {% endif %}
+    {% assign ctl_t = ctl_ct_alt %}
+  {% endif %}
+  {% assign ctl_t = ctl_t | downcase | replace: ',', ' ' | replace: '/', ' ' | replace: '-', ' ' | replace: '&', ' ' | replace: '+', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '.', ' ' | replace: ':', ' ' | replace: '!', ' ' | replace: '"', ' ' | replace: "'", ' ' | replace: '’', ' ' | replace: ';', ' ' | replace: '|', ' ' | replace: '*', ' ' | replace: '#', ' ' | replace: '%', ' ' | replace: '[', ' ' | replace: ']', ' ' | replace: '_', ' ' | prepend: ' ' | append: ' ' | replace: ' lippmann', ' deborah' | replace: ' blushing', ' rosy' | replace: 'fragrance free', ' ' | replace: 'fragrance  free', ' ' %}
+  {% assign ctl_t_last = ctl_t | strip | split: ' ' | last %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' curler' or ctl_t contains ' brush clean' or ctl_t contains ' brush applicator' or ctl_t contains ' brushes' or ctl_t contains ' brush set' %}
+      {% assign ctl_ct_cat = 'tools of the trade' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t_last == 'brush' or ctl_t_last == 'brushes' %}
+      {% unless ctl_t contains ' with ' or ctl_t contains ' w ' or ctl_t contains ' dual ended' or ctl_t contains ' double ended' or ctl_t contains ' duo ended' %}{% assign ctl_ct_cat = 'tools of the trade' %}{% endunless %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' remover' or ctl_t contains ' towelette' or ctl_t contains ' wipes' or ctl_t contains ' lingettes' %}
+      {% unless ctl_t contains ' set ' or ctl_t contains ' kit ' or ctl_t contains 'pc ' %}{% assign ctl_ct_cat = 'skin care' %}{% endunless %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' eau de' or ctl_t contains ' toilette' or ctl_t contains ' cologne' or ctl_t contains ' parfum' or ctl_t contains ' perfume' or ctl_t contains ' fragrance' or ctl_t contains ' edt ' or ctl_t contains ' edp ' or ctl_t contains ' candle' %}
+      {% unless ctl_t contains ' lipstick' or ctl_t contains ' lip color' or ctl_t contains ' lip cream' or ctl_t contains ' scented lip' %}{% assign ctl_ct_cat = 'scent' %}{% endunless %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' lip' %}
+      {% assign ctl_ct_cat = 'lips' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' eyeshadow' or ctl_t contains ' eye shadow' or ctl_t contains ' shadow' or ctl_t contains ' mascara' or ctl_t contains ' brow ' or ctl_t contains ' brows ' or ctl_t contains ' eyebrow' or ctl_t contains ' eyeli' or ctl_t contains ' eye liner' or ctl_t contains ' eye pencil' or ctl_t contains ' kohl' or ctl_t contains ' eye palette' or ctl_t contains ' eye color' or ctl_t contains ' eye colour' or ctl_t contains ' eyecolo' or ctl_t contains ' lash' or ctl_t contains ' eye kit' or ctl_t contains ' eye gloss' or ctl_t contains ' lid ' %}
+      {% assign ctl_ct_cat = 'eyes' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains 'liner' %}
+      {% if ctl_t contains ' eye' or ctl_t contains ' kohl' %}{% assign ctl_ct_cat = 'eyes' %}{% endif %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' blush' or ctl_t contains ' bronzer' or ctl_t contains ' highlight' or ctl_t contains ' cheek' or ctl_t contains ' bronzing powder' or ctl_t contains ' bronzing pressed' or ctl_t contains ' skinfinish' %}
+      {% assign ctl_ct_cat = 'blush' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' quad' %}
+      {% assign ctl_ct_cat = 'eyes' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' shampoo' or ctl_t contains ' conditioner' or ctl_t contains ' hair' or ctl_t contains ' masque' or ctl_t contains ' scalp' or ctl_t contains ' curl ' or ctl_t contains ' pomade' or ctl_t contains ' styler' or ctl_t contains ' surf spray' %}
+      {% assign ctl_ct_cat = 'hair and scalp' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' gloss' %}
+      {% assign ctl_ct_cat = 'lips' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' foundation' or ctl_t contains ' powder' or ctl_t contains ' concealer' or ctl_t contains ' primer' or ctl_t contains ' setting' or ctl_t contains ' corrector' or ctl_t contains ' bb cream' or ctl_t contains ' cc cream' or ctl_t contains ' cushion' or ctl_t contains ' tinted' or ctl_t contains ' complexion' %}
+      {% assign ctl_ct_cat = 'face' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' moistur' or ctl_t contains ' serum' or ctl_t contains ' cream' or ctl_t contains ' cleans' or ctl_t contains ' toner' or ctl_t contains ' mask' or ctl_t contains ' jelly' or ctl_t contains ' lotion' or ctl_t contains ' scrub' or ctl_t contains ' exfoliat' or ctl_t contains ' wash' or ctl_t contains ' essence' or ctl_t contains ' hydrator' or ctl_t contains ' spf' or ctl_t contains ' sunscreen' or ctl_t contains ' treatment' or ctl_t contains ' booster' or ctl_t contains ' balm' or ctl_t contains ' soap' or ctl_t contains ' peel' or ctl_t contains ' self tan' %}
+      {% assign ctl_ct_cat = 'skin care' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat == blank %}
+    {% if ctl_t contains ' brush' or ctl_t contains ' applicator' or ctl_t contains ' tweezer' or ctl_t contains ' sharpener' or ctl_t contains ' sponge' or ctl_t contains ' spatula' %}
+      {% assign ctl_ct_cat = 'tools of the trade' %}
+    {% endif %}
+  {% endif %}
+  {% if ctl_ct_cat != blank %}{% break %}{% endif %}
+{% endfor %}
+{% if ctl_ct_cat == blank %}{% assign ctl_ct_cat = 'other' %}{% endif %}
+{% assign ctl_current_cat = ctl_ct_cat %}
 {% assign ctl_current_mfr_raw = product.metafields.custom.manufacturer.value | default: product.metafields.custom.manufacturer %}
 {% assign ctl_current_mfr = ctl_current_mfr_raw | strip | downcase %}
-{% assign ctl_exclude_mfr_for_skin = false %}
-{% if ctl_current_type == 'skin care' %}
-  {% assign ctl_exclude_mfr_for_skin = true %}
+{% assign ctl_exclude_same_mfr = false %}
+{% if ctl_current_cat == 'skin care' or ctl_current_cat == 'other' %}
+  {% assign ctl_exclude_same_mfr = true %}
 {% endif %}
-{% assign ctl_type_order = 'Lips,Eyes,Blush,Face,Skin care,Hair and scalp,Scent,Tools of the trade,Beauty Set' | split: ',' %}
-{% assign ctl_picked_ids = ',' %}
-{% assign ctl_picked_count = 0 %}
-{% assign ctl_type_tally = '|' %}
 {% assign ctl_sources = 'popular,all' | split: ',' %}
-{% capture ctl_cards %}
-{% for ctl_pass in (1..2) %}
-  {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-  {% for ctl_want in ctl_type_order %}
-    {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-    {% assign ctl_want_down = ctl_want | strip | downcase %}
-    {% if ctl_current_type != blank and ctl_want_down == ctl_current_type %}{% continue %}{% endif %}
-    {% assign ctl_tally_token = ctl_want_down | prepend: '|' | append: ':' %}
+{% assign ctl_seen_ids = ',' %}
+{% assign ctl_r1 = ',' %}
+{% assign ctl_r2 = ',' %}
+{% assign ctl_r1_count = 0 %}
+{% assign ctl_r2_count = 0 %}
+{% assign ctl_type_tally = '|' %}
+{% assign ctl_catmap = '~' %}
+{% for ctl_src in ctl_sources %}
+  {% assign ctl_col = collections[ctl_src] %}
+  {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
+  {% for ctl_product in ctl_col.products limit: 50 %}
+    {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
+    {% if ctl_seen_ids contains ctl_id_token %}{% continue %}{% endif %}
+    {% assign ctl_seen_ids = ctl_seen_ids | append: ctl_product.id | append: ',' %}
+    {% if ctl_product.id == product.id %}{% continue %}{% endif %}
+    {% unless ctl_product.available %}{% continue %}{% endunless %}
+    {% if ctl_product.price_max == blank or ctl_product.price_max <= 0 or ctl_product.price_max >= 99999 %}{% continue %}{% endif %}
+    {% unless ctl_product.featured_media %}{% continue %}{% endunless %}
+    {% if ctl_exclude_same_mfr and ctl_current_mfr != blank %}
+      {% assign ctl_p_mfr_raw = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+      {% assign ctl_p_mfr = ctl_p_mfr_raw | strip | downcase %}
+      {% if ctl_p_mfr == ctl_current_mfr %}{% continue %}{% endif %}
+    {% endif %}
+    {% assign ctl_tags_joined = ctl_product.tags | join: ' ' %}
+    {% assign ctl_ct_cat = '' %}
+    {% assign ctl_ct_known = ctl_product.type | strip | downcase %}
+    {% assign ctl_ct_known_tok = ctl_ct_known | prepend: '|' | append: '|' %}
+    {% assign ctl_ct_alt = ctl_product.type | append: ' ' | append: ctl_tags_joined %}
+    {% for ctl_ct_pass in (1..2) %}
+      {% if ctl_ct_pass == 1 %}
+        {% assign ctl_t = ctl_product.title %}
+      {% else %}
+        {% if ctl_ct_known != blank and ctl_known_csv contains ctl_ct_known_tok %}
+          {% assign ctl_ct_cat = ctl_ct_known %}
+          {% break %}
+        {% endif %}
+        {% assign ctl_t = ctl_ct_alt %}
+      {% endif %}
+      {% assign ctl_t = ctl_t | downcase | replace: ',', ' ' | replace: '/', ' ' | replace: '-', ' ' | replace: '&', ' ' | replace: '+', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '.', ' ' | replace: ':', ' ' | replace: '!', ' ' | replace: '"', ' ' | replace: "'", ' ' | replace: '’', ' ' | replace: ';', ' ' | replace: '|', ' ' | replace: '*', ' ' | replace: '#', ' ' | replace: '%', ' ' | replace: '[', ' ' | replace: ']', ' ' | replace: '_', ' ' | prepend: ' ' | append: ' ' | replace: ' lippmann', ' deborah' | replace: ' blushing', ' rosy' | replace: 'fragrance free', ' ' | replace: 'fragrance  free', ' ' %}
+      {% assign ctl_t_last = ctl_t | strip | split: ' ' | last %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' curler' or ctl_t contains ' brush clean' or ctl_t contains ' brush applicator' or ctl_t contains ' brushes' or ctl_t contains ' brush set' %}
+          {% assign ctl_ct_cat = 'tools of the trade' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t_last == 'brush' or ctl_t_last == 'brushes' %}
+          {% unless ctl_t contains ' with ' or ctl_t contains ' w ' or ctl_t contains ' dual ended' or ctl_t contains ' double ended' or ctl_t contains ' duo ended' %}{% assign ctl_ct_cat = 'tools of the trade' %}{% endunless %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' remover' or ctl_t contains ' towelette' or ctl_t contains ' wipes' or ctl_t contains ' lingettes' %}
+          {% unless ctl_t contains ' set ' or ctl_t contains ' kit ' or ctl_t contains 'pc ' %}{% assign ctl_ct_cat = 'skin care' %}{% endunless %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' eau de' or ctl_t contains ' toilette' or ctl_t contains ' cologne' or ctl_t contains ' parfum' or ctl_t contains ' perfume' or ctl_t contains ' fragrance' or ctl_t contains ' edt ' or ctl_t contains ' edp ' or ctl_t contains ' candle' %}
+          {% unless ctl_t contains ' lipstick' or ctl_t contains ' lip color' or ctl_t contains ' lip cream' or ctl_t contains ' scented lip' %}{% assign ctl_ct_cat = 'scent' %}{% endunless %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' lip' %}
+          {% assign ctl_ct_cat = 'lips' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' eyeshadow' or ctl_t contains ' eye shadow' or ctl_t contains ' shadow' or ctl_t contains ' mascara' or ctl_t contains ' brow ' or ctl_t contains ' brows ' or ctl_t contains ' eyebrow' or ctl_t contains ' eyeli' or ctl_t contains ' eye liner' or ctl_t contains ' eye pencil' or ctl_t contains ' kohl' or ctl_t contains ' eye palette' or ctl_t contains ' eye color' or ctl_t contains ' eye colour' or ctl_t contains ' eyecolo' or ctl_t contains ' lash' or ctl_t contains ' eye kit' or ctl_t contains ' eye gloss' or ctl_t contains ' lid ' %}
+          {% assign ctl_ct_cat = 'eyes' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains 'liner' %}
+          {% if ctl_t contains ' eye' or ctl_t contains ' kohl' %}{% assign ctl_ct_cat = 'eyes' %}{% endif %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' blush' or ctl_t contains ' bronzer' or ctl_t contains ' highlight' or ctl_t contains ' cheek' or ctl_t contains ' bronzing powder' or ctl_t contains ' bronzing pressed' or ctl_t contains ' skinfinish' %}
+          {% assign ctl_ct_cat = 'blush' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' quad' %}
+          {% assign ctl_ct_cat = 'eyes' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' shampoo' or ctl_t contains ' conditioner' or ctl_t contains ' hair' or ctl_t contains ' masque' or ctl_t contains ' scalp' or ctl_t contains ' curl ' or ctl_t contains ' pomade' or ctl_t contains ' styler' or ctl_t contains ' surf spray' %}
+          {% assign ctl_ct_cat = 'hair and scalp' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' gloss' %}
+          {% assign ctl_ct_cat = 'lips' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' foundation' or ctl_t contains ' powder' or ctl_t contains ' concealer' or ctl_t contains ' primer' or ctl_t contains ' setting' or ctl_t contains ' corrector' or ctl_t contains ' bb cream' or ctl_t contains ' cc cream' or ctl_t contains ' cushion' or ctl_t contains ' tinted' or ctl_t contains ' complexion' %}
+          {% assign ctl_ct_cat = 'face' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' moistur' or ctl_t contains ' serum' or ctl_t contains ' cream' or ctl_t contains ' cleans' or ctl_t contains ' toner' or ctl_t contains ' mask' or ctl_t contains ' jelly' or ctl_t contains ' lotion' or ctl_t contains ' scrub' or ctl_t contains ' exfoliat' or ctl_t contains ' wash' or ctl_t contains ' essence' or ctl_t contains ' hydrator' or ctl_t contains ' spf' or ctl_t contains ' sunscreen' or ctl_t contains ' treatment' or ctl_t contains ' booster' or ctl_t contains ' balm' or ctl_t contains ' soap' or ctl_t contains ' peel' or ctl_t contains ' self tan' %}
+          {% assign ctl_ct_cat = 'skin care' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat == blank %}
+        {% if ctl_t contains ' brush' or ctl_t contains ' applicator' or ctl_t contains ' tweezer' or ctl_t contains ' sharpener' or ctl_t contains ' sponge' or ctl_t contains ' spatula' %}
+          {% assign ctl_ct_cat = 'tools of the trade' %}
+        {% endif %}
+      {% endif %}
+      {% if ctl_ct_cat != blank %}{% break %}{% endif %}
+    {% endfor %}
+    {% if ctl_ct_cat == blank %}{% assign ctl_ct_cat = 'other' %}{% endif %}
+    {% if ctl_ct_cat == ctl_current_cat %}{% continue %}{% endif %}
+    {% assign ctl_tally_token = ctl_ct_cat | prepend: '|' | append: ':' %}
     {% assign ctl_type_count = 0 %}
     {% if ctl_type_tally contains ctl_tally_token %}
       {% assign ctl_after = ctl_type_tally | split: ctl_tally_token | last %}
       {% assign ctl_type_count = ctl_after | split: '|' | first | plus: 0 %}
     {% endif %}
     {% if ctl_type_count >= ctl_per_type_max %}{% continue %}{% endif %}
-    {% assign ctl_got_one = false %}
-    {% for ctl_src in ctl_sources %}
-      {% if ctl_got_one or ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-      {% assign ctl_col = collections[ctl_src] %}
-      {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
-      {% for ctl_product in ctl_col.products limit: 50 %}
-        {% if ctl_got_one or ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-        {% if ctl_product.id == product.id %}{% continue %}{% endif %}
-        {% unless ctl_product.available %}{% continue %}{% endunless %}
-        {% if ctl_product.price_max == blank or ctl_product.price_max <= 0 or ctl_product.price_max >= 99999 %}{% continue %}{% endif %}
-        {% unless ctl_product.featured_media %}{% continue %}{% endunless %}
-        {% assign ctl_p_type = ctl_product.type | strip | downcase %}
-        {% if ctl_current_type != blank %}
-          {% if ctl_p_type == ctl_current_type %}{% continue %}{% endif %}
-        {% else %}
-          {% assign ctl_p_mfr_raw = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-          {% assign ctl_p_mfr = ctl_p_mfr_raw | strip | downcase %}
-          {% if ctl_current_mfr != blank and ctl_p_mfr == ctl_current_mfr %}{% continue %}{% endif %}
-        {% endif %}
-        {% if ctl_exclude_mfr_for_skin and ctl_current_mfr != blank %}
-          {% assign ctl_p_mfr_raw2 = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-          {% assign ctl_p_mfr2 = ctl_p_mfr_raw2 | strip | downcase %}
-          {% if ctl_p_mfr2 == ctl_current_mfr %}{% continue %}{% endif %}
-        {% endif %}
-        {% if ctl_want_down == 'beauty set' %}
-          {% unless ctl_p_type contains 'beauty set' %}{% continue %}{% endunless %}
-        {% else %}
-          {% if ctl_p_type != ctl_want_down %}{% continue %}{% endif %}
-        {% endif %}
-        {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
-        {% if ctl_picked_ids contains ctl_id_token %}{% continue %}{% endif %}
-        {% assign ctl_href = ctl_product.url %}
-        {% if ctl_href == blank and ctl_product.handle != blank %}
-          {% assign ctl_href = ctl_product.handle | prepend: '/products/' %}
-        {% endif %}
-        <a class="card" href="{{ ctl_href }}"{% if ctl_href == blank %} aria-disabled="true"{% endif %} data-ctl-type="{{ ctl_product.type | escape }}">
-          <div class="card-media">
-            <img
-              src="{{ ctl_product.featured_media | image_url: width: 600 }}"
-              alt="{{ ctl_product.featured_media.alt | default: ctl_product.title | escape }}"
-              loading="lazy"
-              width="600"
-              height="600"
-            >
-          </div>
-          {% assign ctl_mfr = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-          {% if ctl_mfr != blank %}
-            {% assign ctl_m_down = ctl_mfr | downcase %}
-            {% unless ctl_m_down contains 'escentshow' or ctl_m_down contains 'ebay' %}
-              <p class="card-vendor">{{ ctl_mfr }}</p>
-            {% endunless %}
-          {% endif %}
-          <p class="card-title">{{ ctl_product.title }}</p>
-          <p class="card-price">
-            {{ ctl_product.price | money }}
-            {% if ctl_product.compare_at_price > ctl_product.price %}
-              <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
-            {% endif %}
-          </p>
-        </a>
-        {% assign ctl_picked_ids = ctl_picked_ids | append: ctl_product.id | append: ',' %}
-        {% assign ctl_picked_count = ctl_picked_count | plus: 1 %}
-        {% assign ctl_type_count = ctl_type_count | plus: 1 %}
-        {% assign ctl_type_tally = ctl_type_tally | append: ctl_want_down | append: ':' | append: ctl_type_count | append: '|' %}
-        {% assign ctl_got_one = true %}
-      {% endfor %}
-    {% endfor %}
+    {% if ctl_type_count == 0 %}
+      {% assign ctl_r1 = ctl_r1 | append: ctl_product.id | append: ',' %}
+      {% assign ctl_r1_count = ctl_r1_count | plus: 1 %}
+    {% else %}
+      {% assign ctl_r2 = ctl_r2 | append: ctl_product.id | append: ',' %}
+      {% assign ctl_r2_count = ctl_r2_count | plus: 1 %}
+    {% endif %}
+    {% assign ctl_type_count = ctl_type_count | plus: 1 %}
+    {% assign ctl_type_tally = ctl_type_tally | append: ctl_ct_cat | append: ':' | append: ctl_type_count | append: '|' %}
+    {% assign ctl_catmap = ctl_catmap | append: ctl_product.id | append: '=' | append: ctl_ct_cat | append: '~' %}
   {% endfor %}
 {% endfor %}
-{% if ctl_picked_count < ctl_render_cap %}
-  {% for ctl_src in ctl_sources %}
-    {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-    {% assign ctl_col = collections[ctl_src] %}
-    {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
-    {% for ctl_product in ctl_col.products limit: 50 %}
-      {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
-      {% if ctl_product.id == product.id %}{% continue %}{% endif %}
-      {% unless ctl_product.available %}{% continue %}{% endunless %}
-      {% if ctl_product.price_max == blank or ctl_product.price_max <= 0 or ctl_product.price_max >= 99999 %}{% continue %}{% endif %}
-      {% unless ctl_product.featured_media %}{% continue %}{% endunless %}
-      {% assign ctl_p_type = ctl_product.type | strip | downcase %}
-      {% if ctl_current_type != blank %}
-        {% if ctl_p_type == ctl_current_type %}{% continue %}{% endif %}
-      {% else %}
-        {% assign ctl_p_mfr_raw = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-        {% assign ctl_p_mfr = ctl_p_mfr_raw | strip | downcase %}
-        {% if ctl_current_mfr != blank and ctl_p_mfr == ctl_current_mfr %}{% continue %}{% endif %}
+{% comment %} Round-robin: every category's 1st pick, then 2nd picks in popularity order, up to the cap. {% endcomment %}
+{% assign ctl_selected = ctl_r1 %}
+{% assign ctl_picked_count = ctl_r1_count %}
+{% assign ctl_r2_list = ctl_r2 | split: ',' %}
+{% for ctl_r2_id in ctl_r2_list %}
+  {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+  {% if ctl_r2_id == blank %}{% continue %}{% endif %}
+  {% assign ctl_selected = ctl_selected | append: ctl_r2_id | append: ',' %}
+  {% assign ctl_picked_count = ctl_picked_count | plus: 1 %}
+{% endfor %}
+{% assign ctl_rendered_ids = ',' %}
+{% assign ctl_render_count = 0 %}
+{% capture ctl_cards %}
+{% for ctl_src in ctl_sources %}
+  {% if ctl_render_count >= ctl_render_cap %}{% break %}{% endif %}
+  {% assign ctl_col = collections[ctl_src] %}
+  {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
+  {% for ctl_product in ctl_col.products limit: 50 %}
+    {% if ctl_render_count >= ctl_render_cap %}{% break %}{% endif %}
+    {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
+    {% unless ctl_selected contains ctl_id_token %}{% continue %}{% endunless %}
+    {% if ctl_rendered_ids contains ctl_id_token %}{% continue %}{% endif %}
+    {% assign ctl_rendered_ids = ctl_rendered_ids | append: ctl_product.id | append: ',' %}
+    {% assign ctl_render_count = ctl_render_count | plus: 1 %}
+    {% assign ctl_cat_key = ctl_product.id | prepend: '~' | append: '=' %}
+    {% assign ctl_card_cat = ctl_catmap | split: ctl_cat_key | last | split: '~' | first %}
+    {% assign ctl_href = ctl_product.url %}
+    {% if ctl_href == blank and ctl_product.handle != blank %}
+      {% assign ctl_href = ctl_product.handle | prepend: '/products/' %}
+    {% endif %}
+    <a class="card" href="{{ ctl_href }}"{% if ctl_href == blank %} aria-disabled="true"{% endif %} data-ctl-type="{{ ctl_product.type | escape }}" data-ctl-cat="{{ ctl_card_cat | escape }}">
+      <div class="card-media">
+        <img
+          src="{{ ctl_product.featured_media | image_url: width: 600 }}"
+          alt="{{ ctl_product.featured_media.alt | default: ctl_product.title | escape }}"
+          loading="lazy"
+          width="600"
+          height="600"
+        >
+      </div>
+      {% assign ctl_mfr = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+      {% if ctl_mfr != blank %}
+        {% assign ctl_m_down = ctl_mfr | downcase %}
+        {% unless ctl_m_down contains 'escentshow' or ctl_m_down contains 'ebay' %}
+          <p class="card-vendor">{{ ctl_mfr }}</p>
+        {% endunless %}
       {% endif %}
-      {% if ctl_exclude_mfr_for_skin and ctl_current_mfr != blank %}
-        {% assign ctl_p_mfr_raw2 = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-        {% assign ctl_p_mfr2 = ctl_p_mfr_raw2 | strip | downcase %}
-        {% if ctl_p_mfr2 == ctl_current_mfr %}{% continue %}{% endif %}
-      {% endif %}
-      {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
-      {% if ctl_picked_ids contains ctl_id_token %}{% continue %}{% endif %}
-      {% if ctl_p_type != blank %}
-        {% assign ctl_tally_key = ctl_p_type %}
-        {% if ctl_p_type contains 'beauty set' %}
-          {% assign ctl_tally_key = 'beauty set' %}
+      <p class="card-title">{{ ctl_product.title }}</p>
+      <p class="card-price">
+        {{ ctl_product.price | money }}
+        {% if ctl_product.compare_at_price > ctl_product.price %}
+          <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
         {% endif %}
-        {% assign ctl_tally_token = ctl_tally_key | prepend: '|' | append: ':' %}
-        {% assign ctl_type_count = 0 %}
-        {% if ctl_type_tally contains ctl_tally_token %}
-          {% assign ctl_after = ctl_type_tally | split: ctl_tally_token | last %}
-          {% assign ctl_type_count = ctl_after | split: '|' | first | plus: 0 %}
-        {% endif %}
-        {% if ctl_type_count >= ctl_per_type_max %}{% continue %}{% endif %}
-      {% endif %}
-      {% assign ctl_href = ctl_product.url %}
-      {% if ctl_href == blank and ctl_product.handle != blank %}
-        {% assign ctl_href = ctl_product.handle | prepend: '/products/' %}
-      {% endif %}
-      <a class="card" href="{{ ctl_href }}"{% if ctl_href == blank %} aria-disabled="true"{% endif %} data-ctl-type="{{ ctl_product.type | escape }}">
-        <div class="card-media">
-          <img
-            src="{{ ctl_product.featured_media | image_url: width: 600 }}"
-            alt="{{ ctl_product.featured_media.alt | default: ctl_product.title | escape }}"
-            loading="lazy"
-            width="600"
-            height="600"
-          >
-        </div>
-        {% assign ctl_mfr = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
-        {% if ctl_mfr != blank %}
-          {% assign ctl_m_down = ctl_mfr | downcase %}
-          {% unless ctl_m_down contains 'escentshow' or ctl_m_down contains 'ebay' %}
-            <p class="card-vendor">{{ ctl_mfr }}</p>
-          {% endunless %}
-        {% endif %}
-        <p class="card-title">{{ ctl_product.title }}</p>
-        <p class="card-price">
-          {{ ctl_product.price | money }}
-          {% if ctl_product.compare_at_price > ctl_product.price %}
-            <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
-          {% endif %}
-        </p>
-      </a>
-      {% assign ctl_picked_ids = ctl_picked_ids | append: ctl_product.id | append: ',' %}
-      {% assign ctl_picked_count = ctl_picked_count | plus: 1 %}
-      {% if ctl_p_type != blank %}
-        {% assign ctl_tally_key = ctl_p_type %}
-        {% if ctl_p_type contains 'beauty set' %}
-          {% assign ctl_tally_key = 'beauty set' %}
-        {% endif %}
-        {% assign ctl_type_count = ctl_type_count | plus: 1 %}
-        {% assign ctl_type_tally = ctl_type_tally | append: ctl_tally_key | append: ':' | append: ctl_type_count | append: '|' %}
-      {% endif %}
-    {% endfor %}
+      </p>
+    </a>
   {% endfor %}
-{% endif %}
+{% endfor %}
 {% endcapture %}
 {% assign ctl_cards_stripped = ctl_cards | strip %}
-{% if ctl_cards_stripped != blank and ctl_picked_count > 0 %}
+{% if ctl_cards_stripped != blank and ctl_render_count > 0 %}
 <section class="section sb-complete-the-look" id="CompleteTheLook" data-sb-complete-the-look>
   <div class="page-width">
     <div class="section-head">
