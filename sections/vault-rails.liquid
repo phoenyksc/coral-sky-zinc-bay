@@ -6,6 +6,7 @@
   Sold-out stay on site and collection pages. Prefer featured_media; fill without-media only if still short.
   Beauty Sets rail: skip audited misfiled singles (denylist) unless product.type contains Beauty Set.
   Dru/Eve 2026-10-05: Discover full wrapping grid after Beauty Sets (randomized in-stock, not a rail).
+  2026-10-05 Inventory: skip $999.99 placeholder and blank/zero prices (price_max >= 99999 cents or <= 0) in all rails + Discover.
   YSL Signature Strobing Sculpt (KEEP_SET) removed from sb_bs_block denylist.
 {% endcomment %}
 
@@ -64,6 +65,7 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if product.price_max == blank or product.price_max <= 0 or product.price_max >= 99999 %}{% continue %}{% endif %}
             {% if handle == 'beauty-sets' %}
               {% assign sb_bs_ty = product.type | downcase %}
               {% unless sb_bs_ty contains 'beauty set' %}
@@ -123,6 +125,7 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if product.price_max == blank or product.price_max <= 0 or product.price_max >= 99999 %}{% continue %}{% endif %}
             {% if handle == 'beauty-sets' %}
               {% assign sb_bs_ty = product.type | downcase %}
               {% unless sb_bs_ty contains 'beauty set' %}
@@ -168,6 +171,7 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= products_per_rail %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if product.price_max == blank or product.price_max <= 0 or product.price_max >= 99999 %}{% continue %}{% endif %}
             {% if handle == 'beauty-sets' %}
               {% assign sb_bs_ty = product.type | downcase %}
               {% unless sb_bs_ty contains 'beauty set' %}
@@ -262,6 +266,7 @@
           {% for product in dcol.products limit: 50 %}
             {% if discover_shown >= discover_cap %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if product.price_max == blank or product.price_max <= 0 or product.price_max >= 99999 %}{% continue %}{% endif %}
             {% unless product.featured_media %}{% continue %}{% endunless %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if seen_ids contains id_token %}{% continue %}{% endif %}
