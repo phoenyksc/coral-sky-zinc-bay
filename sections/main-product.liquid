@@ -14,6 +14,7 @@
   Null/invalid hex = name-only outline stroke (never guessed from the sb-hex map).
   Generic single "Shade" chip hidden when the product has a non-empty shade_list.
   2026-10-05 Dru: in-stock options first, sold-out below (auto by availability).
+  2026-10-05 Dru: Complete the look = random popular from other categories, exclude current, in-stock only.
 {% endcomment %}
 {% assign sb_palette = false %}
 {% assign sb_eq = false %}
@@ -4147,6 +4148,240 @@
     <div class="rte">{{ pdp_desc }}</div>
   </div>
 </div>
+
+{% comment %}
+  2026-10-05 Dru: Complete the look = random popular from other categories, exclude current, in-stock only.
+  Candidates: collections.popular (limit 50), fill from collections.all (limit 50).
+  Exclude current product, same product.type (case-insensitive; blank type → same manufacturer),
+  and same custom.manufacturer when current type is Skin care.
+  Guards: in-stock only, skip blank/<=0/>=99999 price_max, require featured_media.
+  Diversity: at most 2 per other type (round-robin). Render ~12 server-side; client shuffle shows 4.
+{% endcomment %}
+{% assign ctl_visible = 4 %}
+{% assign ctl_render_cap = 12 %}
+{% assign ctl_per_type_max = 2 %}
+{% assign ctl_current_type = product.type | strip | downcase %}
+{% assign ctl_current_mfr_raw = product.metafields.custom.manufacturer.value | default: product.metafields.custom.manufacturer %}
+{% assign ctl_current_mfr = ctl_current_mfr_raw | strip | downcase %}
+{% assign ctl_exclude_mfr_for_skin = false %}
+{% if ctl_current_type == 'skin care' %}
+  {% assign ctl_exclude_mfr_for_skin = true %}
+{% endif %}
+{% assign ctl_type_order = 'Lips,Eyes,Blush,Face,Skin care,Hair and scalp,Scent,Tools of the trade,Beauty Set' | split: ',' %}
+{% assign ctl_picked_ids = ',' %}
+{% assign ctl_picked_count = 0 %}
+{% assign ctl_type_tally = '|' %}
+{% assign ctl_sources = 'popular,all' | split: ',' %}
+{% capture ctl_cards %}
+{% for ctl_pass in (1..2) %}
+  {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+  {% for ctl_want in ctl_type_order %}
+    {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+    {% assign ctl_want_down = ctl_want | strip | downcase %}
+    {% if ctl_current_type != blank and ctl_want_down == ctl_current_type %}{% continue %}{% endif %}
+    {% assign ctl_tally_token = ctl_want_down | prepend: '|' | append: ':' %}
+    {% assign ctl_type_count = 0 %}
+    {% if ctl_type_tally contains ctl_tally_token %}
+      {% assign ctl_after = ctl_type_tally | split: ctl_tally_token | last %}
+      {% assign ctl_type_count = ctl_after | split: '|' | first | plus: 0 %}
+    {% endif %}
+    {% if ctl_type_count >= ctl_per_type_max %}{% continue %}{% endif %}
+    {% assign ctl_got_one = false %}
+    {% for ctl_src in ctl_sources %}
+      {% if ctl_got_one or ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+      {% assign ctl_col = collections[ctl_src] %}
+      {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
+      {% for ctl_product in ctl_col.products limit: 50 %}
+        {% if ctl_got_one or ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+        {% if ctl_product.id == product.id %}{% continue %}{% endif %}
+        {% unless ctl_product.available %}{% continue %}{% endunless %}
+        {% if ctl_product.price_max == blank or ctl_product.price_max <= 0 or ctl_product.price_max >= 99999 %}{% continue %}{% endif %}
+        {% unless ctl_product.featured_media %}{% continue %}{% endunless %}
+        {% assign ctl_p_type = ctl_product.type | strip | downcase %}
+        {% if ctl_current_type != blank %}
+          {% if ctl_p_type == ctl_current_type %}{% continue %}{% endif %}
+        {% else %}
+          {% assign ctl_p_mfr_raw = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+          {% assign ctl_p_mfr = ctl_p_mfr_raw | strip | downcase %}
+          {% if ctl_current_mfr != blank and ctl_p_mfr == ctl_current_mfr %}{% continue %}{% endif %}
+        {% endif %}
+        {% if ctl_exclude_mfr_for_skin and ctl_current_mfr != blank %}
+          {% assign ctl_p_mfr_raw2 = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+          {% assign ctl_p_mfr2 = ctl_p_mfr_raw2 | strip | downcase %}
+          {% if ctl_p_mfr2 == ctl_current_mfr %}{% continue %}{% endif %}
+        {% endif %}
+        {% if ctl_want_down == 'beauty set' %}
+          {% unless ctl_p_type contains 'beauty set' %}{% continue %}{% endunless %}
+        {% else %}
+          {% if ctl_p_type != ctl_want_down %}{% continue %}{% endif %}
+        {% endif %}
+        {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
+        {% if ctl_picked_ids contains ctl_id_token %}{% continue %}{% endif %}
+        {% assign ctl_href = ctl_product.url %}
+        {% if ctl_href == blank and ctl_product.handle != blank %}
+          {% assign ctl_href = ctl_product.handle | prepend: '/products/' %}
+        {% endif %}
+        <a class="card" href="{{ ctl_href }}"{% if ctl_href == blank %} aria-disabled="true"{% endif %} data-ctl-type="{{ ctl_product.type | escape }}">
+          <div class="card-media">
+            <img
+              src="{{ ctl_product.featured_media | image_url: width: 600 }}"
+              alt="{{ ctl_product.featured_media.alt | default: ctl_product.title | escape }}"
+              loading="lazy"
+              width="600"
+              height="600"
+            >
+          </div>
+          {% assign ctl_mfr = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+          {% if ctl_mfr != blank %}
+            {% assign ctl_m_down = ctl_mfr | downcase %}
+            {% unless ctl_m_down contains 'escentshow' or ctl_m_down contains 'ebay' %}
+              <p class="card-vendor">{{ ctl_mfr }}</p>
+            {% endunless %}
+          {% endif %}
+          <p class="card-title">{{ ctl_product.title }}</p>
+          <p class="card-price">
+            {{ ctl_product.price | money }}
+            {% if ctl_product.compare_at_price > ctl_product.price %}
+              <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
+            {% endif %}
+          </p>
+        </a>
+        {% assign ctl_picked_ids = ctl_picked_ids | append: ctl_product.id | append: ',' %}
+        {% assign ctl_picked_count = ctl_picked_count | plus: 1 %}
+        {% assign ctl_type_count = ctl_type_count | plus: 1 %}
+        {% assign ctl_type_tally = ctl_type_tally | append: ctl_want_down | append: ':' | append: ctl_type_count | append: '|' %}
+        {% assign ctl_got_one = true %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+{% if ctl_picked_count < ctl_render_cap %}
+  {% for ctl_src in ctl_sources %}
+    {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+    {% assign ctl_col = collections[ctl_src] %}
+    {% if ctl_col == blank or ctl_col.products_count == 0 %}{% continue %}{% endif %}
+    {% for ctl_product in ctl_col.products limit: 50 %}
+      {% if ctl_picked_count >= ctl_render_cap %}{% break %}{% endif %}
+      {% if ctl_product.id == product.id %}{% continue %}{% endif %}
+      {% unless ctl_product.available %}{% continue %}{% endunless %}
+      {% if ctl_product.price_max == blank or ctl_product.price_max <= 0 or ctl_product.price_max >= 99999 %}{% continue %}{% endif %}
+      {% unless ctl_product.featured_media %}{% continue %}{% endunless %}
+      {% assign ctl_p_type = ctl_product.type | strip | downcase %}
+      {% if ctl_current_type != blank %}
+        {% if ctl_p_type == ctl_current_type %}{% continue %}{% endif %}
+      {% else %}
+        {% assign ctl_p_mfr_raw = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+        {% assign ctl_p_mfr = ctl_p_mfr_raw | strip | downcase %}
+        {% if ctl_current_mfr != blank and ctl_p_mfr == ctl_current_mfr %}{% continue %}{% endif %}
+      {% endif %}
+      {% if ctl_exclude_mfr_for_skin and ctl_current_mfr != blank %}
+        {% assign ctl_p_mfr_raw2 = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+        {% assign ctl_p_mfr2 = ctl_p_mfr_raw2 | strip | downcase %}
+        {% if ctl_p_mfr2 == ctl_current_mfr %}{% continue %}{% endif %}
+      {% endif %}
+      {% assign ctl_id_token = ctl_product.id | prepend: ',' | append: ',' %}
+      {% if ctl_picked_ids contains ctl_id_token %}{% continue %}{% endif %}
+      {% if ctl_p_type != blank %}
+        {% assign ctl_tally_key = ctl_p_type %}
+        {% if ctl_p_type contains 'beauty set' %}
+          {% assign ctl_tally_key = 'beauty set' %}
+        {% endif %}
+        {% assign ctl_tally_token = ctl_tally_key | prepend: '|' | append: ':' %}
+        {% assign ctl_type_count = 0 %}
+        {% if ctl_type_tally contains ctl_tally_token %}
+          {% assign ctl_after = ctl_type_tally | split: ctl_tally_token | last %}
+          {% assign ctl_type_count = ctl_after | split: '|' | first | plus: 0 %}
+        {% endif %}
+        {% if ctl_type_count >= ctl_per_type_max %}{% continue %}{% endif %}
+      {% endif %}
+      {% assign ctl_href = ctl_product.url %}
+      {% if ctl_href == blank and ctl_product.handle != blank %}
+        {% assign ctl_href = ctl_product.handle | prepend: '/products/' %}
+      {% endif %}
+      <a class="card" href="{{ ctl_href }}"{% if ctl_href == blank %} aria-disabled="true"{% endif %} data-ctl-type="{{ ctl_product.type | escape }}">
+        <div class="card-media">
+          <img
+            src="{{ ctl_product.featured_media | image_url: width: 600 }}"
+            alt="{{ ctl_product.featured_media.alt | default: ctl_product.title | escape }}"
+            loading="lazy"
+            width="600"
+            height="600"
+          >
+        </div>
+        {% assign ctl_mfr = ctl_product.metafields.custom.manufacturer.value | default: ctl_product.metafields.custom.manufacturer %}
+        {% if ctl_mfr != blank %}
+          {% assign ctl_m_down = ctl_mfr | downcase %}
+          {% unless ctl_m_down contains 'escentshow' or ctl_m_down contains 'ebay' %}
+            <p class="card-vendor">{{ ctl_mfr }}</p>
+          {% endunless %}
+        {% endif %}
+        <p class="card-title">{{ ctl_product.title }}</p>
+        <p class="card-price">
+          {{ ctl_product.price | money }}
+          {% if ctl_product.compare_at_price > ctl_product.price %}
+            <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
+          {% endif %}
+        </p>
+      </a>
+      {% assign ctl_picked_ids = ctl_picked_ids | append: ctl_product.id | append: ',' %}
+      {% assign ctl_picked_count = ctl_picked_count | plus: 1 %}
+      {% if ctl_p_type != blank %}
+        {% assign ctl_tally_key = ctl_p_type %}
+        {% if ctl_p_type contains 'beauty set' %}
+          {% assign ctl_tally_key = 'beauty set' %}
+        {% endif %}
+        {% assign ctl_type_count = ctl_type_count | plus: 1 %}
+        {% assign ctl_type_tally = ctl_type_tally | append: ctl_tally_key | append: ':' | append: ctl_type_count | append: '|' %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+{% endcapture %}
+{% assign ctl_cards_stripped = ctl_cards | strip %}
+{% if ctl_cards_stripped != blank and ctl_picked_count > 0 %}
+<section class="section sb-complete-the-look" id="CompleteTheLook" data-sb-complete-the-look>
+  <div class="page-width">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Bought together</p>
+        <h2>Complete the look</h2>
+      </div>
+    </div>
+    <div
+      class="product-grid sb-ctl-grid"
+      data-sb-ctl-grid
+      data-random-count="{{ ctl_visible }}"
+    >
+      {{ ctl_cards }}
+    </div>
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById('CompleteTheLook');
+      if (!root) return;
+      var grid = root.querySelector('[data-sb-ctl-grid]');
+      if (!grid) return;
+      var keep = parseInt(grid.getAttribute('data-random-count') || '4', 10);
+      if (!keep || keep < 1) keep = 4;
+      var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
+      if (!cards.length) {
+        root.style.display = 'none';
+        return;
+      }
+      for (var i = cards.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = cards[i];
+        cards[i] = cards[j];
+        cards[j] = tmp;
+      }
+      for (var k = 0; k < cards.length; k++) {
+        grid.appendChild(cards[k]);
+        cards[k].style.display = k < keep ? '' : 'none';
+      }
+    })();
+  </script>
+</section>
+{% endif %}
 
 {% schema %}
 {
