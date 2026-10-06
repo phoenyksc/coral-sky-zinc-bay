@@ -311,7 +311,10 @@
       </div>
 
       <div class="load-more-wrap vault-discover-more" style="margin-top:2rem;text-align:center;display:none" data-discover-more-wrap>
-        <button type="button" class="btn" data-discover-more>Load more</button>
+        <div style="display:inline-flex;flex-wrap:wrap;gap:.75rem;justify-content:center">
+          <button type="button" class="btn" data-discover-more>Load more</button>
+          <button type="button" class="btn btn--outline" data-discover-all>Show all</button>
+        </div>
       </div>
 
       <script>
@@ -334,14 +337,18 @@
           }
           var wrap = grid.parentNode.querySelector('[data-discover-more-wrap]');
           var btn = wrap ? wrap.querySelector('[data-discover-more]') : null;
-          function reveal() {
-            var end = Math.min(shown + step, cards.length);
+          var allBtn = wrap ? wrap.querySelector('[data-discover-all]') : null;
+          function revealTo(target) {
+            var end = Math.min(target, cards.length);
             for (var n = shown; n < end; n++) cards[n].style.display = '';
             shown = end;
             if (wrap) wrap.style.display = shown < cards.length ? '' : 'none';
           }
+          function reveal() { revealTo(shown + step); }
+          function revealAll() { revealTo(cards.length); }
           reveal();
           if (btn) btn.addEventListener('click', reveal);
+          if (allBtn) allBtn.addEventListener('click', revealAll);
         })();
       </script>
     </div>
