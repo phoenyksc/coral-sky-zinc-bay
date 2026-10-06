@@ -1,6 +1,7 @@
 {% comment %}
   Collection grid + facets. Product type / Brand = dropdowns in facets.
-  Load More Products (no page switching). Skip Vendor-as-brand on cards.
+  Load more / Show all (no page switching; next pages fetched via section_id with the
+  current query string, so filters + sort_by carry over). Skip Vendor-as-brand on cards.
 {% endcomment %}
 <section class="section" id="CollectionSection-{{ section.id }}" data-section-id="{{ section.id }}">
   <div class="page-width">
@@ -60,15 +61,15 @@
           {% endif %}
 
           {% if paginate.pages > 1 and paginate.current_page < paginate.pages %}
-            <div class="load-more-wrap" style="margin-top:2rem;text-align:center" id="LoadMoreWrap-{{ section.id }}">
-              <button
-                type="button"
-                class="btn"
-                id="LoadMore-{{ section.id }}"
-                data-next-url="{{ collection.url }}?page={{ paginate.current_page | plus: 1 }}&section_id={{ section.id }}"
-              >
-                Load More Products
-              </button>
+            <div
+              class="load-more-wrap"
+              id="LoadMoreWrap-{{ section.id }}"
+              data-next-page="{{ paginate.current_page | plus: 1 }}"
+              data-pages="{{ paginate.pages }}"
+              style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;align-items:center"
+            >
+              <button type="button" class="btn" id="LoadMore-{{ section.id }}">Load more</button>
+              <button type="button" class="btn btn--outline" id="ShowAll-{{ section.id }}">Show all</button>
             </div>
           {% endif %}
         {% endpaginate %}
@@ -79,41 +80,103 @@
 
 <script>
 (function () {
-  var btn = document.getElementById('LoadMore-{{ section.id }}');
-  var grid = document.getElementById('ProductGrid-{{ section.id }}');
-  var wrap = document.getElementById('LoadMoreWrap-{{ section.id }}');
-  if (!btn || !grid) return;
+  var sectionId = '{{ section.id }}';
+  var root = document.getElementById('CollectionSection-' + sectionId);
+  var grid = document.getElementById('ProductGrid-' + sectionId);
+  var wrap = document.getElementById('LoadMoreWrap-' + sectionId);
+  var moreBtn = document.getElementById('LoadMore-' + sectionId);
+  var allBtn = document.getElementById('ShowAll-' + sectionId);
+  if (!root || !grid || !wrap || !moreBtn) return;
 
-  btn.addEventListener('click', function () {
-    var url = btn.getAttribute('data-next-url');
-    if (!url) return;
-    btn.disabled = true;
-    btn.textContent = 'Loading…';
+  var MORE_LABEL = 'Load more';
+  var ALL_LABEL = 'Show all';
+  var LOADING_LABEL = 'Loading…';
+  var SHOW_ALL_MAX_PAGES = 20; // Show all stops after this many pages per click; Load more stays available.
+  var nextPage = parseInt(wrap.getAttribute('data-next-page'), 10) || 2;
+  var lastPage = parseInt(wrap.getAttribute('data-pages'), 10) || 1;
+  var busy = false;
 
-    fetch(url)
-      .then(function (r) { return r.text(); })
+  function isDone() { return nextPage > lastPage; }
+
+  function finish() {
+    if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+  }
+
+  function setBusy(on, which) {
+    busy = on;
+    moreBtn.disabled = on;
+    moreBtn.textContent = on && which === 'more' ? LOADING_LABEL : MORE_LABEL;
+    if (allBtn) {
+      allBtn.disabled = on;
+      allBtn.textContent = on && which === 'all' ? LOADING_LABEL : ALL_LABEL;
+    }
+    wrap.setAttribute('aria-busy', on ? 'true' : 'false');
+  }
+
+  // Keep every current query param (filters, sort_by, q, type, ...); only swap page + section_id.
+  function pageUrl(page) {
+    var u = new URL(window.location.href);
+    u.searchParams.set('page', String(page));
+    u.searchParams.set('section_id', sectionId);
+    u.hash = '';
+    return u.pathname + u.search;
+  }
+
+  // Fetch one page via the Section Rendering API (same section => same card markup and skips) and append its cards.
+  function fetchPage(page) {
+    return fetch(pageUrl(page), { credentials: 'same-origin' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
       .then(function (html) {
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        var nextGrid = doc.getElementById('ProductGrid-{{ section.id }}');
-        var nextBtn = doc.getElementById('LoadMore-{{ section.id }}');
-        if (nextGrid) {
-          Array.prototype.forEach.call(nextGrid.children, function (card) {
-            grid.appendChild(card);
-          });
+        var nextGrid = doc.getElementById('ProductGrid-' + sectionId);
+        if (!nextGrid) {
+          // Section rendered but no grid => past the last page. Anything else is an error.
+          if (doc.getElementById('CollectionSection-' + sectionId)) { lastPage = page - 1; return; }
+          throw new Error('Unexpected response');
         }
-        if (nextBtn) {
-          btn.setAttribute('data-next-url', nextBtn.getAttribute('data-next-url'));
-          btn.disabled = false;
-          btn.textContent = 'Load More Products';
-        } else if (wrap) {
-          wrap.remove();
-        }
+        var pages = parseInt(nextGrid.getAttribute('data-pages'), 10);
+        if (pages) lastPage = pages;
+        // Copy to a static array first: appendChild moves nodes out of the live HTMLCollection.
+        Array.prototype.slice.call(nextGrid.children).forEach(function (card) {
+          grid.appendChild(card);
+        });
+        nextPage = page + 1;
+      });
+  }
+
+  if (isDone()) { finish(); return; }
+
+  moreBtn.addEventListener('click', function () {
+    if (busy || isDone()) return;
+    setBusy(true, 'more');
+    fetchPage(nextPage)
+      .then(function () {
+        setBusy(false);
+        if (isDone()) finish();
       })
       .catch(function () {
-        btn.disabled = false;
-        btn.textContent = 'Load More Products';
+        setBusy(false); // re-enable so the shopper can retry
       });
   });
+
+  if (allBtn) {
+    allBtn.addEventListener('click', function () {
+      if (busy || isDone()) return;
+      setBusy(true, 'all');
+      var fetched = 0;
+      (function step() {
+        if (isDone()) { setBusy(false); finish(); return; }
+        if (fetched >= SHOW_ALL_MAX_PAGES) { setBusy(false); return; }
+        fetched += 1;
+        fetchPage(nextPage).then(step).catch(function () {
+          setBusy(false); // re-enable on failure; cards already appended stay
+        });
+      })();
+    });
+  }
 })();
 </script>
 
