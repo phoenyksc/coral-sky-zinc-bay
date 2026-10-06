@@ -1,5 +1,9 @@
+{% comment %}
+  Search results. 2026-10-05 Dru: Load more OR Show all (same pattern as main-collection).
+  Based on live 31-line main-search (paginate 48, render product-card).
+{% endcomment %}
 {% paginate search.results by 48 %}
-<section class="section">
+<section class="section" id="SearchSection-{{ section.id }}">
   <div class="page-width">
     <h1 style="font-size:3rem">Search</h1>
     <form class="search-form" action="{{ routes.search_url }}" method="get">
@@ -9,19 +13,134 @@
     </form>
     {% if search.performed %}
       <p style="color:var(--muted);margin-bottom:1.5rem">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for “{{ search.terms }}”</p>
-      <div class="product-grid">
+      <div class="product-grid" id="ProductGrid-{{ section.id }}" data-page="{{ paginate.current_page }}" data-pages="{{ paginate.pages }}">
         {% for item in search.results %}
           {% if item.object_type == 'product' %}
             {% render 'product-card', product: item %}
           {% endif %}
         {% endfor %}
       </div>
+      {% if paginate.pages > 1 and paginate.current_page < paginate.pages %}
+        <div
+          class="load-more-wrap"
+          id="LoadMoreWrap-{{ section.id }}"
+          data-next-page="{{ paginate.current_page | plus: 1 }}"
+          data-pages="{{ paginate.pages }}"
+          style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;align-items:center"
+        >
+          <button type="button" class="btn" id="LoadMore-{{ section.id }}">Load more</button>
+          <button type="button" class="btn btn--outline" id="ShowAll-{{ section.id }}">Show all</button>
+        </div>
+      {% endif %}
     {% else %}
       <p style="color:var(--muted)">Try MAC, Double Wear, or Clinique.</p>
     {% endif %}
   </div>
 </section>
 {% endpaginate %}
+
+<script>
+(function () {
+  var sectionId = '{{ section.id }}';
+  var root = document.getElementById('SearchSection-' + sectionId);
+  var grid = document.getElementById('ProductGrid-' + sectionId);
+  var wrap = document.getElementById('LoadMoreWrap-' + sectionId);
+  var moreBtn = document.getElementById('LoadMore-' + sectionId);
+  var allBtn = document.getElementById('ShowAll-' + sectionId);
+  if (!root || !grid || !wrap || !moreBtn) return;
+
+  var MORE_LABEL = 'Load more';
+  var ALL_LABEL = 'Show all';
+  var LOADING_LABEL = 'Loading…';
+  var SHOW_ALL_MAX_PAGES = 400; // 2026-10-05 Dru: Show all loads everything (safety cap only).
+  var nextPage = parseInt(wrap.getAttribute('data-next-page'), 10) || 2;
+  var lastPage = parseInt(wrap.getAttribute('data-pages'), 10) || 1;
+  var busy = false;
+
+  function isDone() { return nextPage > lastPage; }
+
+  function finish() {
+    if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+  }
+
+  function setBusy(on, which) {
+    busy = on;
+    moreBtn.disabled = on;
+    moreBtn.textContent = on && which === 'more' ? LOADING_LABEL : MORE_LABEL;
+    if (allBtn) {
+      allBtn.disabled = on;
+      allBtn.textContent = on && which === 'all' ? LOADING_LABEL : ALL_LABEL;
+    }
+    wrap.setAttribute('aria-busy', on ? 'true' : 'false');
+  }
+
+  // Keep every current query param (filters, sort_by, q, type, ...); only swap page + section_id.
+  function pageUrl(page) {
+    var u = new URL(window.location.href);
+    u.searchParams.set('page', String(page));
+    u.searchParams.set('section_id', sectionId);
+    u.hash = '';
+    return u.pathname + u.search;
+  }
+
+  // Fetch one page via the Section Rendering API (same section => same card markup and skips) and append its cards.
+  function fetchPage(page) {
+    return fetch(pageUrl(page), { credentials: 'same-origin' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var nextGrid = doc.getElementById('ProductGrid-' + sectionId);
+        if (!nextGrid) {
+          // Section rendered but no grid => past the last page. Anything else is an error.
+          if (doc.getElementById('SearchSection-' + sectionId)) { lastPage = page - 1; return; }
+          throw new Error('Unexpected response');
+        }
+        var pages = parseInt(nextGrid.getAttribute('data-pages'), 10);
+        if (pages) lastPage = pages;
+        // Copy to a static array first: appendChild moves nodes out of the live HTMLCollection.
+        Array.prototype.slice.call(nextGrid.children).forEach(function (card) {
+          grid.appendChild(card);
+        });
+        nextPage = page + 1;
+      });
+  }
+
+  if (isDone()) { finish(); return; }
+
+  moreBtn.addEventListener('click', function () {
+    if (busy || isDone()) return;
+    setBusy(true, 'more');
+    fetchPage(nextPage)
+      .then(function () {
+        setBusy(false);
+        if (isDone()) finish();
+      })
+      .catch(function () {
+        setBusy(false); // re-enable so the shopper can retry
+      });
+  });
+
+  if (allBtn) {
+    allBtn.addEventListener('click', function () {
+      if (busy || isDone()) return;
+      setBusy(true, 'all');
+      var fetched = 0;
+      (function step() {
+        if (isDone()) { setBusy(false); finish(); return; }
+        if (fetched >= SHOW_ALL_MAX_PAGES) { setBusy(false); return; }
+        fetched += 1;
+        allBtn.textContent = 'Loading… ' + Math.min(nextPage, lastPage) + ' / ' + lastPage;
+        fetchPage(nextPage).then(step).catch(function () {
+          setBusy(false); // re-enable on failure; cards already appended stay
+        });
+      })();
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
