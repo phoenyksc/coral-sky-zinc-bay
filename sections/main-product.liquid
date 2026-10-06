@@ -9,6 +9,10 @@
   Sourced palette colorways use a plain selector; inner pans are the chips.
   Brushes, tools, cases, bags, lashes, fragrance, serum, lotion, shampoo, conditioner, tweezers stay plain text.
   One SKU line follows the selected variant via data-sku.
+  2026-10-05: custom.shade_list (PRODUCTVARIANT json [[name, hexOrNull], ...]) drives
+  #sb-inner-shade-row per selected variant; hardcoded `sets` is the fallback.
+  Null/invalid hex = name-only outline stroke (never guessed from the sb-hex map).
+  Generic single "Shade" chip hidden when the product has a non-empty shade_list.
 {% endcomment %}
 {% assign sb_palette = false %}
 {% assign sb_eq = false %}
@@ -69,6 +73,16 @@
   {% when 'yves-saint-laurent-ysl-eye-smoker-duo-long-lasting-creamy-eye-shadow-f-s-nib-1' %}
     {% assign sb_palette = true %}
 {% endcase %}
+{% comment %} 2026-10-05: any variant with a non-empty custom.shade_list turns on the inner row (no whitelist needed) {% endcomment %}
+{% assign sb_has_shade_list = false %}
+{% for sb_v in product.variants %}
+  {% assign sb_sl = sb_v.metafields.custom.shade_list.value %}
+  {% if sb_sl == blank %}{% assign sb_sl = sb_v.metafields.custom.shade_list %}{% endif %}
+  {% assign sb_sl_str = sb_sl | json | strip %}
+  {% if sb_sl != blank and sb_sl_str != '[]' and sb_sl_str != '"[]"' and sb_sl_str != 'null' and sb_sl_str != '""' %}
+    {% assign sb_has_shade_list = true %}
+  {% endif %}
+{% endfor %}
 {% capture sb_hay %} {{ product.type }} {{ product.title }} {% endcapture %}
 {% assign sb_hay = sb_hay | downcase | replace: '-', ' ' | replace: '/', ' ' | replace: ',', ' ' | replace: '.', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '&', ' ' | replace: ':', ' ' %}
 {% assign sb_no_brush = false %}
@@ -82,7 +96,7 @@
 {% if sb_disc_hay contains ' cream ' or sb_disc_hay contains ' creams ' or sb_disc_hay contains ' brush ' or sb_disc_hay contains ' brushes ' or sb_disc_hay contains ' tweezer ' or sb_disc_hay contains ' tweezers ' or sb_disc_hay contains ' tool ' or sb_disc_hay contains ' tools ' or sb_disc_hay contains ' case ' or sb_disc_hay contains ' cases ' or sb_disc_hay contains ' fragrance ' or sb_disc_hay contains ' perfume ' or sb_disc_hay contains ' serum ' or sb_disc_hay contains ' serums ' or sb_disc_hay contains ' lotion ' or sb_disc_hay contains ' lotions ' or sb_disc_hay contains ' shampoo ' or sb_disc_hay contains ' shampoos ' or sb_disc_hay contains ' conditioner ' or sb_disc_hay contains ' conditioners ' %}
   {% assign sb_disc_skip = true %}
 {% endif %}
-{% if sb_palette %}
+{% if sb_palette or sb_has_shade_list %}
   {% assign sb_disclaimer = true %}
 {% elsif sb_disc_skip == false %}
   {% for option in product.options_with_values %}
@@ -981,8 +995,11 @@
 
         {% endif %}
         {% if chip_hex == blank %}{% assign chip_hex = '#c8c4bc' %}{% endif %}
-        <p class="kicker" style="margin-top:1rem">Shade</p>
-        <div class="option-grid{% unless sb_no_brush %} option-grid--brush{% endunless %}">
+        {% assign sb_hide_generic = false %}
+        {% assign sb_label_down = shade_label | strip | downcase %}
+        {% if sb_has_shade_list and sb_label_down == 'shade' %}{% assign sb_hide_generic = true %}{% endif %}
+        <p class="kicker" style="margin-top:1rem{% if sb_hide_generic %};display:none{% endif %}"{% if sb_hide_generic %} data-sb-generic-shade{% endif %}>Shade</p>
+        <div class="option-grid{% unless sb_no_brush %} option-grid--brush{% endunless %}"{% if sb_hide_generic %} style="display:none" data-sb-generic-shade{% endif %}>
           <button
             type="button"
             class="swatch{% unless sb_no_brush %} swatch--brush{% endunless %} is-active{% if sold_out %} is-soldout{% endif %}"
@@ -1019,7 +1036,7 @@
             {% assign is_color_opt = true %}
           {% endif %}
           {% comment %} Sourced palettes: plain colorway. Brushes/tools/cases/etc: plain text. {% endcomment %}
-          {% if sb_palette or sb_no_brush %}
+          {% if sb_palette or sb_has_shade_list or sb_no_brush %}
             {% assign is_color_opt = false %}
           {% endif %}
           {% if sb_eq %}
@@ -1914,7 +1931,7 @@
             {% if opt_down contains 'color' or opt_down contains 'colour' or opt_down contains 'shade' or opt_down == 'style' or opt_down contains 'product color' or opt_down contains 'kit color' %}
               {% assign is_color_opt = true %}
             {% endif %}
-            {% if sb_palette or sb_no_brush %}
+            {% if sb_palette or sb_has_shade_list or sb_no_brush %}
               {% assign is_color_opt = false %}
             {% endif %}
             <div class="option-block" data-option-index="{{ forloop.index0 }}">
@@ -2825,9 +2842,21 @@
         {% endif %}
       {% endif %}
 
-      {% if sb_palette %}
+      {% if sb_palette or sb_has_shade_list %}
         <p class="kicker" id="sb-inner-shade-kicker" style="margin-top:1rem;display:none">Shades in this palette</p>
-        <div class="option-grid option-grid--brush" id="sb-inner-shade-row" data-active="{{ current.title | escape }}"></div>
+        <div class="option-grid option-grid--brush" id="sb-inner-shade-row" data-active="{{ current.title | escape }}" data-active-id="{{ current.id }}" data-has-shade-list="{% if sb_has_shade_list %}true{% else %}false{% endif %}"></div>
+        {% comment %} variant id -> custom.shade_list (json .value, else raw string; JS re-parses strings). '</' escaped for script safety. {% endcomment %}
+        <script type="application/json" id="sb-shade-list-map">{
+        {%- assign sb_sep = '' -%}
+        {%- for sb_v in product.variants -%}
+          {%- assign sb_sl = sb_v.metafields.custom.shade_list.value -%}
+          {%- if sb_sl == blank -%}{%- assign sb_sl = sb_v.metafields.custom.shade_list -%}{%- endif -%}
+          {%- if sb_sl != blank -%}
+            {{- sb_sep -}}"{{ sb_v.id }}":{{ sb_sl | json | replace: '</', '<\/' }}
+            {%- assign sb_sep = ',' -%}
+          {%- endif -%}
+        {%- endfor -%}
+        }</script>
         <script>
           (function () {
             var row = document.getElementById('sb-inner-shade-row');
@@ -3904,36 +3933,141 @@
             var byName = {};
             function norm(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
             Object.keys(sets).forEach(function (k) { byName[norm(k)] = sets[k]; });
-            function brush(hex) {
-              return '<span class="swatch-brush-inline" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="72" height="29" focusable="false"><path fill="' + hex + '" d="M6 34c3-12 14-24 32-26 12-1 22 4 32 10 8 5 16 8 26 6 12-2 22-9 34-10 8-1 16 3 18 10 1 5-3 10-11 12-14 4-28 2-41 6-10 3-18 9-29 10-14 2-26-3-34-12-5-6-8-12-5-16 2-3 5-4 9-4z"/><path fill="' + hex + '" opacity=".55" d="M22 26c8-7 20-11 32-8 10 2 17 7 27 5 12-2 22-7 34-5 7 1 11 5 9 9-2 5-8 7-16 8-14 2-27-1-40 3-9 3-17 7-26 5-8-1-14-6-16-12-1-3 1-5 4-5z"/><path fill="' + hex + '" opacity=".35" d="M40 18c6-3 14-4 20-1 4 2 7 4 12 3 6-1 10-3 15-2 3 0 5 2 4 4-1 2-4 3-8 3-7 1-13 0-19 2-5 1-9 3-14 2-4 0-7-2-8-5 0-2 1-4 2-6z"/></svg></span>';
+            var HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+            var BRUSH_D = [
+              'M6 34c3-12 14-24 32-26 12-1 22 4 32 10 8 5 16 8 26 6 12-2 22-9 34-10 8-1 16 3 18 10 1 5-3 10-11 12-14 4-28 2-41 6-10 3-18 9-29 10-14 2-26-3-34-12-5-6-8-12-5-16 2-3 5-4 9-4z',
+              'M22 26c8-7 20-11 32-8 10 2 17 7 27 5 12-2 22-7 34-5 7 1 11 5 9 9-2 5-8 7-16 8-14 2-27-1-40 3-9 3-17 7-26 5-8-1-14-6-16-12-1-3 1-5 4-5z',
+              'M40 18c6-3 14-4 20-1 4 2 7 4 12 3 6-1 10-3 15-2 3 0 5 2 4 4-1 2-4 3-8 3-7 1-13 0-19 2-5 1-9 3-14 2-4 0-7-2-8-5 0-2 1-4 2-6z'
+            ];
+            function esc(s) {
+              return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+              });
             }
+            function validHex(h) {
+              h = (h == null ? '' : String(h)).trim();
+              return HEX_RE.test(h) ? h : '';
+            }
+            // Real hex -> filled brush (as before). Null/empty/invalid -> outline stroke only.
+            function brush(hex) {
+              var h = validHex(hex);
+              var paths;
+              if (h) {
+                paths = '<path fill="' + h + '" d="' + BRUSH_D[0] + '"/>' +
+                        '<path fill="' + h + '" opacity=".55" d="' + BRUSH_D[1] + '"/>' +
+                        '<path fill="' + h + '" opacity=".35" d="' + BRUSH_D[2] + '"/>';
+              } else {
+                paths = '<path fill="none" stroke="#8a847c" stroke-width="1.6" stroke-linejoin="round" d="' + BRUSH_D[0] + '"/>';
+              }
+              return '<span class="swatch-brush-inline' + (h ? '' : ' swatch-brush-inline--outline') + '" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 56" width="72" height="29" focusable="false">' + paths + '</svg></span>';
+            }
+            // custom.shade_list map: { variantId: [[name, hexOrNull], ...] } (values may arrive as JSON strings)
+            function parseList(v) {
+              if (typeof v === 'string') {
+                try { v = JSON.parse(v); } catch (e) { return []; }
+              }
+              if (v && !Array.isArray(v) && typeof v === 'object') {
+                v = v.shades || v.list || v.value || [];
+                if (typeof v === 'string') return parseList(v);
+              }
+              if (!Array.isArray(v)) return [];
+              var outList = [];
+              v.forEach(function (item) {
+                var name = '', hex = null;
+                if (Array.isArray(item)) { name = item[0]; hex = item.length > 1 ? item[1] : null; }
+                else if (item && typeof item === 'object') { name = item.name || item.shade || ''; hex = item.hex || item.color || null; }
+                else if (typeof item === 'string') { name = item; }
+                name = norm(name);
+                if (name) outList.push([name, hex]);
+              });
+              return outList;
+            }
+            function loadShadeListMap() {
+              var el = document.getElementById('sb-shade-list-map');
+              var raw = {}, map = {};
+              if (el) { try { raw = JSON.parse(el.textContent || '{}') || {}; } catch (e) { raw = {}; } }
+              Object.keys(raw).forEach(function (id) {
+                var list = parseList(raw[id]);
+                if (list.length) map[String(id)] = list;
+              });
+              return map;
+            }
+            var shadeListMap = loadShadeListMap();
+            var hasShadeList = Object.keys(shadeListMap).length > 0;
             function labelOf(btn) {
               var t = (btn.textContent || '').replace(/\s+/g, ' ').trim();
               t = t.replace(/Sold out/ig, '').trim();
               return t;
             }
-            function paint(name) {
-              var shades = byName[norm(name)];
+            // Hide the generic option chip whose value is exactly "Shade" when a shade_list exists.
+            function hideGenericShadeChip() {
+              if (!hasShadeList) return;
+              document.querySelectorAll('.option-grid').forEach(function (grid) {
+                if (grid.id === 'sb-inner-shade-row') return;
+                var chips = grid.querySelectorAll('.swatch');
+                if (!chips.length) return;
+                var allGeneric = true;
+                chips.forEach(function (c) {
+                  if (labelOf(c).toLowerCase() === 'shade') { c.style.display = 'none'; }
+                  else { allGeneric = false; }
+                });
+                if (allGeneric) {
+                  grid.style.display = 'none';
+                  var block = grid.closest('.option-block');
+                  var prev = block ? block.querySelector('.kicker') : grid.previousElementSibling;
+                  if (prev && prev.classList && prev.classList.contains('kicker')) prev.style.display = 'none';
+                }
+              });
+            }
+            function renderShades(shades) {
               if (!shades || !shades.length) {
                 row.innerHTML = '';
                 if (kicker) kicker.style.display = 'none';
-                return;
+                return false;
               }
               if (kicker) kicker.style.display = '';
               row.innerHTML = shades.map(function (pair) {
-                return '<div class="swatch swatch--brush" aria-hidden="true">' + brush(pair[1]) + '<span class="swatch-label">' + pair[0] + '</span></div>';
+                var h = validHex(pair[1]);
+                return '<div class="swatch swatch--brush' + (h ? '' : ' swatch--name-only') + '" aria-hidden="true">' + brush(h) + '<span class="swatch-label">' + esc(pair[0]) + '</span></div>';
               }).join('');
+              return true;
+            }
+            // Prefer metafield list for the selected variant id; else hardcoded sets[colorwayTitle].
+            function paintFor(variantId, colorwayTitle) {
+              var list = variantId ? shadeListMap[String(variantId)] : null;
+              if (list && list.length) return renderShades(list);
+              return renderShades(byName[norm(colorwayTitle)]);
+            }
+            function paint(name) { return paintFor(null, name); }
+            function selectedVariantId() {
+              var form = row.closest('form') || document.querySelector('[data-product-form]');
+              var input = form ? form.querySelector('[name="id"]') : null;
+              return (input && input.value) || row.getAttribute('data-active-id') || '';
             }
             function currentBtn() {
-              return document.querySelector('.option-grid .swatch.is-active');
+              return document.querySelector('.option-grid:not(#sb-inner-shade-row) .swatch.is-active');
             }
-            var startBtn = currentBtn();
-            paint(startBtn ? labelOf(startBtn) : (row.getAttribute('data-active') || ''));
+            function repaintFromSelection(btn) {
+              btn = btn || currentBtn();
+              var vid = selectedVariantId() || (btn && btn.getAttribute('data-variant-id')) || '';
+              var title = btn ? labelOf(btn) : (row.getAttribute('data-active') || '');
+              paintFor(vid, title);
+            }
+            hideGenericShadeChip();
+            repaintFromSelection();
             document.addEventListener('click', function (e) {
               var btn = e.target.closest && e.target.closest('.option-grid .swatch');
               if (!btn || btn.closest('#sb-inner-shade-row')) return;
-              paint(labelOf(btn));
+              // Sold-out chips are unclickable; theme.js does not change selection for them.
+              if (btn.disabled || btn.getAttribute('aria-disabled') === 'true' || btn.getAttribute('data-available') === 'false') return;
+              // Let theme.js update form [name=id] first, then re-render from that variant's list.
+              setTimeout(function () { repaintFromSelection(btn); }, 0);
             });
+            var idInputEl = (row.closest('form') || document).querySelector('[name="id"]');
+            if (idInputEl) idInputEl.addEventListener('change', function () { repaintFromSelection(); });
+            document.addEventListener('variant:change', function () { repaintFromSelection(); });
+            // theme.js may auto-select the first in-stock variant after load (sold-out rule) without firing change.
+            window.addEventListener('load', function () { repaintFromSelection(); });
           })();
         </script>
       {% endif %}
