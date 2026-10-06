@@ -33,7 +33,13 @@
               data-pages="{{ paginate.pages }}"
             >
               {% for product in collection.products %}
-                <a class="card" href="{{ product.url }}">
+                {% comment %} Skip blank cream cards — same as Discover/vault-rails no-featured_media guard {% endcomment %}
+                {% unless product.featured_media %}{% continue %}{% endunless %}
+                {% assign card_href = product.url %}
+                {% if card_href == blank and product.handle != blank %}
+                  {% assign card_href = product.handle | prepend: '/products/' %}
+                {% endif %}
+                <a class="card" href="{{ card_href }}"{% if card_href == blank %} aria-disabled="true"{% endif %}>
                   <div class="card-media">
                     {% if product.featured_media %}
                       <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy" width="600" height="600">
