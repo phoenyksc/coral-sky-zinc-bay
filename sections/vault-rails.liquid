@@ -8,6 +8,7 @@
   Dru/Eve 2026-10-05: Discover full wrapping grid after Beauty Sets (randomized in-stock, not a rail).
   2026-10-05 Inventory: skip $999.99 placeholder and blank/zero prices (price_max >= 99999 cents or <= 0) in all rails + Discover.
   YSL Signature Strobing Sculpt (KEEP_SET) removed from sb_bs_block denylist.
+  Dru 2026-10-05: Discover gets a Load more button (reveals the next batch of shuffled candidates).
 {% endcomment %}
 
 {% assign seen_ids = ',' %}
@@ -232,13 +233,14 @@
   Discover — full wrapping grid of randomized in-stock products (not a carousel).
   Hardcoded after Beauty Sets rails; no Theme Editor collection block required.
   Candidates: collections.all first, then popular / rare-hard-to-find / low-inventory fill.
-  Dedupe against seen_ids from earlier rails. Client shuffle keeps first N (default 36).
+  Dedupe against seen_ids from earlier rails. Server renders up to 200 candidates; client shuffles,
+  shows first N (default 36), and Load more reveals the next N until candidates run out.
 {% endcomment %}
 {% if section.settings.discover_enabled != false %}
   {% assign discover_heading = section.settings.discover_heading | default: 'Discover' %}
   {% assign discover_subheading = section.settings.discover_subheading | default: 'A fresh mix each visit' %}
   {% assign discover_count = section.settings.discover_count | default: 36 %}
-  {% assign discover_cap = 50 %}
+  {% assign discover_cap = 200 %}
   {% assign discover_shown = 0 %}
   {% assign discover_ids = ',' %}
   {% assign discover_sources = 'all,popular,rare-hard-to-find,low-inventory' | split: ',' %}
@@ -308,27 +310,38 @@
         {% endfor %}
       </div>
 
+      <div class="load-more-wrap vault-discover-more" style="margin-top:2rem;text-align:center;display:none" data-discover-more-wrap>
+        <button type="button" class="btn" data-discover-more>Load more</button>
+      </div>
+
       <script>
         (function () {
           var grid = document.querySelector('[data-vault-rail="discover"]');
           if (!grid) return;
-          var keep = parseInt(grid.getAttribute('data-random-count') || '36', 10);
-          if (!keep || keep < 1) keep = 36;
+          var step = parseInt(grid.getAttribute('data-random-count') || '36', 10);
+          if (!step || step < 1) step = 36;
           var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
-          if (cards.length <= keep) return;
           for (var i = cards.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var tmp = cards[i];
             cards[i] = cards[j];
             cards[j] = tmp;
           }
+          var shown = 0;
           for (var k = 0; k < cards.length; k++) {
-            if (k < keep) {
-              grid.appendChild(cards[k]);
-            } else {
-              cards[k].parentNode && cards[k].parentNode.removeChild(cards[k]);
-            }
+            grid.appendChild(cards[k]);
+            cards[k].style.display = 'none';
           }
+          var wrap = grid.parentNode.querySelector('[data-discover-more-wrap]');
+          var btn = wrap ? wrap.querySelector('[data-discover-more]') : null;
+          function reveal() {
+            var end = Math.min(shown + step, cards.length);
+            for (var n = shown; n < end; n++) cards[n].style.display = '';
+            shown = end;
+            if (wrap) wrap.style.display = shown < cards.length ? '' : 'none';
+          }
+          reveal();
+          if (btn) btn.addEventListener('click', reveal);
         })();
       </script>
     </div>
@@ -391,7 +404,7 @@
       "step": 1,
       "label": "Discover cards to show",
       "default": 36,
-      "info": "Server renders up to ~50 candidates; JS shuffles and keeps this many."
+      "info": "Cards per batch. Server renders up to 200 candidates; JS shuffles, shows this many, and Load more reveals the next batch."
     }
   ],
   "blocks": [
