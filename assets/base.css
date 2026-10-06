@@ -10,3 +10,54 @@
 .swatch--brush.is-soldout .swatch-brush-inline,.swatch--brush[data-available="false"] .swatch-brush-inline{filter:grayscale(.9) drop-shadow(0 1px 1px rgba(26,22,19,.08));opacity:.8}
 .swatch--brush.is-soldout .swatch-label{text-decoration:line-through}
 .swatch--brush .swatch-soldout{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-top:0}
+
+
+/* ============================================================
+   Discover compact product grid — APPEND to assets/base.css
+   Theme: coral-sky-zinc-bay | 2026-10-05
+   Full wrapping grid (NOT a horizontal .product-rail carousel).
+   Columns so 36 divides cleanly: 3×12 / 6×6 / 9×4.
+   ============================================================ */
+.product-grid--discover,
+.vault-discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem 0.45rem;
+}
+@media (min-width: 768px) {
+  .product-grid--discover,
+  .vault-discover-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.85rem 0.55rem;
+  }
+}
+@media (min-width: 1024px) {
+  .product-grid--discover,
+  .vault-discover-grid {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 1rem 0.65rem;
+  }
+}
+.vault-discover .section-head h2 { font-size: 1.85rem; }
+.card--compact .card-media { border-radius: 6px; }
+.card--compact .card-vendor {
+  margin-top: 0.4rem;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+.card--compact .card-title {
+  font-size: 0.78rem;
+  line-height: 1.2;
+  margin-top: 0.15rem;
+  -webkit-line-clamp: 2;
+}
+.card--compact .card-price {
+  font-size: 0.72rem;
+  padding-top: 0.25rem;
+}
+.card--compact .badge {
+  top: 0.35rem;
+  left: 0.35rem;
+  font-size: 8px;
+  padding: 0.15rem 0.35rem;
+}
