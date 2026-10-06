@@ -4,6 +4,9 @@
   First `visible_limit` cards per rail skip any product id already shown in an earlier rail.
   Dru 2026-10-05: do NOT feature sold-out on homepage rails — skip unavailable products.
   Sold-out stay on site and collection pages. Prefer featured_media; fill without-media only if still short.
+  Beauty Sets rail: skip audited misfiled singles (denylist) unless product.type contains Beauty Set.
+  Dru/Eve 2026-10-05: Discover full wrapping grid after Beauty Sets (randomized in-stock, not a rail).
+  YSL Signature Strobing Sculpt (KEEP_SET) removed from sb_bs_block denylist.
 {% endcomment %}
 
 {% assign seen_ids = ',' %}
@@ -61,6 +64,14 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if handle == 'beauty-sets' %}
+              {% assign sb_bs_ty = product.type | downcase %}
+              {% unless sb_bs_ty contains 'beauty set' %}
+                {% assign sb_bs_tok = product.handle | prepend: ',' | append: ',' %}
+                {% assign sb_bs_block = ',1x-clinique-high-impact-easy-liquid-eyeliner-eye-liner-01-black-01-oz-new,becca-hydra-mist-set-and-refresh-powder-travel-size-07-oz-2-g-translucent-new,becca-hydra-mist-set-and-refresh-powder-travel-size-08-oz-2g-translucent-new,bobbi-brown-highlighting-powder-15-oz-ulla-johnson-collection-pink-glow-nib,bobbi-brown-luxe-eye-shadow-duo-rich-lustre-eyeshadow-full-size-nib,bobbi-brown-milky-way-luxe-eye-shadow-quad-lunar-incandescent-blossom-rose-nib,bobbi-brown-the-essential-eye-shadow-trio-palette-16-oz-everyday-greys-nib,clinique-colour-surge-eye-shadow-soft-shimmer-07-oz-2-g-pink-dream-limited-ed,estee-lauder-eye-shadow-quad-eggshell-twilight-shimmer-duo-04-chocolate-16,estee-lauder-eye-shadow-quad-natural-4-36-taupe-5-88-ivory-2-95-neutral,estee-lauder-pure-color-envy-luxe-4-color-eyeshadow-quad-palette-21-oz-f-s-nib,estee-lauder-pure-color-envy-luxe-eyeshadow-quad-palette-refill-21-oz-nib,estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60,estee-lauder-two-in-one-eyeshadow-quad-12oz-sand-dollar-tearose-sky-brown-sugar,kat-von-d-kvd-studded-kiss-creme-lipstick-12-oz-3-4-g-full-size-rare-1pc-nib,lancome-blush-subtil-delicate-oil-free-powder-blusher-duo-deluxe-sample-choose,lancome-colour-focus-exceptional-wear-eyecolour-eye-shadow-quad-16-oz-f-s-nib,lancome-juicy-tubes-ultra-shiny-lip-gloss-tube-1-piece-choose-color,lancome-professional-full-size-face-lip-eye-makeup-brush-w-sleeve-single-1pc-nib,mac-brow-set-eyebrow-enhancer-mascara-gel-28-oz-8-g-full-size-rare-htf-nib,mac-cool-palette-eye-and-face-up-close-personal-summer-2019-collection-nib,mac-extra-dimension-skinfinish-highlighter-selena-31-oz-9-g-la-leyenda-nib,mac-powder-blush-duo-cruel-la-intentions-x-disney-cruella-tickled-punk-nib,mac-prep-prime-lip-base-lipstick-primer-05-oz-1-70-g-black-cherry-edition-nib,mac-prep-prime-lip-primer-lipstick-base-05-oz-1-70-g-petal-power-pink-new-ub,mac-pro-longwear-waterproof-brow-set-eyebrow-gel-17-oz-5-g-f-s-rare-htf-nib,mac-sculpt-glow-duo-highlight-contour-palette-compact-double-gleam-omega-nib,mac-studio-fix-pro-set-blur-weightless-loose-powder-w-puff-22oz-6-5g-nib,michael-kors-wonderlust-eau-fresh-sublime-eau-de-parfum-rollerbal-roll-on-set,nars-audacious-lipstick-palette-forget-me-not-red-limited-edition-fullsize-nib,prescriptives-sunsheen-bronzing-trio-pressed-powder-compact-35oz-10g-rare-nib,set-it-clear-brow-gel,smashbox-photo-op-eye-shadow-trio-palette-097-oz-2-76g-full-size-rare-htf-nib,tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,too-faced-plumped-to-the-max-plump-prime-serum-lip-injection-maximum-plumper,urban-decay-naked-original-eyeshadow-12-color-palette-w-duo-brush-rare-htf-nib,urban-decay-naked2-naked-2-original-eyeshadow-12-color-palette-w-duo-brush-nib,yves-saint-laurent-mascara-the-storm-clash-vinyl-cream-bourgogne-alternatif-nib,yves-saint-laurent-ysl-baby-doll-kiss-blush-duo-cream-stick-lips-cheeks-nib,' %}
+                {% if sb_bs_block contains sb_bs_tok %}{% continue %}{% endif %}
+              {% endunless %}
+            {% endif %}
             {% unless product.featured_media %}{% continue %}{% endunless %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if seen_ids contains id_token %}{% continue %}{% endif %}
@@ -112,6 +123,14 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= visible_limit %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if handle == 'beauty-sets' %}
+              {% assign sb_bs_ty = product.type | downcase %}
+              {% unless sb_bs_ty contains 'beauty set' %}
+                {% assign sb_bs_tok = product.handle | prepend: ',' | append: ',' %}
+                {% assign sb_bs_block = ',1x-clinique-high-impact-easy-liquid-eyeliner-eye-liner-01-black-01-oz-new,becca-hydra-mist-set-and-refresh-powder-travel-size-07-oz-2-g-translucent-new,becca-hydra-mist-set-and-refresh-powder-travel-size-08-oz-2g-translucent-new,bobbi-brown-highlighting-powder-15-oz-ulla-johnson-collection-pink-glow-nib,bobbi-brown-luxe-eye-shadow-duo-rich-lustre-eyeshadow-full-size-nib,bobbi-brown-milky-way-luxe-eye-shadow-quad-lunar-incandescent-blossom-rose-nib,bobbi-brown-the-essential-eye-shadow-trio-palette-16-oz-everyday-greys-nib,clinique-colour-surge-eye-shadow-soft-shimmer-07-oz-2-g-pink-dream-limited-ed,estee-lauder-eye-shadow-quad-eggshell-twilight-shimmer-duo-04-chocolate-16,estee-lauder-eye-shadow-quad-natural-4-36-taupe-5-88-ivory-2-95-neutral,estee-lauder-pure-color-envy-luxe-4-color-eyeshadow-quad-palette-21-oz-f-s-nib,estee-lauder-pure-color-envy-luxe-eyeshadow-quad-palette-refill-21-oz-nib,estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60,estee-lauder-two-in-one-eyeshadow-quad-12oz-sand-dollar-tearose-sky-brown-sugar,kat-von-d-kvd-studded-kiss-creme-lipstick-12-oz-3-4-g-full-size-rare-1pc-nib,lancome-blush-subtil-delicate-oil-free-powder-blusher-duo-deluxe-sample-choose,lancome-colour-focus-exceptional-wear-eyecolour-eye-shadow-quad-16-oz-f-s-nib,lancome-juicy-tubes-ultra-shiny-lip-gloss-tube-1-piece-choose-color,lancome-professional-full-size-face-lip-eye-makeup-brush-w-sleeve-single-1pc-nib,mac-brow-set-eyebrow-enhancer-mascara-gel-28-oz-8-g-full-size-rare-htf-nib,mac-cool-palette-eye-and-face-up-close-personal-summer-2019-collection-nib,mac-extra-dimension-skinfinish-highlighter-selena-31-oz-9-g-la-leyenda-nib,mac-powder-blush-duo-cruel-la-intentions-x-disney-cruella-tickled-punk-nib,mac-prep-prime-lip-base-lipstick-primer-05-oz-1-70-g-black-cherry-edition-nib,mac-prep-prime-lip-primer-lipstick-base-05-oz-1-70-g-petal-power-pink-new-ub,mac-pro-longwear-waterproof-brow-set-eyebrow-gel-17-oz-5-g-f-s-rare-htf-nib,mac-sculpt-glow-duo-highlight-contour-palette-compact-double-gleam-omega-nib,mac-studio-fix-pro-set-blur-weightless-loose-powder-w-puff-22oz-6-5g-nib,michael-kors-wonderlust-eau-fresh-sublime-eau-de-parfum-rollerbal-roll-on-set,nars-audacious-lipstick-palette-forget-me-not-red-limited-edition-fullsize-nib,prescriptives-sunsheen-bronzing-trio-pressed-powder-compact-35oz-10g-rare-nib,set-it-clear-brow-gel,smashbox-photo-op-eye-shadow-trio-palette-097-oz-2-76g-full-size-rare-htf-nib,tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,too-faced-plumped-to-the-max-plump-prime-serum-lip-injection-maximum-plumper,urban-decay-naked-original-eyeshadow-12-color-palette-w-duo-brush-rare-htf-nib,urban-decay-naked2-naked-2-original-eyeshadow-12-color-palette-w-duo-brush-nib,yves-saint-laurent-mascara-the-storm-clash-vinyl-cream-bourgogne-alternatif-nib,yves-saint-laurent-ysl-baby-doll-kiss-blush-duo-cream-stick-lips-cheeks-nib,' %}
+                {% if sb_bs_block contains sb_bs_tok %}{% continue %}{% endif %}
+              {% endunless %}
+            {% endif %}
             {% if product.featured_media %}{% continue %}{% endif %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if seen_ids contains id_token %}{% continue %}{% endif %}
@@ -149,6 +168,14 @@
           {% for product in col.products limit: 50 %}
             {% if rail_shown >= products_per_rail %}{% break %}{% endif %}
             {% unless product.available %}{% continue %}{% endunless %}
+            {% if handle == 'beauty-sets' %}
+              {% assign sb_bs_ty = product.type | downcase %}
+              {% unless sb_bs_ty contains 'beauty set' %}
+                {% assign sb_bs_tok = product.handle | prepend: ',' | append: ',' %}
+                {% assign sb_bs_block = ',1x-clinique-high-impact-easy-liquid-eyeliner-eye-liner-01-black-01-oz-new,becca-hydra-mist-set-and-refresh-powder-travel-size-07-oz-2-g-translucent-new,becca-hydra-mist-set-and-refresh-powder-travel-size-08-oz-2g-translucent-new,bobbi-brown-highlighting-powder-15-oz-ulla-johnson-collection-pink-glow-nib,bobbi-brown-luxe-eye-shadow-duo-rich-lustre-eyeshadow-full-size-nib,bobbi-brown-milky-way-luxe-eye-shadow-quad-lunar-incandescent-blossom-rose-nib,bobbi-brown-the-essential-eye-shadow-trio-palette-16-oz-everyday-greys-nib,clinique-colour-surge-eye-shadow-soft-shimmer-07-oz-2-g-pink-dream-limited-ed,estee-lauder-eye-shadow-quad-eggshell-twilight-shimmer-duo-04-chocolate-16,estee-lauder-eye-shadow-quad-natural-4-36-taupe-5-88-ivory-2-95-neutral,estee-lauder-pure-color-envy-luxe-4-color-eyeshadow-quad-palette-21-oz-f-s-nib,estee-lauder-pure-color-envy-luxe-eyeshadow-quad-palette-refill-21-oz-nib,estee-lauder-the-essential-eyeshadow-quad-palette-14oz-4g-full-size-nib-60,estee-lauder-two-in-one-eyeshadow-quad-12oz-sand-dollar-tearose-sky-brown-sugar,kat-von-d-kvd-studded-kiss-creme-lipstick-12-oz-3-4-g-full-size-rare-1pc-nib,lancome-blush-subtil-delicate-oil-free-powder-blusher-duo-deluxe-sample-choose,lancome-colour-focus-exceptional-wear-eyecolour-eye-shadow-quad-16-oz-f-s-nib,lancome-juicy-tubes-ultra-shiny-lip-gloss-tube-1-piece-choose-color,lancome-professional-full-size-face-lip-eye-makeup-brush-w-sleeve-single-1pc-nib,mac-brow-set-eyebrow-enhancer-mascara-gel-28-oz-8-g-full-size-rare-htf-nib,mac-cool-palette-eye-and-face-up-close-personal-summer-2019-collection-nib,mac-extra-dimension-skinfinish-highlighter-selena-31-oz-9-g-la-leyenda-nib,mac-powder-blush-duo-cruel-la-intentions-x-disney-cruella-tickled-punk-nib,mac-prep-prime-lip-base-lipstick-primer-05-oz-1-70-g-black-cherry-edition-nib,mac-prep-prime-lip-primer-lipstick-base-05-oz-1-70-g-petal-power-pink-new-ub,mac-pro-longwear-waterproof-brow-set-eyebrow-gel-17-oz-5-g-f-s-rare-htf-nib,mac-sculpt-glow-duo-highlight-contour-palette-compact-double-gleam-omega-nib,mac-studio-fix-pro-set-blur-weightless-loose-powder-w-puff-22oz-6-5g-nib,michael-kors-wonderlust-eau-fresh-sublime-eau-de-parfum-rollerbal-roll-on-set,nars-audacious-lipstick-palette-forget-me-not-red-limited-edition-fullsize-nib,prescriptives-sunsheen-bronzing-trio-pressed-powder-compact-35oz-10g-rare-nib,set-it-clear-brow-gel,smashbox-photo-op-eye-shadow-trio-palette-097-oz-2-76g-full-size-rare-htf-nib,tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,too-faced-plumped-to-the-max-plump-prime-serum-lip-injection-maximum-plumper,urban-decay-naked-original-eyeshadow-12-color-palette-w-duo-brush-rare-htf-nib,urban-decay-naked2-naked-2-original-eyeshadow-12-color-palette-w-duo-brush-nib,yves-saint-laurent-mascara-the-storm-clash-vinyl-cream-bourgogne-alternatif-nib,yves-saint-laurent-ysl-baby-doll-kiss-blush-duo-cream-stick-lips-cheeks-nib,' %}
+                {% if sb_bs_block contains sb_bs_tok %}{% continue %}{% endif %}
+              {% endunless %}
+            {% endif %}
             {% unless product.featured_media %}{% continue %}{% endunless %}
             {% assign id_token = product.id | prepend: ',' | append: ',' %}
             {% if rail_ids contains id_token %}{% continue %}{% endif %}
@@ -197,6 +224,112 @@
   </section>
 {% endfor %}
 
+{% comment %}
+  Discover — full wrapping grid of randomized in-stock products (not a carousel).
+  Hardcoded after Beauty Sets rails; no Theme Editor collection block required.
+  Candidates: collections.all first, then popular / rare-hard-to-find / low-inventory fill.
+  Dedupe against seen_ids from earlier rails. Client shuffle keeps first N (default 36).
+{% endcomment %}
+{% if section.settings.discover_enabled != false %}
+  {% assign discover_heading = section.settings.discover_heading | default: 'Discover' %}
+  {% assign discover_subheading = section.settings.discover_subheading | default: 'A fresh mix each visit' %}
+  {% assign discover_count = section.settings.discover_count | default: 36 %}
+  {% assign discover_cap = 50 %}
+  {% assign discover_shown = 0 %}
+  {% assign discover_ids = ',' %}
+  {% assign discover_sources = 'all,popular,rare-hard-to-find,low-inventory' | split: ',' %}
+
+  <section class="section vault-discover" id="vault-discover">
+    <div class="page-width">
+      <div class="section-head">
+        <div>
+          {% if discover_subheading != blank %}
+            <p class="kicker">{{ discover_subheading }}</p>
+          {% endif %}
+          <h2>{{ discover_heading }}</h2>
+        </div>
+      </div>
+
+      <div
+        class="product-grid product-grid--discover vault-discover-grid"
+        data-random-count="{{ discover_count }}"
+        data-vault-rail="discover"
+      >
+        {% for src in discover_sources %}
+          {% if discover_shown >= discover_cap %}{% break %}{% endif %}
+          {% assign dcol = collections[src] %}
+          {% if dcol == blank or dcol.products_count == 0 %}{% continue %}{% endif %}
+          {% for product in dcol.products limit: 50 %}
+            {% if discover_shown >= discover_cap %}{% break %}{% endif %}
+            {% unless product.available %}{% continue %}{% endunless %}
+            {% unless product.featured_media %}{% continue %}{% endunless %}
+            {% assign id_token = product.id | prepend: ',' | append: ',' %}
+            {% if seen_ids contains id_token %}{% continue %}{% endif %}
+            {% if discover_ids contains id_token %}{% continue %}{% endif %}
+
+            {% assign card_href = product.url %}
+            {% if card_href == blank and product.handle != blank %}
+              {% assign card_href = product.handle | prepend: '/products/' %}
+            {% endif %}
+            <a class="card card--compact" href="{{ card_href }}"{% if card_href == blank %} aria-disabled="true"{% endif %}>
+              <div class="card-media">
+                <img
+                  src="{{ product.featured_media | image_url: width: 400 }}"
+                  alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                  loading="lazy"
+                  width="400"
+                  height="400"
+                >
+              </div>
+              {% assign mfr = product.metafields.custom.manufacturer.value | default: product.metafields.custom.manufacturer %}
+              {% if mfr != blank %}
+                {% assign m_down = mfr | downcase %}
+                {% unless m_down contains 'escentshow' or m_down contains 'ebay' %}
+                  <p class="card-vendor">{{ mfr }}</p>
+                {% endunless %}
+              {% endif %}
+              <p class="card-title">{{ product.title }}</p>
+              <p class="card-price">
+                {{ product.price | money }}
+                {% if product.compare_at_price > product.price %}
+                  <span class="compare">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </p>
+            </a>
+
+            {% assign discover_ids = discover_ids | append: product.id | append: ',' %}
+            {% assign discover_shown = discover_shown | plus: 1 %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      <script>
+        (function () {
+          var grid = document.querySelector('[data-vault-rail="discover"]');
+          if (!grid) return;
+          var keep = parseInt(grid.getAttribute('data-random-count') || '36', 10);
+          if (!keep || keep < 1) keep = 36;
+          var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
+          if (cards.length <= keep) return;
+          for (var i = cards.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = cards[i];
+            cards[i] = cards[j];
+            cards[j] = tmp;
+          }
+          for (var k = 0; k < cards.length; k++) {
+            if (k < keep) {
+              grid.appendChild(cards[k]);
+            } else {
+              cards[k].parentNode && cards[k].parentNode.removeChild(cards[k]);
+            }
+          }
+        })();
+      </script>
+    </div>
+  </section>
+{% endif %}
+
 {% schema %}
 {
   "name": "Vault rails",
@@ -221,6 +354,39 @@
       "step": 1,
       "label": "Cards per rail (incl. scroll overflow)",
       "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Discover grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "discover_enabled",
+      "label": "Show Discover grid",
+      "default": true,
+      "info": "Full wrapping grid of randomized in-stock products after Beauty Sets. Theme-only; no collection wiring."
+    },
+    {
+      "type": "text",
+      "id": "discover_heading",
+      "label": "Discover heading",
+      "default": "Discover"
+    },
+    {
+      "type": "text",
+      "id": "discover_subheading",
+      "label": "Discover kicker / subheading",
+      "default": "A fresh mix each visit"
+    },
+    {
+      "type": "range",
+      "id": "discover_count",
+      "min": 30,
+      "max": 40,
+      "step": 1,
+      "label": "Discover cards to show",
+      "default": 36,
+      "info": "Server renders up to ~50 candidates; JS shuffles and keeps this many."
     }
   ],
   "blocks": [
