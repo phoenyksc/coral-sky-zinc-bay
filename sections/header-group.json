@@ -22,8 +22,10 @@
     },
     "announcement": {
       "type": "announcement-bar",
-      "settings": {}
-    },
+      "settings": {
+        "announcement": "Free standard shipping on US orders $75+\nAuthenticity guaranteed · Ships from the USA"
+      }
+    }
   },
   "order": [
     "header",
