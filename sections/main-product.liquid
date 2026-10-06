@@ -13,6 +13,7 @@
   #sb-inner-shade-row per selected variant; hardcoded `sets` is the fallback.
   Null/invalid hex = name-only outline stroke (never guessed from the sb-hex map).
   Generic single "Shade" chip hidden when the product has a non-empty shade_list.
+  2026-10-05 Dru: in-stock options first, sold-out below (auto by availability).
 {% endcomment %}
 {% assign sb_palette = false %}
 {% assign sb_eq = false %}
@@ -1044,11 +1045,18 @@
           {% endif %}
           <p class="kicker" style="margin-top:1rem">{{ opt_name }}</p>
           <div class="option-grid{% if is_color_opt %} option-grid--brush{% endif %}">
+            {% comment %} 2026-10-05: two-pass — available first, sold-out below; within each group keep original order {% endcomment %}
+            {% for sb_avail_pass in (1..2) %}
             {% for variant in product.variants %}
               {% assign sold_out = false %}
               {% unless variant.available %}{% assign sold_out = true %}{% endunless %}
               {% if variant.inventory_management != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
                 {% assign sold_out = true %}
+              {% endif %}
+              {% if sb_avail_pass == 1 %}
+                {% if sold_out %}{% continue %}{% endif %}
+              {% else %}
+                {% unless sold_out %}{% continue %}{% endunless %}
               {% endif %}
               {% assign shade_label = variant.title %}
               {% assign chip_hex = variant.metafields.custom.swatch_hex.value | default: variant.metafields.custom.swatch_hex %}
@@ -1923,6 +1931,7 @@
                 {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
               </button>
             {% endfor %}
+            {% endfor %}
           </div>
         {% else %}
           {% for option in product.options_with_values %}
@@ -1937,6 +1946,8 @@
             <div class="option-block" data-option-index="{{ forloop.index0 }}">
               <p class="kicker">{{ option.name }}</p>
               <div class="option-grid{% if is_color_opt %} option-grid--brush{% endif %}">
+                {% comment %} 2026-10-05: two-pass — available first, sold-out below; within each group keep original order {% endcomment %}
+                {% for sb_avail_pass in (1..2) %}
                 {% for value in option.values %}
                   {% assign value_available = false %}
                   {% assign matched_variant = nil %}
@@ -1964,6 +1975,11 @@
                   {% endfor %}
                   {% assign sold_out = true %}
                   {% if value_available %}{% assign sold_out = false %}{% endif %}
+                  {% if sb_avail_pass == 1 %}
+                    {% if sold_out %}{% continue %}{% endif %}
+                  {% else %}
+                    {% unless sold_out %}{% continue %}{% endunless %}
+                  {% endif %}
                   {% assign chip_hex = matched_variant.metafields.custom.swatch_hex.value | default: matched_variant.metafields.custom.swatch_hex %}
                   {% if chip_hex == blank and is_color_opt %}
                     {% assign shade = value %}
@@ -2835,6 +2851,7 @@
                     {% endif %}
                     {% if sold_out %}<span class="swatch-soldout">Sold out</span>{% endif %}
                   </button>
+                {% endfor %}
                 {% endfor %}
               </div>
             </div>
