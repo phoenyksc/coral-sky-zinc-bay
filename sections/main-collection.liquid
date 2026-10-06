@@ -91,7 +91,7 @@
   var MORE_LABEL = 'Load more';
   var ALL_LABEL = 'Show all';
   var LOADING_LABEL = 'Loading…';
-  var SHOW_ALL_MAX_PAGES = 20; // Show all stops after this many pages per click; Load more stays available.
+  var SHOW_ALL_MAX_PAGES = 400; // 2026-10-05 Dru: Show all loads everything (safety cap only).
   var nextPage = parseInt(wrap.getAttribute('data-next-page'), 10) || 2;
   var lastPage = parseInt(wrap.getAttribute('data-pages'), 10) || 1;
   var busy = false;
@@ -171,6 +171,7 @@
         if (isDone()) { setBusy(false); finish(); return; }
         if (fetched >= SHOW_ALL_MAX_PAGES) { setBusy(false); return; }
         fetched += 1;
+        allBtn.textContent = 'Loading… ' + Math.min(nextPage, lastPage) + ' / ' + lastPage;
         fetchPage(nextPage).then(step).catch(function () {
           setBusy(false); // re-enable on failure; cards already appended stay
         });
