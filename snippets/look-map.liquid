@@ -1,0 +1,40 @@
+{%- comment -%}
+  Sol Beautiful — LOOK MAP (single source of truth for "Get the look" campaigns). 2026-10-12.
+  One row per look:  key::Name::Subtext::image filename (Files)::panel colour::handle,handle,...::lead badge
+  Page for a look = /pages/look-<key> (page template "look").
+  Usage (snippets can't return values, so capture the output and split on '::'):
+    {% capture row %}{% render 'look-map', key: 'haunted-vanity' %}{% endcapture %}       → that look's row
+    {% capture row %}{% render 'look-map', handle: product.handle %}{% endcapture %}      → first look containing the product
+  Blank output = no match. Keep rows in sync with the hero blocks (templates/index.json).
+  NEXT CAMPAIGN: replace the rows below, create one page per row (README, API step 2).
+{%- endcomment -%}
+{%- liquid
+  capture sb_looks
+    echo 'haunted-vanity::Haunted Vanity::A little mystery. A little MAC.::01_Haunted_Vanity_MAC_Lipstick.jpg::#4a1f45::mac-limited-edition-a-taste-of-matte-lipstick-x-5-destined-for-stardom,tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,estee-lauder-double-wear-infinite-waterproof-pencil-eyeliner-35-g-full-size-nib-1,tom-ford-extreme-badass-lip-color-lipstick-1oz-3g-full-size-nib-02-luscious::Stand-in'
+    echo '§'
+    echo 'vampire-glam::Vampire Glam::A sharp wing after dark.::02_Vampire_Glam_MAC_Eyeliner.jpg::#5c1220::mac-brushstroke-24-hour-liner-eye-liquid-eyeliiner-02-oz-full-size-nib,mac-eye-shadow-x-9-eyeshadow-palette-7-2g-18oz-net-wt-rare-htf-limited-ed-nib,mac-locked-kiss-ink-24hr-lipcolour-liquid-lipstick-14-oz-4-ml-full-size-nib,too-faced-better-than-sex-and-diamonds-mascara-limited-edition-27-oz-f-s-nib::Stand-in'
+    echo '§'
+    echo 'pumpkin-glow::Pumpkin Glow::Give your cheeks a little glow.::04_Pumpkin_Glow_MAC_Blush.jpg::#b4531c::mac-powder-sheertone-blush-shaping-powder-pro-palette-refill-21-oz-6-g-nib,mac-bronzing-powder-pressed-compact-35-oz-10-g-full-size-original-formula-nib,too-faced-maple-syrup-pancakes-eyeshadow-palette,smashbox-be-legendary-cream-matte-lipstick-10-oz-3-g-full-size-original-nib::Stand-in'
+    echo '§'
+    echo 'moonlit-witch::Moonlit Witch::Make a little liner magic.::03_Moonlit_Witch_MAC_Liquidlast.jpg::#16203a::mac-glitter-eye-liner-liquid-shimmer-eyeliner-10-oz-3-g-rare-htf-nib,smashbox-photo-op-eye-shadow-trio-palette-097-oz-2-76g-full-size-rare-htf-nib,mac-bare-to-the-max-eye-kit-palette-3d-dimension-mascara-graphblack-technakohl,smashbox-always-on-gel-eye-liner-pencil-eyeliner-04-oz-1-2-g-full-size-new::Stand-in'
+    echo '§'
+    echo 'midnight-masquerade::Midnight Masquerade::Your lips. Your grand entrance.::05_Midnight_Masquerade_MAC_Lipstick.jpg::#2a1838::mac-powder-kiss-velvet-blur-slim-stick-lipstick-07-oz-2-g-full-size-nib,smashbox-cover-shot-crystalized-rock-me-8-color-eye-shadow-palette-21-oz-nib,bobbi-brown-highlighting-powder-28-oz-8-g-full-size-product-nib-1::Stand-in'
+  endcapture
+  assign sb_rows = sb_looks | split: '§'
+  for sb_row in sb_rows
+    assign sb_row = sb_row | strip
+    assign sb_f = sb_row | split: '::'
+    if key != blank and sb_f[0] == key
+      echo sb_row
+      break
+    endif
+    if handle != blank
+      assign sb_tok = sb_f[5] | prepend: ',' | append: ','
+      assign sb_h = handle | prepend: ',' | append: ','
+      if sb_tok contains sb_h
+        echo sb_row
+        break
+      endif
+    endif
+  endfor
+-%}
