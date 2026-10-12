@@ -9,6 +9,7 @@
   2026-10-05 Inventory: skip $999.99 placeholder and blank/zero prices (price_max >= 99999 cents or <= 0) in all rails + Discover.
   YSL Signature Strobing Sculpt (KEEP_SET) removed from sb_bs_block denylist.
   Dru 2026-10-05: Discover gets a Load more button (reveals the next batch of shuffled candidates).
+  Dru 2026-10-12: order Popular → Beauty Sets → What We Love (tiles block, snippet what-we-love-tiles) → Rare → Low. Discover now follows the last rail.
 {% endcomment %}
 
 {% assign seen_ids = ',' %}
@@ -16,6 +17,7 @@
 {% assign products_per_rail = section.settings.products_per_rail | default: 12 %}
 
 {% for block in section.blocks %}
+  {% if block.type == 'what_we_love' %}{% render 'what-we-love-tiles', block: block %}{% continue %}{% endif %}
   {% if block.type != 'rail' %}{% continue %}{% endif %}
 
   {% assign handle = block.settings.collection_handle | strip %}
@@ -415,6 +417,15 @@
     }
   ],
   "blocks": [
+    {
+      "type": "what_we_love",
+      "name": "What We Love tiles",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "What we love" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "What we love" }
+      ]
+    },
     {
       "type": "rail",
       "name": "Vault rail",
