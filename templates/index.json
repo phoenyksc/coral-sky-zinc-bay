@@ -11,13 +11,131 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "blocks": {
+        "seg_haunted_vanity": {
+          "type": "segment",
+          "settings": {
+            "focus": 20,
+            "panel_color": "#4a1f45",
+            "text_color": "#ffffff",
+            "headline": "Haunted Vanity",
+            "subtext": "A little mystery. A little MAC.",
+            "cta_label": "Shop Now",
+            "link": "/products/mac-limited-edition-a-taste-of-matte-lipstick-x-5-destined-for-stardom",
+            "products": [
+              "mac-limited-edition-a-taste-of-matte-lipstick-x-5-destined-for-stardom",
+              "tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib",
+              "estee-lauder-double-wear-infinite-waterproof-pencil-eyeliner-35-g-full-size-nib-1",
+              "tom-ford-extreme-badass-lip-color-lipstick-1oz-3g-full-size-nib-02-luscious"
+            ],
+            "badge": "Stand-in",
+            "video": "shopify://files/videos/01_Haunted_Vanity_MAC_Lipstick.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/6d5510064c4746dfb0a883f543ded88a/6d5510064c4746dfb0a883f543ded88a.SD-480p-0.9Mbps-97242929.mp4",
+            "image": "shopify://shop_images/01_Haunted_Vanity_MAC_Lipstick.jpg"
+          }
+        },
+        "seg_vampire_glam": {
+          "type": "segment",
+          "settings": {
+            "focus": 20,
+            "panel_color": "#5c1220",
+            "text_color": "#ffffff",
+            "headline": "Vampire Glam",
+            "subtext": "A sharp wing after dark.",
+            "cta_label": "Shop Now",
+            "link": "/products/mac-brushstroke-24-hour-liner-eye-liquid-eyeliiner-02-oz-full-size-nib",
+            "products": [
+              "mac-brushstroke-24-hour-liner-eye-liquid-eyeliiner-02-oz-full-size-nib",
+              "mac-eye-shadow-x-9-eyeshadow-palette-7-2g-18oz-net-wt-rare-htf-limited-ed-nib",
+              "mac-locked-kiss-ink-24hr-lipcolour-liquid-lipstick-14-oz-4-ml-full-size-nib",
+              "too-faced-better-than-sex-and-diamonds-mascara-limited-edition-27-oz-f-s-nib"
+            ],
+            "badge": "Stand-in",
+            "video": "shopify://files/videos/02_Vampire_Glam_MAC_Eyeliner.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/412fe6a4de4a4087aaa0c0848d8f412e/412fe6a4de4a4087aaa0c0848d8f412e.SD-480p-0.9Mbps-97242930.mp4",
+            "image": "shopify://shop_images/02_Vampire_Glam_MAC_Eyeliner.jpg"
+          }
+        },
+        "seg_pumpkin_glow": {
+          "type": "segment",
+          "settings": {
+            "focus": 20,
+            "panel_color": "#b4531c",
+            "text_color": "#ffffff",
+            "headline": "Pumpkin Glow",
+            "subtext": "Give your cheeks a little glow.",
+            "cta_label": "Shop Now",
+            "link": "/collections/popular",
+            "products": [
+              "mac-powder-sheertone-blush-shaping-powder-pro-palette-refill-21-oz-6-g-nib",
+              "mac-bronzing-powder-pressed-compact-35-oz-10-g-full-size-original-formula-nib",
+              "too-faced-maple-syrup-pancakes-eyeshadow-palette",
+              "smashbox-be-legendary-cream-matte-lipstick-10-oz-3-g-full-size-original-nib"
+            ],
+            "badge": "Stand-in",
+            "video": "shopify://files/videos/04_Pumpkin_Glow_MAC_Blush.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/f6851f5c8b954dcc9b78114db6b164fc/f6851f5c8b954dcc9b78114db6b164fc.SD-480p-0.9Mbps-97242932.mp4",
+            "image": "shopify://shop_images/04_Pumpkin_Glow_MAC_Blush.jpg"
+          }
+        },
+        "seg_moonlit_witch": {
+          "type": "segment",
+          "settings": {
+            "focus": 20,
+            "panel_color": "#16203a",
+            "text_color": "#ffffff",
+            "headline": "Moonlit Witch",
+            "subtext": "Make a little liner magic.",
+            "cta_label": "Shop Now",
+            "link": "/products/mac-glitter-eye-liner-liquid-shimmer-eyeliner-10-oz-3-g-rare-htf-nib",
+            "products": [
+              "mac-glitter-eye-liner-liquid-shimmer-eyeliner-10-oz-3-g-rare-htf-nib",
+              "smashbox-photo-op-eye-shadow-trio-palette-097-oz-2-76g-full-size-rare-htf-nib",
+              "mac-bare-to-the-max-eye-kit-palette-3d-dimension-mascara-graphblack-technakohl",
+              "smashbox-always-on-gel-eye-liner-pencil-eyeliner-04-oz-1-2-g-full-size-new"
+            ],
+            "badge": "Stand-in",
+            "video": "shopify://files/videos/03_Moonlit_Witch_MAC_Liquidlast.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/59d4b38ebc33414cb942a4790c402bae/59d4b38ebc33414cb942a4790c402bae.SD-480p-0.9Mbps-97242931.mp4",
+            "image": "shopify://shop_images/03_Moonlit_Witch_MAC_Liquidlast.jpg"
+          }
+        },
+        "seg_midnight_masquerade": {
+          "type": "segment",
+          "settings": {
+            "focus": 20,
+            "panel_color": "#2a1838",
+            "text_color": "#ffffff",
+            "headline": "Midnight Masquerade",
+            "subtext": "Your lips. Your grand entrance.",
+            "cta_label": "Shop Now",
+            "link": "/products/mac-powder-kiss-velvet-blur-slim-stick-lipstick-07-oz-2-g-full-size-nib",
+            "products": [
+              "mac-powder-kiss-velvet-blur-slim-stick-lipstick-07-oz-2-g-full-size-nib",
+              "smashbox-cover-shot-crystalized-rock-me-8-color-eye-shadow-palette-21-oz-nib",
+              "bobbi-brown-highlighting-powder-28-oz-8-g-full-size-product-nib-1"
+            ],
+            "badge": "Stand-in",
+            "video": "shopify://files/videos/05_Midnight_Masquerade_MAC_Lipstick.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b5867a00d6ed47cbb5c9ebf031d4a181/b5867a00d6ed47cbb5c9ebf031d4a181.SD-480p-0.9Mbps-97242933.mp4",
+            "image": "shopify://shop_images/05_Midnight_Masquerade_MAC_Lipstick.jpg"
+          },
+          "disabled": true
+        }
+      },
+      "block_order": [
+        "seg_haunted_vanity",
+        "seg_vampire_glam",
+        "seg_pumpkin_glow",
+        "seg_moonlit_witch",
+        "seg_midnight_masquerade"
+      ],
       "settings": {
-        "heading": "For the love of beauty and skin.",
-        "lede": "Scent that stays. Color that feels like you. Care that skin remembers. Sol Beautiful is a California vault of designer beauty — collected with affection for the ritual itself.",
-        "cta1_label": "Shop the Vault",
-        "cta1_link": "/collections/popular",
-        "hero_products": "tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,giorgio-armani-power-fabric-longwear-high-cover-foundation-1-oz-30-ml-f-s-nib,too-faced-melted-matte-latex-metal-liquified-matte-long-wear-liquid-lipstick-nib,tom-ford-soleil-blanc-shimmering-body-oil-gold-1-5-oz-45-ml-nib-sealed",
-        "hero_fallback_collection": "popular"
+        "enabled": true,
+        "eyebrow": "The Halloween Makeup Edit",
+        "title": "Get the look",
+        "section_bg": "#ffffff",
+        "pad_top": 12
       }
     },
     "collection_tiles": {
