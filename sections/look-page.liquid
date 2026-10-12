@@ -1,0 +1,74 @@
+{%- comment -%}
+  Sol Beautiful — LOOK PAGE (template page.look). 2026-10-12.
+  Page handle look-<key> → row from snippets/look-map. Renders campaign still, headline, subtext and
+  ALL of the look's in-stock products (sold-out skipped), each card links to its PDP.
+{%- endcomment -%}
+{%- assign lp_key = page.handle | remove_first: 'look-' -%}
+{%- capture lp_row -%}{%- render 'look-map', key: lp_key -%}{%- endcapture -%}
+{%- assign lp_row = lp_row | strip -%}
+<div class="sb-look-page" id="LP-{{ section.id }}">
+<style>
+  #LP-{{ section.id }}{background:#fff}
+  #LP-{{ section.id }} .lp-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);color:var(--lp-ink,#fff);background:var(--lp-panel,#2a1838)}
+  #LP-{{ section.id }} .lp-media{aspect-ratio:9/8;overflow:hidden;background:#111}
+  #LP-{{ section.id }} .lp-media img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+  #LP-{{ section.id }} .lp-copy{display:flex;flex-direction:column;justify-content:center;gap:.5rem;padding:clamp(1.2rem,4vw,3.5rem)}
+  #LP-{{ section.id }} .lp-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.8;margin:0}
+  #LP-{{ section.id }} .lp-h{font-size:clamp(1.8rem,4vw,3rem);line-height:1.05;margin:0;color:inherit}
+  #LP-{{ section.id }} .lp-sub{margin:0;font-size:1rem;opacity:.92}
+  #LP-{{ section.id }} .lp-count{margin:.4rem 0 0;font-weight:700;font-size:.9rem}
+  #LP-{{ section.id }} .lp-jump{align-self:flex-start;margin-top:.6rem;background:#fff;color:#1a1a1a;font-weight:700;padding:.7rem 1.2rem;border-radius:999px;text-decoration:none;font-size:.9rem}
+  #LP-{{ section.id }} .lp-grid-wrap{padding:1.25rem 0 1.75rem}
+  #LP-{{ section.id }} .lp-grid-wrap h2{margin:0 0 .75rem;font-size:1.25rem}
+  #LP-{{ section.id }} .lp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  #LP-{{ section.id }} .sb-look-card .card-media{position:relative}
+  #LP-{{ section.id }} .sb-look-card{display:flex;flex-direction:column;gap:.25rem;text-decoration:none;color:inherit;min-width:0}
+  #LP-{{ section.id }} .sb-look-card .card-media img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
+  #LP-{{ section.id }} .sb-look-card .card-title{font-size:.85rem;line-height:1.3;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  #LP-{{ section.id }} .sb-look-card .card-price{font-weight:700;margin:0;font-size:.9rem}
+  #LP-{{ section.id }} .sb-look-badge{position:absolute;top:6px;left:6px;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
+  #LP-{{ section.id }} .lp-back{display:inline-block;margin-top:1rem;font-size:.9rem;color:inherit}
+  @media(max-width:749px){
+    #LP-{{ section.id }} .lp-hero{grid-template-columns:1fr}
+    #LP-{{ section.id }} .lp-copy{padding:1rem 1rem 1.2rem}
+    #LP-{{ section.id }} .lp-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  }
+</style>
+{%- if lp_row == blank -%}
+  <div class="page-width lp-grid-wrap"><h1>{{ page.title }}</h1>{{ page.content }}<a class="lp-back" href="/collections/popular">Shop Popular</a></div>
+{%- else -%}
+  {%- assign lp = lp_row | split: '::' -%}
+  {%- assign lp_handles = lp[5] | split: ',' -%}
+  {%- assign lp_n = 0 -%}
+  {%- capture lp_cards -%}
+    {%- for h in lp_handles -%}
+      {%- assign p = all_products[h] -%}
+      {%- if p == blank or p.available == false or p.featured_media == blank -%}{%- continue -%}{%- endif -%}
+      {%- if lp_n == 0 -%}{%- assign lp_badge = lp[6] -%}{%- else -%}{%- assign lp_badge = '' -%}{%- endif -%}
+      {%- render 'look-card', p: p, badge: lp_badge -%}
+      {%- assign lp_n = lp_n | plus: 1 -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  <section class="lp-hero" style="--lp-panel:{{ lp[4] }};--lp-ink:#fff">
+    <div class="lp-media">
+      {%- assign lp_img = images[lp[3]] -%}
+      {%- if lp_img != blank -%}{{ lp_img | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600,900,1400', sizes: '(min-width: 750px) 55vw, 100vw', alt: lp[1] }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag }}{%- endif -%}
+    </div>
+    <div class="lp-copy">
+      <p class="lp-eyebrow">The Halloween Makeup Edit</p>
+      <h1 class="lp-h">{{ lp[1] }}</h1>
+      <p class="lp-sub">{{ lp[2] }}</p>
+      <p class="lp-count">{{ lp_n }} {% if lp_n == 1 %}product{% else %}products{% endif %} in this look</p>
+      <a class="lp-jump" href="#LookProducts">Shop the look</a>
+    </div>
+  </section>
+  <div class="page-width lp-grid-wrap" id="LookProducts">
+    <h2>Everything in {{ lp[1] }}</h2>
+    {%- if lp_n > 0 -%}<div class="lp-grid product-grid">{{ lp_cards }}</div>{%- else -%}<p>This look is sold out right now. <a href="/collections/popular">Shop Popular</a></p>{%- endif -%}
+    <a class="lp-back" href="/#shopify-section-hero">&larr; All Halloween looks</a>
+  </div>
+{%- endif -%}
+</div>
+{% schema %}
+{ "name": "Look page", "tag": "section", "class": "section-look-page", "settings": [] }
+{% endschema %}
