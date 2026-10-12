@@ -1,5 +1,5 @@
 {% comment %}
-  Sol Beautiful hero — thin Sephora-style banner (Dru 2026-10-12).
+  Sol Beautiful hero — thin Sephora-style banner (Dru 2026-10-12). v2: mobile (<768px) thin band, all 4 products in one row.
   Short white panel: copy left, 2–4 in-stock product shots right (object-fit: contain, never cropped).
   Products come from `hero_products` (comma-separated handles, hand-picked: clean white backgrounds, no watermarks).
   Any product that is sold out, missing media, or $999/blank priced is skipped at render time.
@@ -25,6 +25,20 @@
     #Hero-{{ section.id }} .hero-panel{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:2rem;padding:1.5rem 2.25rem;height:17rem}
     #Hero-{{ section.id }} .hero-products{grid-template-columns:repeat(4,minmax(0,1fr));height:13.5rem}
     #Hero-{{ section.id }} .hero-products a:nth-child(n+4){display:block}
+  }
+  @media(max-width:767px){
+    #Hero-{{ section.id }}.hero--thin{padding:.5rem 0}
+    #Hero-{{ section.id }} .hero-panel{gap:.5rem;padding:.65rem .75rem;border-radius:10px}
+    #Hero-{{ section.id }} .hero-copy{display:flex;flex-wrap:wrap;align-items:center;column-gap:.6rem;row-gap:.3rem;max-width:none}
+    #Hero-{{ section.id }} .hero-copy .kicker{display:none}
+    #Hero-{{ section.id }} h1{flex:1 1 100%;font-size:1.15rem;line-height:1.2;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #Hero-{{ section.id }} p.lede{display:none}
+    #Hero-{{ section.id }} .hero-actions{margin-top:0;gap:.4rem;flex-wrap:nowrap}
+    #Hero-{{ section.id }} .hero-actions .btn--lg{min-height:2rem;padding:0 .8rem;font-size:.8rem}
+    #Hero-{{ section.id }} .hero-products{grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;height:5.5rem}
+    #Hero-{{ section.id }} .hero-products a:nth-child(n+4){display:block}
+    #Hero-{{ section.id }} .hero-product{padding:.2rem;min-width:0}
+    #Hero-{{ section.id }} .hero-product img{object-fit:contain;max-width:100%;max-height:100%}
   }
 </style>
 <section class="hero hero--thin" id="Hero-{{ section.id }}" {{ section.shopify_attributes }}>
@@ -55,7 +69,7 @@
           {% if p == blank or p.available == false or p.featured_media == blank %}{% continue %}{% endif %}
           {% if p.price_max >= 99999 or p.price_max <= 0 %}{% continue %}{% endif %}
           <a class="hero-product" href="{{ p.url }}">
-            {{ p.featured_media | image_url: width: 600 | image_tag: loading: 'eager', widths: '300,450,600', sizes: '(min-width: 768px) 14vw, 30vw', alt: p.title }}
+            {{ p.featured_media | image_url: width: 600 | image_tag: loading: 'eager', widths: '300,450,600', sizes: '(min-width: 768px) 14vw, 24vw', alt: p.title }}
           </a>
           {% assign hero_shown = hero_shown | plus: 1 %}
         {% endfor %}
@@ -66,7 +80,7 @@
             {% if p.available == false or p.featured_media == blank %}{% continue %}{% endif %}
             {% if p.price_max >= 99999 or p.price_max <= 0 %}{% continue %}{% endif %}
             <a class="hero-product" href="{{ p.url }}">
-              {{ p.featured_media | image_url: width: 600 | image_tag: loading: 'eager', widths: '300,450,600', sizes: '(min-width: 768px) 14vw, 30vw', alt: p.title }}
+              {{ p.featured_media | image_url: width: 600 | image_tag: loading: 'eager', widths: '300,450,600', sizes: '(min-width: 768px) 14vw, 24vw', alt: p.title }}
             </a>
             {% assign hero_shown = hero_shown | plus: 1 %}
           {% endfor %}
