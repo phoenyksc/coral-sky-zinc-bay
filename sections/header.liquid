@@ -13,7 +13,7 @@
     </button>
     <a class="logo{% if settings.logo %} logo--image{% endif %}" href="{{ routes.root_url }}">
       {%- if settings.logo -%}
-        {{ settings.logo | image_url: width: 900 | image_tag: alt: shop.name, class: 'logo__img', width: 897, height: 320, loading: 'eager', fetchpriority: 'high', widths: '300, 450, 600, 897', sizes: '(min-width: 768px) 210px, 160px' }}
+        {{ settings.logo | image_url: width: 900 | image_tag: alt: shop.name, class: 'logo__img', width: 897, height: 320, loading: 'eager', fetchpriority: 'high', widths: '300, 450, 600, 897', sizes: '(min-width: 768px) 236px, 186px' }}
       {%- else -%}
         {{ shop.name }}
       {%- endif -%}
