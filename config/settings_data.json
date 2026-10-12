@@ -13,10 +13,13 @@
     "signup_bar": "",
     "free_shipping": 0,
     "contact_email": "info@solbeautiful.com",
+    "logo": "shopify://shop_images/solbeautiful-header-logo-2026-10-12.png",
+    "logo_width": 100,
+    "favicon": "shopify://shop_images/solbeautiful-favicon-512-2026-10-12.png",
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#f2efe6",
+          "background": "#faf8f3",
           "text": "#1a1613",
           "button": "#1a1613",
           "button_label": "#fbf8f3",
