@@ -1,0 +1,49 @@
+{%- comment -%}
+  PDP "Complete the look: <Look>" (extends Complete the look v2). Rendered from main-product.
+  If this product is in a look AND at least one other look item is in stock → outputs the block (marker data-sb-look).
+  Otherwise outputs nothing and main-product falls back to v2 (random popular, other categories).
+  In-stock only, excludes the current product, no shuffle (look order kept), max 5.
+{%- endcomment -%}
+{%- capture lk_row -%}{%- render 'look-map', handle: product.handle -%}{%- endcapture -%}
+{%- assign lk_row = lk_row | strip -%}
+{%- if lk_row != blank -%}
+  {%- assign lk = lk_row | split: '::' -%}
+  {%- assign lk_handles = lk[5] | split: ',' -%}
+  {%- assign lk_n = 0 -%}
+  {%- capture lk_cards -%}
+    {%- for h in lk_handles -%}
+      {%- if h == product.handle -%}{%- continue -%}{%- endif -%}
+      {%- assign p = all_products[h] -%}
+      {%- if p == blank or p.available == false or p.featured_media == blank -%}{%- continue -%}{%- endif -%}
+      {%- if lk_n >= 5 -%}{%- break -%}{%- endif -%}
+      {%- render 'look-card', p: p -%}
+      {%- assign lk_n = lk_n | plus: 1 -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if lk_n > 0 -%}
+<section class="section sb-complete-the-look sb-look-block" id="CompleteTheLookLook" data-sb-look="{{ lk[0] }}">
+  <div class="page-width">
+    <div class="section-head">
+      <div>
+        <p class="kicker">The Halloween Makeup Edit</p>
+        <h2>Complete the look: {{ lk[1] }}</h2>
+      </div>
+      <a class="sb-look-all" href="/pages/look-{{ lk[0] }}">See the full look &rarr;</a>
+    </div>
+    <div class="product-grid sb-ctl-grid">{{ lk_cards }}</div>
+  </div>
+  <style>
+    .sb-look-block .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+    .sb-look-all{font-weight:700;font-size:.9rem;text-decoration:underline;text-underline-offset:3px;color:inherit;white-space:nowrap}
+    .sb-look-card .card-media{position:relative}
+    .sb-look-block .sb-ctl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    @media(max-width:749px){.sb-look-block .sb-ctl-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+    .sb-look-card{display:flex;flex-direction:column;gap:.25rem;text-decoration:none;color:inherit;min-width:0}
+    .sb-look-card .card-media img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
+    .sb-look-card .card-title{font-size:.85rem;line-height:1.3;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .sb-look-card .card-price{font-weight:700;margin:0;font-size:.9rem}
+    .sb-look-badge{position:absolute;top:6px;left:6px;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
+  </style>
+</section>
+  {%- endif -%}
+{%- endif -%}
