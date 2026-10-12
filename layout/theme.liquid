@@ -44,8 +44,9 @@
       body{background-color:var(--bg);background-image:none}
       .zen-strip:after{background:linear-gradient(to bottom,rgba(250,248,243,.2),transparent 40%,rgba(250,248,243,.5))}
       .logo--image{display:flex;align-items:center;height:100%;line-height:0}
-      .logo__img{height:40px;width:auto;max-width:none}
-      @media(min-width:768px){.logo__img{height:52px}}
+      .logo__img{height:54px;width:auto;max-width:calc(100vw - 200px);object-fit:contain;object-position:left center}
+      @media(max-width:374px){.logo__img{height:50px}}
+      @media(min-width:768px){.logo__img{height:72px;max-width:none}}
     </style>
     {{ content_for_header }}
   </head>
