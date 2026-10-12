@@ -4149,6 +4149,11 @@
   </div>
 </div>
 
+{%- comment -%} 2026-10-12 Dru: product in a Halloween look → 'Complete the look: <Look>' (snippets/look-complete); else v2 below. {%- endcomment -%}
+{%- capture sb_look_html -%}{%- render 'look-complete', product: product -%}{%- endcapture -%}
+{%- if sb_look_html contains 'data-sb-look' -%}
+{{ sb_look_html }}
+{%- else -%}
 {% comment %}
   2026-10-05 Dru: Complete the look = random popular from other categories, exclude current, in-stock only.
   v2 (p11b): category = normalized, not raw product.type. QA found lipsticks typed 'Tools of the trade' /
@@ -4502,6 +4507,8 @@
   </script>
 </section>
 {% endif %}
+
+{%- endif -%}{%- comment -%} /look-complete fallback {%- endcomment -%}
 
 {% schema %}
 {
