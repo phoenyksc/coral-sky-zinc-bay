@@ -11,7 +11,13 @@
     <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
-    <a class="logo" href="{{ routes.root_url }}">{{ shop.name }}</a>
+    <a class="logo{% if settings.logo %} logo--image{% endif %}" href="{{ routes.root_url }}">
+      {%- if settings.logo -%}
+        {{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, class: 'logo__img', width: 366, height: 180, loading: 'eager', fetchpriority: 'high', widths: '200, 300, 366' , sizes: '120px' }}
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    </a>
     <nav class="header-nav">
       {% for link in section.settings.menu.links %}
         <a href="{{ link.url }}">{{ link.title }}</a>
