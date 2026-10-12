@@ -17,33 +17,130 @@
         "cta1_label": "Shop the Vault",
         "cta1_link": "/collections/popular",
         "cta2_label": "Skincare",
-        "cta2_link": "/collections/skincare"
+        "cta2_link": "/collections/skincare",
+        "hero_products": "tom-ford-eye-color-quad-eyeshadow-palette-35-oz-10-g-full-size-nib,giorgio-armani-power-fabric-longwear-high-cover-foundation-1-oz-30-ml-f-s-nib,too-faced-melted-matte-latex-metal-liquified-matte-long-wear-liquid-lipstick-nib,tom-ford-soleil-blanc-shimmering-body-oil-gold-1-5-oz-45-ml-nib-sealed",
+        "hero_fallback_collection": "popular"
       }
     },
     "collection_tiles": {
       "type": "collection-tiles",
       "blocks": {
-        "tile_fragrances": {"type": "tile", "settings": {"label": "Fragrances", "collection_handle": "fragrances"}},
-        "tile_makeup": {"type": "tile", "settings": {"label": "Makeup", "collection_handle": "makeup"}},
-        "tile_skincare": {"type": "tile", "settings": {"label": "Skincare", "collection_handle": "skincare"}},
-        "tile_hair": {"type": "tile", "settings": {"label": "Hair", "collection_handle": "hair"}},
-        "tile_bath": {"type": "tile", "settings": {"label": "Bath & body", "collection_handle": "bath-body"}},
-        "tile_htf": {"type": "tile", "settings": {"label": "Hard to find", "collection_handle": "hard-to-find"}}
+        "tile_fragrances": {
+          "type": "tile",
+          "settings": {
+            "label": "Fragrances",
+            "collection_handle": "fragrances"
+          }
+        },
+        "tile_makeup": {
+          "type": "tile",
+          "settings": {
+            "label": "Makeup",
+            "collection_handle": "makeup"
+          }
+        },
+        "tile_skincare": {
+          "type": "tile",
+          "settings": {
+            "label": "Skincare",
+            "collection_handle": "skincare"
+          }
+        },
+        "tile_hair": {
+          "type": "tile",
+          "settings": {
+            "label": "Hair",
+            "collection_handle": "hair"
+          }
+        },
+        "tile_bath": {
+          "type": "tile",
+          "settings": {
+            "label": "Bath & body",
+            "collection_handle": "bath-body"
+          }
+        },
+        "tile_htf": {
+          "type": "tile",
+          "settings": {
+            "label": "Hard to find",
+            "collection_handle": "hard-to-find"
+          }
+        }
       },
-      "block_order": ["tile_fragrances", "tile_makeup", "tile_skincare", "tile_hair", "tile_bath", "tile_htf"],
-      "settings": {"kicker": "What we love", "heading": "What we love"}
+      "block_order": [
+        "tile_fragrances",
+        "tile_makeup",
+        "tile_skincare",
+        "tile_hair",
+        "tile_bath",
+        "tile_htf"
+      ],
+      "settings": {
+        "kicker": "What we love",
+        "heading": "What we love"
+      },
+      "disabled": true
     },
     "vault_rails": {
       "type": "vault-rails",
       "blocks": {
-        "rail_popular": {"type": "rail", "settings": {"collection_handle": "popular", "heading": "Popular", "subheading": "Most sold and most watched"}},
-        "rail_rare": {"type": "rail", "settings": {"collection_handle": "rare-hard-to-find", "heading": "Rare · hard to find", "subheading": "Discontinued and allocated — while they last"}},
-        "rail_low": {"type": "rail", "settings": {"collection_handle": "low-inventory", "heading": "Low inventory", "subheading": "Fewer than six in the warehouse"}},
-        "rail_beauty": {"type": "rail", "settings": {"collection_handle": "beauty-sets", "heading": "Beauty Sets", "subheading": "Kits, vaults, and gift sets"}}
+        "rail_popular": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "popular",
+            "heading": "Popular",
+            "subheading": "Most sold and most watched"
+          }
+        },
+        "rail_rare": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "rare-hard-to-find",
+            "heading": "Rare · hard to find",
+            "subheading": "Discontinued and allocated — while they last"
+          }
+        },
+        "rail_low": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "low-inventory",
+            "heading": "Low inventory",
+            "subheading": "Fewer than six in the warehouse"
+          }
+        },
+        "rail_beauty": {
+          "type": "rail",
+          "settings": {
+            "collection_handle": "beauty-sets",
+            "heading": "Beauty Sets",
+            "subheading": "Kits, vaults, and gift sets"
+          }
+        },
+        "what_we_love": {
+          "type": "what_we_love",
+          "settings": {
+            "kicker": "What we love",
+            "heading": "What we love"
+          }
+        }
       },
-      "block_order": ["rail_popular", "rail_rare", "rail_low", "rail_beauty"],
-      "settings": {"visible_limit": 5, "products_per_rail": 15}
+      "block_order": [
+        "rail_popular",
+        "rail_beauty",
+        "what_we_love",
+        "rail_rare",
+        "rail_low"
+      ],
+      "settings": {
+        "visible_limit": 5,
+        "products_per_rail": 15
+      }
     }
   },
-  "order": ["hero", "collection_tiles", "vault_rails"]
+  "order": [
+    "hero",
+    "collection_tiles",
+    "vault_rails"
+  ]
 }
