@@ -19,7 +19,7 @@
   #CH-{{ section.id }} .ch-track::-webkit-scrollbar{display:none}
   #CH-{{ section.id }} .ch-card{flex:0 0 calc((100% - 16px - 16px)/3);scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:6px;color:var(--ch-ink,#fff);background:var(--ch-panel)}
   #CH-{{ section.id }} .ch-media{display:block;aspect-ratio:9/8;overflow:hidden;background:#111}
-  #CH-{{ section.id }} .ch-media video,#CH-{{ section.id }} .ch-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center var(--ch-focus,20%)}
+  #CH-{{ section.id }} .ch-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center var(--ch-focus,20%)}
   #CH-{{ section.id }} .ch-panel{display:flex;flex-direction:column;gap:.35rem;padding:1rem 1.1rem 1.1rem;flex:1}
   #CH-{{ section.id }} .ch-h{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.15;margin:0;color:inherit}
   #CH-{{ section.id }} .ch-sub{font-size:.9rem;margin:0;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -60,12 +60,7 @@
       {%- assign link = b.link | default: '/collections/all' -%}
       <article class="ch-card" style="--ch-panel:{{ b.panel_color }};--ch-ink:{{ b.text_color }};--ch-focus:{{ b.focus }}%" {{ block.shopify_attributes }}>
         <a class="ch-media" href="{{ link }}" tabindex="-1" aria-hidden="true">
-          {%- if b.video != blank -%}
-            {%- assign poster = b.image | default: b.video.preview_image -%}
-            {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '900x', poster: poster }}
-          {%- elsif b.video_url != blank -%}
-            <video src="{{ b.video_url }}" {% if b.image != blank %}poster="{{ b.image | image_url: width: 900 }}"{% endif %} autoplay muted loop playsinline preload="metadata"></video>
-          {%- elsif b.image != blank -%}
+          {%- if b.image != blank -%}
             {{ b.image | image_url: width: 1200 | image_tag: loading: 'eager', widths: '400,600,900,1200', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 80vw', alt: b.headline }}
           {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag }}
@@ -97,7 +92,6 @@
   <script>
     (function(){var r=document.getElementById('CH-{{ section.id }}');if(!r)return;var t=r.querySelector('[data-ch-track]');
       r.querySelectorAll('.ch-arrow').forEach(function(b){b.addEventListener('click',function(){var c=t.querySelector('.ch-card');t.scrollBy({left:(c?c.offsetWidth+8:t.clientWidth)*+b.dataset.dir,behavior:'smooth'});});});
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){r.querySelectorAll('video').forEach(function(v){v.removeAttribute('autoplay');v.pause();});}
     })();
   </script>
 </section>
@@ -120,9 +114,7 @@
       "type": "segment",
       "name": "Segment card",
       "settings": [
-        { "type": "video", "id": "video", "label": "Video (muted loop)", "info": "Upload a pre-cropped clip with no burned-in text near the edges. Wins over the URL and image." },
-        { "type": "url", "id": "video_url", "label": "Video URL (alt)", "info": "Hosted MP4 if not using the uploader." },
-        { "type": "image_picker", "id": "image", "label": "Image / poster", "info": "Used as video poster, or alone if no video. ~9:8." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Still campaign image, ~9:8 (720x640). Keep burned-in text away from the edges." },
         { "type": "range", "id": "focus", "label": "Vertical focus", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 20 },
         { "type": "color", "id": "panel_color", "label": "Panel colour", "default": "#3b1f3a" },
         { "type": "color", "id": "text_color", "label": "Panel text colour", "default": "#ffffff" },
