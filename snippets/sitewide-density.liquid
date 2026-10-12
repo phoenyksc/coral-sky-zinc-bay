@@ -1,0 +1,41 @@
+{%- comment -%} Sitewide density fix 2026-10-12. Rendered from layout/theme.liquid right after base.css. Supersedes snippets/home-density. {%- endcomment -%}
+<style>
+/* Sol Beautiful sitewide density fix 2026-10-12. Loaded after base.css. Approx 16-20px between sections on mobile, 24-32px on desktop. */
+.section{padding:14px 0 6px}
+main>.shopify-section:first-child .section,main>.section:first-child{padding-top:12px}
+.section-head{margin-bottom:12px}
+.section-head h2{font-size:1.75rem;line-height:1.1}
+.card{height:auto}
+.card-price{margin-top:0}
+.product-grid{gap:1rem .75rem}
+.pdp{gap:1.25rem;padding:12px 0 20px}
+.pdp h1{margin-top:.25rem}
+.pdp-actions{margin-top:1rem}
+.cart-layout{gap:1.25rem;padding:12px 0 20px}
+.cart-line{padding:1rem 0}
+.search-form{margin:.75rem 0}
+.prose h1{font-size:2.25rem;margin:.25rem 0 .75rem}
+.prose h2{margin:1.5rem 0 .5rem}
+.site-footer{margin-top:24px}
+.footer-grid{gap:1.5rem;padding:24px 0}
+/* homepage swipe rails (kept from the homepage fix) */
+.product-rail{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:calc((100% - 2*.75rem)/2.2);gap:.75rem;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;align-items:start}
+.product-rail::-webkit-scrollbar{display:none}
+.product-rail>*{scroll-snap-align:start}
+.view-all-card{align-self:start}
+.vault-discover-more{margin-top:1rem!important}
+@media(min-width:768px){
+  .section{padding:16px 0 12px}
+  main>.shopify-section:first-child .section,main>.section:first-child{padding-top:20px}
+  .section-head{margin-bottom:16px}
+  .section-head h2{font-size:2rem}
+  .product-grid{gap:1.25rem 1rem}
+  .pdp{gap:2rem;padding:24px 0 32px}
+  .cart-layout{gap:2rem;padding:24px 0 32px}
+  .prose h1{font-size:2.75rem}
+  .site-footer{margin-top:32px}
+  .footer-grid{gap:2rem;padding:32px 0}
+  .product-rail{grid-auto-columns:calc((100% - 4*1rem)/5.2);gap:1rem;scrollbar-width:thin}
+}
+@media(min-width:1200px){.product-rail{grid-auto-columns:calc((100% - 5*1rem)/6.2)}}
+</style>
