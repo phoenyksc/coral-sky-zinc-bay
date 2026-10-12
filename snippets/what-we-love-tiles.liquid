@@ -1,0 +1,57 @@
+{% comment %}
+  What We Love tiles — same markup as sections/collection-tiles (handles locked), rendered inside vault-rails
+  so it can sit between Beauty Sets and Rare (Dru 2026-10-12).
+{% endcomment %}
+<section class="section" id="collection-tiles" {{ block.shopify_attributes }}>
+  <div class="page-width">
+    <div class="section-head">
+      <div>
+        <p class="kicker">{{ block.settings.kicker | default: 'What we love' }}</p>
+        <h2>{{ block.settings.heading | default: 'What we love' }}</h2>
+      </div>
+    </div>
+    <div class="collection-tiles">
+      {% assign tile_list = 'Fragrances:fragrances|Makeup:makeup|Skincare:skincare|Hair:hair|Bath & body:bath-body|Hard to find:hard-to-find' | split: '|' %}
+      {% for tile in tile_list %}
+        {% assign tparts = tile | split: ':' %}
+        {% assign handle = tparts[1] %}
+        {% assign col = collections[handle] %}
+        {% assign label = tparts[0] %}
+        {% if label == blank and col != blank %}
+          {% assign label = col.title %}
+        {% endif %}
+        {% if label == blank %}
+          {% assign label = handle | replace: '-', ' ' | capitalize %}
+        {% endif %}
+        {% assign href = '/collections/' | append: handle %}
+        {% if col != blank %}
+          {% assign href = col.url %}
+        {% endif %}
+        {% assign tile_mod = '' %}
+        {% if handle == 'hard-to-find' %}
+          {% assign tile_mod = ' tile--contrast' %}
+        {% endif %}
+        {% assign asset_name = 'build-tile-' | append: handle | append: '.jpg' %}
+        {% assign use_build_asset = false %}
+        {% if handle == 'fragrances' or handle == 'makeup' or handle == 'skincare' or handle == 'hair' or handle == 'bath-body' or handle == 'hard-to-find' %}
+          {% assign use_build_asset = true %}
+        {% endif %}
+        <a class="tile{{ tile_mod }}" href="{{ href }}">
+          {% if use_build_asset %}
+            <img src="{{ asset_name | asset_url }}" alt="{{ label | escape }}" loading="lazy" width="900" height="1125">
+          {% elsif col.image != blank %}
+            {{ col.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: label }}
+          {% elsif col.products.first.featured_media != blank %}
+            {{ col.products.first.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', alt: label }}
+          {% elsif col.products.first.featured_image != blank %}
+            {{ col.products.first.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: label }}
+          {% else %}
+            <div class="tile-veil" style="position:absolute;inset:0;background:var(--wash);"></div>
+          {% endif %}
+          <span class="tile-veil" aria-hidden="true"></span>
+          <span class="tile-label">{{ label }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
