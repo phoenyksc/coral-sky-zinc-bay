@@ -6,6 +6,7 @@
   Relevance: only MAKEUP in the look's categories (lip / eye / face), derived from the look's own products (type + title keywords).
   Excludes: products already on the page, their families, sold-out, watermarked (ymal-exclude), non-makeup (skincare, fragrance, tools, hair...).
   Dedupe by handle AND family (first 3 words of normalized title). Max 10.
+  2026-10-13 fix-fill10: fill to 10 in tiers: category-matched best sellers → other makeup best sellers → Popular → all makeup (collections/makeup), same exclusions; tiles carry data-tier.
   Size: 69% of the PDP "Popular right now" tile. Tracking: data-section="ymal" data-position="N", href ?ref=ymal&pos=N.
 {%- endcomment -%}
 {%- capture ly_wm -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
@@ -21,10 +22,21 @@
     {%- assign ly_n = ly_n | plus: 1 -%}
   {%- endfor -%}
 {%- endcapture -%}
+{%- capture ly_mk -%}
+  {%- assign ly_m = 0 -%}
+  {%- for p in collections['makeup'].products limit: 80 -%}
+    {%- if ly_m >= 40 -%}{%- break -%}{%- endif -%}
+    {%- assign ly_tok = p.handle | prepend: '|' | append: '|' -%}
+    {%- if p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 or ly_wm contains ly_tok or ly_list contains p.handle -%}{%- continue -%}{%- endif -%}
+    {%- render 'ymal-tile', p: p -%}
+    {%- assign ly_m = ly_m | plus: 1 -%}
+  {%- endfor -%}
+{%- endcapture -%}
 <section class="section sb-look-ymal" id="LookYmal" data-look-ymal data-look="{{ name | escape }}" data-handles="{{ handles | escape }}" data-context="{{ ly_ctx | strip }}">
   <div class="page-width">
     <div class="ymal-head"><p class="kicker">Best sellers</p><h2>You might be interested in</h2></div>
     <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="You might be interested in, scroll for more">{{ ly_tiles }}</div>
+    <template data-ly-makeup>{{ ly_mk }}</template>
   </div>
   <style>
     .sb-look-ymal{background:#faf8f3;padding-top:1.25rem;padding-bottom:1.75rem}
@@ -58,22 +70,25 @@
     document.querySelectorAll('#LookProducts a[href*="/products/"], .lp-strip a[href*="/products/"]').forEach(function(a){var m=a.getAttribute('href').match(/\/products\/([^?#\/]+)/);if(m)onPage[m[1]]=1;var t=a.querySelector('.card-title,.lp-s-title');if(t)ffs[fam(t.textContent)]=1;});
     if(!Object.keys(cats).length){cats={lip:1,eye:1,face:1};}
     root.setAttribute('data-categories',Object.keys(cats).join(','));
-    function pick(list){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;
-      list.forEach(function(a){if(out.length>=MAX)return;var h=a.dataset.handle,ti=(a.querySelector('.ymal-title')||{}).textContent||'',f=fam(ti),txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
-        if(onPage[h]||hs[h]||(f&&fs[f]))return; if(nonMakeup(txt)||NON.test(norm(txt))&&!/ (lip|eye|shadow|liner|mascara|foundation|blush|powder) /.test(norm(txt)))return; if(!c||!cats[c])return;
-        hs[h]=1;if(f)fs[f]=1;a.setAttribute('data-category',c);out.push(a);});
+    // fix-fill10: tiers fill up to 10 with the same exclusions (on page, families, sold-out/watermark via the feeds, dupes).
+    // 1 category-matched best sellers → 2 other makeup best sellers → 3 Popular collection makeup → 4 all makeup (collections/makeup).
+    function okBase(a){var ti=(a.querySelector('.ymal-title')||{}).textContent||'',txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
+      if(nonMakeup(txt)||NON.test(norm(txt))&&!/ (lip|eye|shadow|liner|mascara|foundation|blush|powder) /.test(norm(txt)))return null; if(!c)return null; return {c:c,f:fam(ti)};}
+    function pick(tiers){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;
+      tiers.forEach(function(t,ti){t.list.forEach(function(a){if(out.length>=MAX)return;var h=a.dataset.handle,o=okBase(a);if(!o||onPage[h]||hs[h]||(o.f&&fs[o.f]))return;
+        if(t.matchOnly&&!cats[o.c])return; hs[h]=1;if(o.f)fs[o.f]=1;a.setAttribute('data-category',o.c);a.setAttribute('data-tier',ti+1);out.push(a);});});
       return out;}
     function render(out){rail.innerHTML='';
       out.forEach(function(a,i){var n=document.importNode(a,true),u=n.getAttribute('href').split('?')[0];
         n.setAttribute('data-section','ymal');n.setAttribute('data-position',i+1);n.setAttribute('href',u+'?ref=ymal&pos='+(i+1));rail.appendChild(n);});
       root.setAttribute('data-count',out.length); if(!out.length) root.style.display='none';}
-    var fallback=[].slice.call(rail.children);
+    var popular=[].slice.call(rail.children),tpl=root.querySelector('template[data-ly-makeup]'),makeup=tpl?[].slice.call(tpl.content.querySelectorAll('a.ymal-tile')):[];
+    function tiers(feed){return [{list:feed,matchOnly:true},{list:feed},{list:popular},{list:makeup}];}
     fetch((window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed',{credentials:'same-origin'})
       .then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(h){
         var f=new DOMParser().parseFromString(h,'text/html').querySelector('[data-ymal-feed]');if(!f)throw 0;
-        var out=pick([].slice.call(f.querySelectorAll('a.ymal-tile')));if(out.length<4){out=pick([].slice.call(f.querySelectorAll('a.ymal-tile')).concat(fallback));}
-        if(out.length<1)throw 0;root.setAttribute('data-ymal-source','best-selling');render(out);
-      }).catch(function(){root.setAttribute('data-ymal-source','popular-fallback');render(pick(fallback));});
+        root.setAttribute('data-ymal-source','best-selling');render(pick(tiers([].slice.call(f.querySelectorAll('a.ymal-tile')))));
+      }).catch(function(){root.setAttribute('data-ymal-source','popular-fallback');render(pick(tiers([])));});
   })();
   </script>
 </section>
