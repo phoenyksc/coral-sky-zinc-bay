@@ -1,0 +1,72 @@
+{%- comment -%}
+  2026-10-13 Dru hybrid spec: "Popular right now" rail BELOW Complete the look. Replaces the YMAL-only block.
+  Source: best sellers via sections/ymal-feed (fallback: collections.popular / all, server-side).
+  Exclusions: current product; same product type as the current product; watermarked main image (snippets/ymal-exclude);
+  duplicates by handle AND by family (first 3 words of the normalized title). Max 10.
+  Size: ~2.45 tiles visible on phones (true peek of the 3rd), ~18% smaller than old CTL tiles, 6px gaps. No overlay.
+  Tracking: data-section="ymal" data-position="N"; link ?ref=ymal&pos=N.
+{%- endcomment -%}
+{%- capture pn_wm -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
+{%- assign pn_type = product.type | strip | downcase -%}
+{%- assign pn_n = 0 -%}{%- assign pn_seen = ',' -%}
+{%- capture pn_tiles -%}
+  {%- for src in (1..2) -%}
+    {%- if src == 1 -%}{%- assign pn_list = collections.popular.products -%}{%- else -%}{%- assign pn_list = collections.all.products -%}{%- endif -%}
+    {%- for p in pn_list limit: 50 -%}
+      {%- if pn_n >= 16 -%}{%- break -%}{%- endif -%}
+      {%- assign pn_t = p.type | strip | downcase -%}
+      {%- assign pn_tok = p.handle | prepend: '|' | append: '|' -%}
+      {%- if p.id == product.id or p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 or pn_wm contains pn_tok -%}{%- continue -%}{%- endif -%}
+      {%- if pn_type != blank and pn_t == pn_type -%}{%- continue -%}{%- endif -%}
+      {%- assign pn_id = p.id | prepend: ',' | append: ',' -%}{%- if pn_seen contains pn_id -%}{%- continue -%}{%- endif -%}
+      {%- assign pn_seen = pn_seen | append: pn_id -%}
+      {%- render 'ymal-tile', p: p -%}
+      {%- assign pn_n = pn_n | plus: 1 -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<section class="section sb-ymal" id="PopularRightNow" data-sb-ymal data-current="{{ product.handle }}" data-current-type="{{ pn_type | escape }}" data-current-title="{{ product.title | escape }}">
+  <div class="page-width">
+    <div class="ymal-head"><p class="kicker">Best sellers</p><h2>Popular right now</h2></div>
+    <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="Popular right now, scroll for more">{{ pn_tiles }}</div>
+  </div>
+  <style>
+    .sb-ymal{background:#faf8f3}
+    .sb-ymal .ymal-head h2{margin:0 0 10px}
+    .sb-ymal .ymal-rail{display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;padding-bottom:6px;scrollbar-width:thin}
+    .sb-ymal .ymal-tile{flex:0 0 calc((100% - 12px) / 2.45);scroll-snap-align:start;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit;min-width:0}
+    @media(min-width:750px){.sb-ymal .ymal-tile{flex-basis:calc((100% - 48px) / 4 * .82)}}
+    .sb-ymal .ymal-media{display:block}
+    .sb-ymal .ymal-media img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
+    .sb-ymal .ymal-vendor{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sb-ymal .ymal-title{font-size:.85rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .sb-ymal .ymal-price{font-weight:700;font-size:.9rem}
+  </style>
+  <script>
+  (function(){
+    var root=document.getElementById('PopularRightNow'); if(!root) return;
+    var rail=root.querySelector('[data-ymal-rail]'), MAX=10, cur=root.dataset.current, ctype=root.dataset.currentType;
+    function fam(s){return (s||'').toLowerCase().replace(/[-,.()\/&]/g,' ').replace(/'/g,'').split(/\s+/).filter(Boolean).slice(0,3).join(' ');}
+    var cfam=fam(root.dataset.currentTitle);
+    function pick(list){
+      var hs={},fs={},out=[];hs[cur]=1;fs[cfam]=1;
+      list.forEach(function(a){var h=a.dataset.handle,f=(a.dataset.family||'').trim(),t=a.dataset.type;
+        if(out.length>=MAX||hs[h]||(f&&fs[f])||(ctype&&t===ctype))return; hs[h]=1; if(f)fs[f]=1; out.push(a);});
+      return out;
+    }
+    function render(out){
+      rail.innerHTML='';
+      out.forEach(function(a,i){var n=document.importNode(a,true),u=n.getAttribute('href').split('?')[0];
+        n.setAttribute('data-position',i+1); n.setAttribute('href',u+'?ref=ymal&pos='+(i+1)); rail.appendChild(n);});
+      if(!out.length) root.style.display='none';
+    }
+    var fallback=[].slice.call(rail.children);
+    fetch((window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed',{credentials:'same-origin'})
+      .then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(h){
+        var f=new DOMParser().parseFromString(h,'text/html').querySelector('[data-ymal-feed]'); if(!f) throw 0;
+        var out=pick([].slice.call(f.querySelectorAll('a.ymal-tile'))); if(out.length<4) throw 0;
+        root.setAttribute('data-ymal-source','best-selling'); render(out);
+      }).catch(function(){root.setAttribute('data-ymal-source','popular-fallback'); render(pick(fallback));});
+  })();
+  </script>
+</section>
