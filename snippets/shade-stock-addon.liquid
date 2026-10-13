@@ -1,0 +1,31 @@
+{% comment %} 2026-10-12 Dru (shopper sims): in-stock clarity on shade-heavy PDPs. Additive only: sold-out shades stay visible (greyed + struck through) unless the shopper turns on "In stock only" (default off). Order (in-stock first) already comes from the 2026-10-05 two-pass Liquid. {% endcomment %}
+<style>
+  .option-grid .swatch.is-soldout{opacity:.45;filter:grayscale(.85)}
+  .option-grid .swatch.is-soldout .swatch-label{text-decoration:line-through;text-decoration-thickness:1px}
+  .shade-stock-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin:.35rem 0 .5rem;font-size:.85rem}
+  .shade-stock-bar label{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer}
+  .option-grid.is-instock-only .swatch.is-soldout{display:none}
+</style>
+<script>
+(function () {
+  function init() {
+    document.querySelectorAll('.option-grid').forEach(function (grid, i) {
+      if (grid.dataset.stockBar) return;
+      var all = grid.querySelectorAll('.swatch');
+      var sold = grid.querySelectorAll('.swatch.is-soldout');
+      if (all.length < 4 || sold.length === 0) return;
+      grid.dataset.stockBar = '1';
+      var inStock = all.length - sold.length;
+      var bar = document.createElement('div');
+      bar.className = 'shade-stock-bar';
+      var id = 'InStockOnly-' + i;
+      bar.innerHTML = '<span><strong>' + inStock + ' of ' + all.length + '</strong> shades in stock</span>' +
+        (inStock > 0 ? '<label for="' + id + '"><input type="checkbox" id="' + id + '"> In stock only</label>' : '');
+      grid.parentNode.insertBefore(bar, grid);
+      var cb = bar.querySelector('input');
+      if (cb) cb.addEventListener('change', function () { grid.classList.toggle('is-instock-only', cb.checked); });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
