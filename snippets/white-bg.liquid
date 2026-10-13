@@ -1,0 +1,36 @@
+{%- comment -%}
+  2026-10-13 PREVIEW: sitewide pure white (#FFFFFF) instead of eggshell #faf8f3 / cream (#f2efe6, #fbf8f3, #f1eee6, #efe9dc).
+  Rendered LAST in <head> (layout/theme.liquid) so it overrides base.css + the branding block; hardcoded section colors use !important.
+  Edges: white-on-white surfaces get a hairline border (#ececec) or a soft shadow so cards/images/tiles stay readable.
+  To roll back: remove the one render line in layout/theme.liquid.
+{%- endcomment -%}
+<style id="sb-white-bg-2026-10-13">
+  :root{--bg:#ffffff;--card:#ffffff;--wash:#f5f5f5;--line:#e4e2de;--sb-edge:#ececec}
+  html,body{background:#fff!important;background-image:none!important}
+  /* header, sticky bar, announcement, menus, drawer */
+  .header-bar,.site-header .header-bar.page-width{background:#fff!important;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:1px solid var(--sb-edge)}
+  .shopify-section:has(.site-header){box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  .zen-strip:after{background:linear-gradient(to bottom,rgba(255,255,255,.15),transparent 40%,rgba(255,255,255,.45))!important}
+  .announcement,.signup-bar{background:#fff!important;border-bottom:1px solid var(--sb-edge)!important}
+  .mobile-nav,.mobile-nav .dd-panel{background:#fff!important}
+  .dd-tile{border-color:var(--sb-edge)!important}
+  .dd-search input{background:#f7f7f7!important;border-color:var(--sb-edge)!important}
+  .mm-panel{background:#fff!important;border-top:1px solid var(--sb-edge)!important}
+  /* product imagery and cards: hairline edges */
+  .card-media,.pdp-media,.collection-tile,.tile,.view-all-card{background:#fff!important;box-shadow:inset 0 0 0 1px var(--sb-edge)}
+  .card-media img,.pdp-media img{mix-blend-mode:normal}
+  .ymal-media img,.sb-look-card .card-media img,.lp-strip img,.sb-complete-the-look img{box-shadow:0 0 0 1px var(--sb-edge)}
+  .swatch,.qty,.field{background:#fff!important}
+  .swatch--brush.is-soldout,.swatch.is-soldout{background:#f5f5f5!important}
+  .cart-summary{background:#fff!important;border:1px solid var(--sb-edge)}
+  .cart-line{border-top-color:var(--sb-edge)}
+  .site-footer{background:#fff!important;border-top:1px solid var(--line)!important}
+  /* rails, look pages, recs */
+  .sb-ymal,.sb-look-ymal,#PopularRightNow,#LookYmal{background:#fff!important}
+  /* Filter & Sort bar / drawer / sidebar */
+  .sf{--sf-bg:#ffffff!important}
+  .sf-chip{background:#f3f3f3!important;box-shadow:inset 0 0 0 1px var(--sb-edge)}
+  /* hero veil used cream; make it white-based */
+  .hero-veil{background:linear-gradient(to right,rgba(255,255,255,.9),rgba(255,255,255,.55) 50%,rgba(255,255,255,.1))!important}
+  .brands-az .az-jump,.az-jump{background:#fff!important}
+</style>
