@@ -1,6 +1,7 @@
 {%- comment -%} Product card shared by the look page and the PDP look block. Same markup/classes as Complete the look v2 (a.card). No swatches, no trust lines, eScentShow/eBay never shown as vendor. {%- endcomment -%}
 {%- assign lc_href = p.url -%}{%- if lc_href == blank -%}{%- assign lc_href = '/products/' | append: p.handle -%}{%- endif -%}
-<a class="card sb-look-card" href="{{ lc_href }}">
+{%- if ref != blank -%}{%- assign lc_href = lc_href | append: '?ref=' | append: ref -%}{%- endif -%}
+<a class="card sb-look-card" href="{{ lc_href }}"{% if ref != blank %} data-section="{{ ref }}"{% endif %}>
   <div class="card-media">
     {%- if badge != blank -%}<span class="sb-look-badge">{{ badge }}</span>{%- endif -%}
     <img src="{{ p.featured_media | image_url: width: 600 }}" alt="{{ p.featured_media.alt | default: p.title | escape }}" loading="lazy" width="600" height="600">
