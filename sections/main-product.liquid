@@ -4090,6 +4090,8 @@
         </script>
       {% endif %}
       <p class="kicker" id="sb-sku-line" style="margin-top:1rem;{% if current.sku == blank %}display:none{% endif %}">SKU <span id="sb-sku">{{ current.sku }}</span><span id="sb-upc-wrap"{% if current.barcode == blank %} style="display:none"{% endif %}> · UPC <span id="sb-upc">{{ current.barcode }}</span></span></p>
+      {%- comment -%} 2026-10-12 parity B2: SKU/UPC follow the variant actually selected (the form's id input), never a sold-out swatch that was tapped. {%- endcomment -%}
+      <script type="application/json" id="sb-variant-skus">{ {%- for v in product.variants -%}"{{ v.id }}":[{{ v.sku | json }},{{ v.barcode | json }}]{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} }</script>
       <script>
         (function () {
           var line = document.getElementById('sb-sku-line');
@@ -4097,19 +4099,29 @@
           var upcEl = document.getElementById('sb-upc');
           var upcWrap = document.getElementById('sb-upc-wrap');
           if (!line || !skuEl) return;
-          function apply(btn) {
-            var sku = btn.getAttribute('data-sku') || '';
-            var upc = btn.getAttribute('data-barcode') || '';
+          var map = {};
+          try { map = JSON.parse(document.getElementById('sb-variant-skus').textContent) || {}; } catch (e) {}
+          var form = line.closest('form');
+          var idInput = form ? form.querySelector('[name="id"]') : document.querySelector('form[action*="/cart/add"] [name="id"]');
+          var lastId = null;
+          function sync() {
+            var id = idInput ? String(idInput.value) : '';
+            if (!id || id === lastId || !map[id]) return;
+            lastId = id;
+            var sku = map[id][0] || '', upc = map[id][1] || '';
             skuEl.textContent = sku;
             if (upcEl) upcEl.textContent = upc;
             if (upcWrap) upcWrap.style.display = upc ? '' : 'none';
             line.style.display = sku ? '' : 'none';
           }
-          document.addEventListener('click', function (e) {
-            var btn = e.target.closest && e.target.closest('button.swatch');
-            if (!btn) return;
-            apply(btn);
-          });
+          // theme.js sets idInput.value on a valid swatch click (sold-out taps are ignored there, so they are ignored here too).
+          document.addEventListener('click', function () { setTimeout(sync, 0); }, true);
+          document.addEventListener('click', function () { setTimeout(sync, 0); });
+          if (idInput) idInput.addEventListener('change', sync);
+          document.addEventListener('variant:change', sync);
+          window.addEventListener('load', sync);
+          setInterval(sync, 400); // cheap safety net for scripts that set .value without an event
+          sync();
         })();
       </script>
       <div class="pdp-actions">
