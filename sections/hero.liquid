@@ -30,7 +30,6 @@
   #CH-{{ section.id }} .ch-thumb{position:relative;display:flex;flex-direction:column;gap:.15rem;color:inherit;text-decoration:none;font-size:.66rem;line-height:1.2}
   #CH-{{ section.id }} .ch-thumb img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
   #CH-{{ section.id }} .ch-thumb__name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  #CH-{{ section.id }} .ch-thumb__price{font-weight:700}
   #CH-{{ section.id }} .ch-badge{position:absolute;top:3px;left:3px;font-size:.55rem;font-weight:700;padding:1px 4px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
   #CH-{{ section.id }} .ch-dots{display:none;justify-content:center;gap:6px;padding-top:.6rem}
   #CH-{{ section.id }} .ch-dot{width:7px;height:7px;border-radius:50%;background:#1a1a1a;opacity:.25}
@@ -80,7 +79,7 @@
               <a class="ch-thumb" href="{{ p.url }}">
                 {%- if shown == 0 and b.badge != blank -%}<span class="ch-badge">{{ b.badge }}</span>{%- endif -%}
                 {{ p.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: p.title, widths: '100,200' }}
-                <span class="ch-thumb__name">{{ p.title | truncate: 40 }}</span><span class="ch-thumb__price">{{ p.price | money }}</span>
+                <span class="ch-thumb__name">{{ p.title | truncate: 40 }}</span>
               </a>
               {%- assign shown = shown | plus: 1 -%}
             {%- endfor -%}
