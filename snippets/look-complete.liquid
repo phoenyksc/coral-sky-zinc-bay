@@ -16,7 +16,7 @@
       {%- assign p = all_products[h] -%}
       {%- if p == blank or p.available == false or p.featured_media == blank -%}{%- continue -%}{%- endif -%}
       {%- if lk_n >= 5 -%}{%- break -%}{%- endif -%}
-      {%- render 'look-card', p: p -%}
+      {%- render 'look-card', p: p, ref: 'ctl' -%}
       {%- assign lk_n = lk_n | plus: 1 -%}
     {%- endfor -%}
   {%- endcapture -%}
