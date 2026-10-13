@@ -1,8 +1,15 @@
 {% comment %}
+  filters-v2 2026-10-12 PREVIEW: sidebar >=990px, Filter & Sort drawer below (see snippets/facets.liquid).
   Collection grid + facets. Product type / Brand = dropdowns in facets.
   Load more / Show all (no page switching; next pages fetched via section_id with the
   current query string, so filters + sort_by carry over). Skip Vendor-as-brand on cards.
 {% endcomment %}
+<style>
+.sf-layout{display:grid;gap:0;margin-top:1rem}
+@media (max-width:989px){.sf-aside,.sf-aside .sf{display:contents}}
+.sf-loading [id^="ProductGrid-"]{opacity:.5;transition:opacity .15s}
+@media (min-width:990px){.sf-layout{grid-template-columns:260px minmax(0,1fr);gap:2.5rem;align-items:start}.sf-aside{position:sticky;top:calc(var(--sf-sticky-top,0px) + 1rem);max-height:calc(100vh - var(--sf-sticky-top,0px) - 2rem);overflow-y:auto;padding-right:.5rem}}
+</style>
 <section class="section" id="CollectionSection-{{ section.id }}" data-section-id="{{ section.id }}">
   <div class="page-width">
     <header class="section-head">
@@ -12,8 +19,8 @@
       {% endif %}
     </header>
 
-    <div class="collection-layout" style="display:grid;gap:2rem;margin-top:2rem">
-      <aside>
+    <div class="collection-layout sf-layout">
+      <aside class="sf-aside">
         {% render 'facets' %}
         {% if collection.filters == empty %}
           <p class="prose" style="font-size:.85rem">Filters appear when products are in this collection.</p>
