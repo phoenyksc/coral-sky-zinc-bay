@@ -1,0 +1,27 @@
+{% comment %} parity2 #5 Brands A–Z (Sephora-style). Links go to our brand-filtered /collections/all only, never manufacturer sites. {% endcomment %}
+<section class="section az">
+  <div class="page-width">
+    <p class="kicker">The vault</p>
+    <h1 class="az-title">Brands A–Z</h1>
+    {% render 'brands-az-list' %}
+  </div>
+</section>
+<style>
+.az{padding-top:2rem}
+.az-title{font-size:clamp(2rem,5vw,3rem);margin:.4rem 0 1.25rem}
+.az-jump{display:flex;flex-wrap:wrap;gap:.25rem;padding:.6rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:sticky;top:4.5rem;background:var(--bg);z-index:5}
+@media(min-width:768px){.az-jump{top:5.75rem}}
+.az-jump a,.az-jump span{display:grid;place-items:center;min-width:2rem;height:2rem;font-size:14px;font-weight:600}
+.az-jump span{color:var(--line)}
+.az-jump a:hover{text-decoration:underline}
+.az-group{padding:1.5rem 0 .5rem;border-bottom:1px solid var(--line);scroll-margin-top:9rem}
+.az-group h2{font-family:var(--sans);font-weight:600;font-size:1.5rem;margin-bottom:.75rem}
+.az-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1rem}
+@media(min-width:768px){.az-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){.az-grid{grid-template-columns:repeat(5,1fr)}}
+.az-grid a{font-size:14px}
+.az-grid a:hover{text-decoration:underline;text-underline-offset:3px}
+</style>
+{% schema %}
+{ "name": "Brands A–Z", "settings": [] }
+{% endschema %}
