@@ -5,7 +5,7 @@
   Skip Vendor + Availability. Product type + Brand = <select>; Price = range.
 {% endcomment %}
 {% if collection.filters != empty %}
-  <form class="facets" action="{{ collection.url }}" method="get">
+  <form class="facets" data-facets-form action="{{ collection.url }}" method="get">
     <p class="kicker" style="margin-bottom:1rem">Filter</p>
     {% assign has_active = false %}
     {% for filter in collection.filters %}
@@ -56,7 +56,7 @@
                   class="field"
                   name="{{ select_name }}"
                   style="margin-top:.5rem;width:100%;max-width:18rem"
-                  onchange="this.form.submit()">
+                  data-facet-auto>
                   <option value="">All</option>
                   {% for value in filter.values %}
                     <option
@@ -78,7 +78,7 @@
                           value="{{ value.value }}"
                           {% if value.active %}checked{% endif %}
                           {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                          onchange="this.form.submit()">
+                          data-facet-auto>
                         <span>{{ value.label }} ({{ value.count }})</span>
                       </label>
                     </li>
@@ -103,7 +103,7 @@
                     name="{{ value.param_name }}"
                     value="{{ value.value }}"
                     {% if value.active %}checked{% endif %}
-                    onchange="this.form.submit()">
+                    data-facet-auto>
                   <span>{{ value.label }}</span>
                 </label>
               {% endfor %}
@@ -115,4 +115,67 @@
       <a class="btn btn--outline" href="{{ collection.url }}">Clear filters</a>
     {% endif %}
   </form>
+{% comment %} 2026-10-12 filter fix: AJAX facets (Section Rendering API), strips empty params, swaps grid in place, falls back to full reload. {% endcomment %}
+<p class="facets-status" data-facets-status aria-live="polite" style="font-size:.85rem;min-height:1.2em;margin:.25rem 0 0"></p>
+<script>
+(function () {
+  if (window.__solFacetsBound) return;
+  window.__solFacetsBound = true;
+  function cleanQuery(form) {
+    var fd = new FormData(form), p = new URLSearchParams();
+    fd.forEach(function (v, k) { if (String(v).trim() !== '') p.append(k, v); });
+    var cur = new URLSearchParams(location.search);
+    ['sort_by', 'q', 'type'].forEach(function (k) { if (cur.get(k) && !p.has(k)) p.set(k, cur.get(k)); });
+    return p;
+  }
+  function apply(form) {
+    var section = form.closest('[data-section-id]');
+    var p = cleanQuery(form);
+    var action = form.getAttribute('action') || location.pathname;
+    var pageUrl = action + (p.toString() ? '?' + p.toString() : '');
+    if (!section || !window.fetch || !window.DOMParser) { location.assign(pageUrl); return; }
+    var sid = section.getAttribute('data-section-id');
+    var status = section.querySelector('[data-facets-status]');
+    if (status) status.textContent = 'Updating…';
+    section.setAttribute('aria-busy', 'true');
+    section.style.opacity = '.55';
+    var q = new URLSearchParams(p); q.set('section_id', sid);
+    fetch(action + '?' + q.toString(), { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.getElementById(section.id);
+        if (!fresh) throw new Error('no section');
+        history.pushState({ solFacets: 1 }, '', pageUrl);
+        section.replaceWith(fresh);
+        fresh.querySelectorAll('script').forEach(function (old) {
+          var s = document.createElement('script');
+          s.textContent = old.textContent;
+          old.replaceWith(s);
+        });
+        var grid = fresh.querySelector('[id^="ProductGrid-"]');
+        var n = grid ? grid.children.length : 0;
+        var st = fresh.querySelector('[data-facets-status]');
+        if (st) st.textContent = grid ? 'Showing results' : 'No products match these filters';
+        var target = grid || fresh.querySelector('.empty');
+        if (target && window.matchMedia('(max-width: 989px)').matches) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function () { location.assign(pageUrl); });
+  }
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (!el.matches || !el.matches('[data-facet-auto]')) return;
+    var form = el.closest('form[data-facets-form]');
+    if (form) apply(form);
+  });
+  document.addEventListener('submit', function (e) {
+    var form = e.target;
+    if (!form.matches || !form.matches('form[data-facets-form]')) return;
+    e.preventDefault();
+    apply(form);
+  });
+  window.addEventListener('popstate', function () { location.reload(); });
+})();
+</script>
+
 {% endif %}
