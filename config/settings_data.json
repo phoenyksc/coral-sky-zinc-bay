@@ -9,17 +9,19 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/solbeautiful-header-logo-v4-2026-10-12.png",
+    "logo_width": 100,
+    "favicon": "shopify://shop_images/solbeautiful-favicon-512-2026-10-12.png",
     "announcement": "Free standard shipping on US orders $75+ · Earn up to 20% off — details at checkout  Authenticity guaranteed · Ships from the USA",
     "signup_bar": "",
     "free_shipping": 0,
     "contact_email": "info@solbeautiful.com",
-    "logo": "shopify://shop_images/solbeautiful-header-logo-v2-2026-10-12.png",
-    "logo_width": 100,
-    "favicon": "shopify://shop_images/solbeautiful-favicon-512-2026-10-12.png",
+    "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
         "settings": {
           "background": "#faf8f3",
+          "background_gradient": "",
           "text": "#1a1613",
           "button": "#1a1613",
           "button_label": "#fbf8f3",
