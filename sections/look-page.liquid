@@ -2,6 +2,8 @@
   Sol Beautiful — LOOK PAGE (template page.look). 2026-10-12.
   Page handle look-<key> → row from snippets/look-map. Renders campaign still, headline, subtext and
   ALL of the look's in-stock products (sold-out skipped), each card links to its PDP.
+  2026-10-12 parity A4: first screen also shows a product strip (image, brand, price) + total and
+  "Add all N to bag" (Ajax POST /cart/add.js, items[] = first available variant of each in-stock product).
 {%- endcomment -%}
 {%- assign lp_key = page.handle | remove_first: 'look-' -%}
 {%- capture lp_row -%}{%- render 'look-map', key: lp_key -%}{%- endcapture -%}
@@ -28,8 +30,29 @@
   #LP-{{ section.id }} .sb-look-card .card-price{font-weight:700;margin:0;font-size:.9rem}
   #LP-{{ section.id }} .sb-look-badge{position:absolute;top:6px;left:6px;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
   #LP-{{ section.id }} .lp-back{display:inline-block;margin-top:1rem;font-size:.9rem;color:inherit}
+  #LP-{{ section.id }} .lp-strip{list-style:none;margin:.6rem 0 0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+  #LP-{{ section.id }} .lp-strip a{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:.65rem;align-items:center;background:rgba(255,255,255,.96);color:#1a1a1a;border-radius:8px;padding:.35rem .6rem .35rem .35rem;text-decoration:none}
+  #LP-{{ section.id }} .lp-strip img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:6px;display:block}
+  #LP-{{ section.id }} .lp-strip li{min-width:0}
+  #LP-{{ section.id }} .lp-s-txt{min-width:0;line-height:1.2}
+  #LP-{{ section.id }} .lp-s-brand{display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  #LP-{{ section.id }} .lp-s-title{display:block;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #LP-{{ section.id }} .lp-s-price{font-weight:700;font-size:.85rem}
+  #LP-{{ section.id }} .lp-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:.7rem}
+  #LP-{{ section.id }} .lp-addall{background:#fff;color:#1a1a1a;border:0;font:inherit;font-weight:700;padding:.75rem 1.3rem;border-radius:999px;cursor:pointer;font-size:.92rem}
+  #LP-{{ section.id }} .lp-addall[disabled]{opacity:.65;cursor:default}
+  #LP-{{ section.id }} .lp-total{font-size:.85rem;opacity:.9}
+  #LP-{{ section.id }} .lp-msg{flex-basis:100%;margin:0;font-size:.85rem;min-height:1.1em}
+  #LP-{{ section.id }} .lp-msg a{color:inherit;font-weight:700}
+  #LP-{{ section.id }} .lp-actions .lp-jump{margin-top:0;background:transparent;color:inherit;border:1px solid rgba(255,255,255,.7)}
   @media(max-width:749px){
-    #LP-{{ section.id }} .lp-hero{grid-template-columns:1fr}
+    #LP-{{ section.id }} .lp-strip{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+    #LP-{{ section.id }} .lp-strip::-webkit-scrollbar{display:none}
+    #LP-{{ section.id }} .lp-strip li{flex:0 0 82%;min-width:0;scroll-snap-align:start}
+    #LP-{{ section.id }} .lp-copy{min-width:0}
+    #LP-{{ section.id }} .lp-actions{margin-top:.5rem}
+    #LP-{{ section.id }} .lp-media{aspect-ratio:16/10}
+    #LP-{{ section.id }} .lp-hero{grid-template-columns:minmax(0,1fr)}
     #LP-{{ section.id }} .lp-copy{padding:1rem 1rem 1.2rem}
     #LP-{{ section.id }} .lp-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   }
@@ -40,6 +63,28 @@
   {%- assign lp = lp_row | split: '::' -%}
   {%- assign lp_handles = lp[5] | split: ',' -%}
   {%- assign lp_n = 0 -%}
+  {%- assign lp_total = 0 -%}
+  {%- assign lp_ids = '' -%}
+  {%- capture lp_strip -%}
+    {%- for h in lp_handles -%}
+      {%- assign p = all_products[h] -%}
+      {%- if p == blank or p.available == false or p.featured_media == blank -%}{%- continue -%}{%- endif -%}
+      {%- assign v = p.selected_or_first_available_variant -%}
+      {%- if v.available == false -%}{%- continue -%}{%- endif -%}
+      {%- assign lp_total = lp_total | plus: v.price -%}
+      {%- assign lp_ids = lp_ids | append: v.id | append: ',' -%}
+      {%- assign s_mfr = p.metafields.custom.manufacturer.value | default: p.metafields.custom.manufacturer -%}
+      {%- assign s_m = s_mfr | downcase -%}
+      {%- if s_mfr == blank or s_m contains 'escentshow' or s_m contains 'ebay' -%}{%- assign s_mfr = '' -%}{%- endif -%}
+      {%- assign s_href = p.url -%}{%- if s_href == blank -%}{%- assign s_href = '/products/' | append: p.handle -%}{%- endif -%}
+      <li><a href="{{ s_href }}">
+        <img src="{{ p.featured_media | image_url: width: 120 }}" alt="" width="52" height="52" loading="eager">
+        <span class="lp-s-txt">{%- if s_mfr != blank -%}<span class="lp-s-brand">{{ s_mfr }}</span>{%- endif -%}<span class="lp-s-title">{{ p.title }}</span></span>
+        <span class="lp-s-price">{{ v.price | money }}</span>
+      </a></li>
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign lp_ids = lp_ids | split: ',' -%}
   {%- capture lp_cards -%}
     {%- for h in lp_handles -%}
       {%- assign p = all_products[h] -%}
@@ -59,7 +104,17 @@
       <h1 class="lp-h">{{ lp[1] }}</h1>
       <p class="lp-sub">{{ lp[2] }}</p>
       <p class="lp-count">{{ lp_n }} {% if lp_n == 1 %}product{% else %}products{% endif %} in this look</p>
+      {%- if lp_ids.size > 0 -%}
+      <ul class="lp-strip" aria-label="Products in {{ lp[1] | escape }}">{{ lp_strip }}</ul>
+      <div class="lp-actions">
+        <button type="button" class="lp-addall" data-ids="{{ lp_ids | join: ',' }}">Add all {{ lp_ids.size }} to bag</button>
+        <span class="lp-total">{{ lp_total | money }} total</span>
+        <a class="lp-jump" href="#LookProducts">See details</a>
+        <p class="lp-msg" role="status" aria-live="polite"></p>
+      </div>
+      {%- else -%}
       <a class="lp-jump" href="#LookProducts">Shop the look</a>
+      {%- endif -%}
     </div>
   </section>
   <div class="page-width lp-grid-wrap" id="LookProducts">
@@ -69,6 +124,35 @@
   </div>
 {%- endif -%}
 </div>
+<script>
+(function(){
+  var root=document.getElementById('LP-{{ section.id }}'); if(!root) return;
+  var btn=root.querySelector('.lp-addall'); if(!btn) return;
+  var msg=root.querySelector('.lp-msg'); var label=btn.textContent;
+  btn.addEventListener('click',function(){
+    var ids=(btn.getAttribute('data-ids')||'').split(',').filter(Boolean);
+    if(!ids.length) return;
+    btn.disabled=true; btn.textContent='Adding…'; msg.textContent='';
+    fetch('{{ routes.cart_add_url }}.js',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({items:ids.map(function(id){return {id:Number(id),quantity:1};})})})
+    .then(function(r){return r.json().then(function(j){if(!r.ok) throw j; return j;});})
+    .then(function(j){
+      var n=(j.items||[]).length;
+      btn.textContent='Added ✓';
+      msg.innerHTML=n+' item'+(n==1?'':'s')+' added to your bag. <a href="{{ routes.cart_url }}">View bag</a>';
+      document.dispatchEvent(new CustomEvent('cart:refresh',{bubbles:true}));
+      fetch('{{ routes.cart_url }}.js',{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(c){
+        document.querySelectorAll('[data-cart-count],.cart-count,.cart-count-bubble span').forEach(function(el){el.textContent=c.item_count;});
+      }).catch(function(){});
+      setTimeout(function(){btn.disabled=false;btn.textContent=label;},2500);
+    })
+    .catch(function(e){
+      btn.disabled=false; btn.textContent=label;
+      msg.textContent=(e&&e.description)?e.description:'Sorry, we couldn’t add these. Please add them one by one below.';
+    });
+  });
+})();
+</script>
 {% schema %}
 { "name": "Look page", "tag": "section", "class": "section-look-page", "settings": [] }
 {% endschema %}
