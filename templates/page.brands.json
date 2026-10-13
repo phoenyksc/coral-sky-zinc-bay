@@ -8,8 +8,6 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "main": { "type": "main-page", "settings": {} }
-  },
+  "sections": { "main": { "type": "brands-az", "settings": {} } },
   "order": ["main"]
 }
