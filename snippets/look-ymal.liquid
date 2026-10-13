@@ -1,0 +1,79 @@
+{%- comment -%}
+  2026-10-13 "You might be interested in" rail for look pages (reusable: rendered by sections/look-page for EVERY look-* page).
+  Params: handles = comma list of the look's products (look-map field 5); name = look name.
+  Source: best sellers via sections/ymal-feed (/collections/all?sort_by=best-selling&section_id=ymal-feed: in stock, priced, photographed,
+  not on snippets/ymal-exclude). Fallback: collections.popular server-side with the same rules.
+  Relevance: only MAKEUP in the look's categories (lip / eye / face), derived from the look's own products (type + title keywords).
+  Excludes: products already on the page, their families, sold-out, watermarked (ymal-exclude), non-makeup (skincare, fragrance, tools, hair...).
+  Dedupe by handle AND family (first 3 words of normalized title). Max 10.
+  Size: 69% of the PDP "Popular right now" tile. Tracking: data-section="ymal" data-position="N", href ?ref=ymal&pos=N.
+{%- endcomment -%}
+{%- capture ly_wm -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
+{%- assign ly_list = handles | split: ',' -%}
+{%- capture ly_ctx -%}{%- for h in ly_list -%}{%- assign lp_p = all_products[h] -%}{%- if lp_p != blank -%}{{ lp_p.type | escape }} {{ lp_p.title | escape }}§{%- endif -%}{%- endfor -%}{%- endcapture -%}
+{%- assign ly_n = 0 -%}
+{%- capture ly_tiles -%}
+  {%- for p in collections.popular.products limit: 60 -%}
+    {%- if ly_n >= 30 -%}{%- break -%}{%- endif -%}
+    {%- assign ly_tok = p.handle | prepend: '|' | append: '|' -%}
+    {%- if p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 or ly_wm contains ly_tok or ly_list contains p.handle -%}{%- continue -%}{%- endif -%}
+    {%- render 'ymal-tile', p: p -%}
+    {%- assign ly_n = ly_n | plus: 1 -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<section class="section sb-look-ymal" id="LookYmal" data-look-ymal data-look="{{ name | escape }}" data-handles="{{ handles | escape }}" data-context="{{ ly_ctx | strip }}">
+  <div class="page-width">
+    <div class="ymal-head"><p class="kicker">Best sellers</p><h2>You might be interested in</h2></div>
+    <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="You might be interested in, scroll for more">{{ ly_tiles }}</div>
+  </div>
+  <style>
+    .sb-look-ymal{background:#faf8f3;padding-top:1.25rem;padding-bottom:1.75rem}
+    .sb-look-ymal .ymal-head h2{margin:0 0 10px;font-size:1.25rem}
+    .sb-look-ymal .ymal-rail{display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;padding-bottom:6px;scrollbar-width:thin}
+    /* 69% of Popular right now: phones (100%-12px)/2.45*.69, >=750px (100%-48px)/4*.82*.69 */
+    .sb-look-ymal .ymal-tile{flex:0 0 calc((100% - 12px) / 2.45 * .69);scroll-snap-align:start;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit;min-width:0}
+    @media(min-width:750px){.sb-look-ymal .ymal-tile{flex-basis:calc((100% - 48px) / 4 * .82 * .69)}}
+    .sb-look-ymal .ymal-media{display:block}
+    .sb-look-ymal .ymal-media img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
+    .sb-look-ymal .ymal-vendor{font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sb-look-ymal .ymal-title{font-size:.75rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .sb-look-ymal .ymal-price{font-weight:700;font-size:.8rem}
+  </style>
+  <script>
+  (function(){
+    var root=document.getElementById('LookYmal'); if(!root) return;
+    var rail=root.querySelector('[data-ymal-rail]'),MAX=10;
+    function norm(s){return ' '+(s||'').toLowerCase().replace(/[-,.()\/&+:]/g,' ').replace(/'/g,'').replace(/\s+/g,' ')+' ';}
+    function fam(s){return (s||'').toLowerCase().replace(/[-,.()\/&]/g,' ').replace(/'/g,'').split(/\s+/).filter(Boolean).slice(0,3).join(' ');}
+    var NON=/ (cream|creme|serum|lotion|moisturizer|cleanser|cleansing|toner|mask|perfume|parfum|toilette|cologne|edp|edt|fragrance|scent|shampoo|conditioner|hair|candle|soap|wash|body|tweezers?|brush|brushes|sharpener|curler|remover|skin care|treatment) /;
+    function cat(t){t=norm(t);
+      if(/ (lip|lips|lipstick|lipsticks|gloss|lipglass|lipcolour|lipcolor|lipliner) /.test(t)) return 'lip';
+      if(/ (eye|eyes|eyeshadow|shadow|mascara|liner|eyeliner|eyeliiner|kohl|kajal|brow|lash|lashes) /.test(t)) return 'eye';
+      if(/ (foundation|concealer|powder|blush|bronzer|bronzing|highlighter|highlighting|primer|setting|face|cheek|contour|corrector) /.test(t)) return 'face';
+      return '';}
+    function nonMakeup(t){t=norm(t);return NON.test(t)&&!cat(t);}
+    var ctx=(root.dataset.context||'').split('§').filter(Boolean),cats={},ffs={};
+    ctx.forEach(function(s){var c=cat(s);if(c)cats[c]=1;});
+    var onPage={};(root.dataset.handles||'').split(',').forEach(function(h){if(h)onPage[h.trim()]=1;});
+    document.querySelectorAll('#LookProducts a[href*="/products/"], .lp-strip a[href*="/products/"]').forEach(function(a){var m=a.getAttribute('href').match(/\/products\/([^?#\/]+)/);if(m)onPage[m[1]]=1;var t=a.querySelector('.card-title,.lp-s-title');if(t)ffs[fam(t.textContent)]=1;});
+    if(!Object.keys(cats).length){cats={lip:1,eye:1,face:1};}
+    root.setAttribute('data-categories',Object.keys(cats).join(','));
+    function pick(list){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;
+      list.forEach(function(a){if(out.length>=MAX)return;var h=a.dataset.handle,ti=(a.querySelector('.ymal-title')||{}).textContent||'',f=fam(ti),txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
+        if(onPage[h]||hs[h]||(f&&fs[f]))return; if(nonMakeup(txt)||NON.test(norm(txt))&&!/ (lip|eye|shadow|liner|mascara|foundation|blush|powder) /.test(norm(txt)))return; if(!c||!cats[c])return;
+        hs[h]=1;if(f)fs[f]=1;a.setAttribute('data-category',c);out.push(a);});
+      return out;}
+    function render(out){rail.innerHTML='';
+      out.forEach(function(a,i){var n=document.importNode(a,true),u=n.getAttribute('href').split('?')[0];
+        n.setAttribute('data-section','ymal');n.setAttribute('data-position',i+1);n.setAttribute('href',u+'?ref=ymal&pos='+(i+1));rail.appendChild(n);});
+      root.setAttribute('data-count',out.length); if(!out.length) root.style.display='none';}
+    var fallback=[].slice.call(rail.children);
+    fetch((window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed',{credentials:'same-origin'})
+      .then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(h){
+        var f=new DOMParser().parseFromString(h,'text/html').querySelector('[data-ymal-feed]');if(!f)throw 0;
+        var out=pick([].slice.call(f.querySelectorAll('a.ymal-tile')));if(out.length<4){out=pick([].slice.call(f.querySelectorAll('a.ymal-tile')).concat(fallback));}
+        if(out.length<1)throw 0;root.setAttribute('data-ymal-source','best-selling');render(out);
+      }).catch(function(){root.setAttribute('data-ymal-source','popular-fallback');render(pick(fallback));});
+  })();
+  </script>
+</section>
