@@ -3,7 +3,7 @@
     <div>
       <p class="footer-brand">{{ shop.name }}</p>
       <p class="footer-copy">{{ section.settings.blurb }}</p>
-      <p class="footer-copy">Ships from the USA.</p>
+      {%- comment -%} parity2 #4: "Ships from the USA" lives once, in the announcement bar {%- endcomment -%}
     </div>
     <div class="footer-col">
       <p class="kicker">Shop</p>
@@ -33,7 +33,6 @@
   <div class="footer-bottom">
     <div class="page-width" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;width:100%">
       <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. For the love of beauty and skin.</p>
-      <p>Ships from the USA.</p>
     </div>
   </div>
 </footer>
