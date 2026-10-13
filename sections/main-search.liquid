@@ -1,8 +1,41 @@
 {% comment %}
   Search results. 2026-10-05 Dru: Load more OR Show all (same pattern as main-collection).
   Based on live 31-line main-search (paginate 48, render product-card).
+  2026-10-12 parity A1+B3: filter bar (Price / Type / Brand via search.filters) + Sort, active chips, Clear all,
+  in-range prices on cards when a price filter is set (snippets/search-facets, snippets/search-card).
 {% endcomment %}
+{%- assign sb_pmin = blank -%}{%- assign sb_pmax = blank -%}
+{%- for f in search.filters -%}{%- if f.type == 'price_range' -%}{%- assign sb_pmin = f.min_value.value -%}{%- assign sb_pmax = f.max_value.value -%}{%- endif -%}{%- endfor -%}
 {% paginate search.results by 48 %}
+<style>
+  #SearchSection-{{ section.id }} .sb-sfacets{margin:0 0 .75rem}
+  #SearchSection-{{ section.id }} .sb-sf-bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:flex-end;justify-content:space-between;border-top:1px solid #e6e1d8;border-bottom:1px solid #e6e1d8;padding:.7rem 0}
+  #SearchSection-{{ section.id }} .sb-sf-filters{display:flex;flex-wrap:wrap;gap:.6rem;align-items:flex-end}
+  #SearchSection-{{ section.id }} .sb-sf-sel{display:flex;flex-direction:column;gap:.2rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  #SearchSection-{{ section.id }} .sb-sf-sel select{min-width:9.5rem;max-width:14rem;padding:.5rem 2rem .5rem .7rem;font-size:.9rem;text-transform:none;letter-spacing:0;font-weight:400;border-radius:999px}
+  #SearchSection-{{ section.id }} [data-active] select,#SearchSection-{{ section.id }} details[data-active]>summary{border-color:#1a1a1a;box-shadow:inset 0 0 0 1px #1a1a1a}
+  #SearchSection-{{ section.id }} .sb-sf-dd{position:relative}
+  #SearchSection-{{ section.id }} .sb-sf-dd>summary{list-style:none;cursor:pointer;border:1px solid #cfc8bc;border-radius:999px;padding:.5rem 1.6rem .5rem .9rem;font-size:.9rem;background:#fff;position:relative}
+  #SearchSection-{{ section.id }} .sb-sf-dd>summary::after{content:'▾';position:absolute;right:.7rem;top:.45rem;font-size:.8rem}
+  #SearchSection-{{ section.id }} .sb-sf-dd>summary::-webkit-details-marker{display:none}
+  #SearchSection-{{ section.id }} .sb-sf-panel{position:absolute;z-index:20;top:calc(100% + 6px);left:0;background:#fff;border:1px solid #e6e1d8;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:.9rem;display:flex;flex-direction:column;gap:.7rem;width:17rem}
+  #SearchSection-{{ section.id }} .sb-sf-price{display:flex;gap:.4rem;align-items:flex-end}
+  #SearchSection-{{ section.id }} .sb-sf-price label{display:flex;flex-direction:column;font-size:.72rem;font-weight:700}
+  #SearchSection-{{ section.id }} .sb-sf-price input{width:6.2rem}
+  #SearchSection-{{ section.id }} .sb-sf-quick{display:flex;flex-wrap:wrap;gap:.35rem}
+  #SearchSection-{{ section.id }} .sb-sf-quick a{font-size:.8rem;border:1px solid #cfc8bc;border-radius:999px;padding:.25rem .6rem;color:inherit;text-decoration:none}
+  #SearchSection-{{ section.id }} .sb-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}
+  #SearchSection-{{ section.id }} .sb-chip{display:inline-flex;gap:.35rem;align-items:center;background:#1a1a1a;color:#fff;border-radius:999px;padding:.32rem .75rem;font-size:.82rem;text-decoration:none}
+  #SearchSection-{{ section.id }} .sb-chip--clear{background:transparent;color:#1a1a1a;text-decoration:underline;padding-left:.3rem}
+  #SearchSection-{{ section.id }} .visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media(max-width:749px){
+    #SearchSection-{{ section.id }} .sb-sf-bar{display:grid;grid-template-columns:1fr 1fr;align-items:end}
+    #SearchSection-{{ section.id }} .sb-sf-filters{display:contents}
+    #SearchSection-{{ section.id }} .sb-sf-sel select{min-width:0;width:100%;max-width:none}
+    #SearchSection-{{ section.id }} .sb-sf-dd>summary{width:100%}
+    #SearchSection-{{ section.id }} .sb-sf-panel{width:min(17rem,90vw)}
+  }
+</style>
 <section class="section" id="SearchSection-{{ section.id }}">
   <div class="page-width">
     <h1 style="font-size:3rem">Search</h1>
@@ -12,11 +45,12 @@
       <button class="btn" type="submit">Search</button>
     </form>
     {% if search.performed %}
-      <p style="color:var(--muted);margin-bottom:1.5rem">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for “{{ search.terms }}”</p>
+      {% render 'search-facets' %}
+      <p class="sb-sf-count" style="color:var(--muted);margin-bottom:1.25rem">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for “{{ search.terms }}”</p>
       <div class="product-grid" id="ProductGrid-{{ section.id }}" data-page="{{ paginate.current_page }}" data-pages="{{ paginate.pages }}">
         {% for item in search.results %}
           {% if item.object_type == 'product' %}
-            {% render 'product-card', product: item %}
+            {% render 'search-card', product: item, pmin: sb_pmin, pmax: sb_pmax %}
           {% endif %}
         {% endfor %}
       </div>
