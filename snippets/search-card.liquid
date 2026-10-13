@@ -1,0 +1,43 @@
+{%- comment -%}
+  2026-10-12 parity B3: search result card = product-card markup, but when a price filter is active
+  (pmin/pmax in cents, blank = open) the price shows the in-range variants only ("$X" or "$X–$Y"), not "From <lowest>".
+{%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- assign in_lo = nil -%}{%- assign in_hi = nil -%}{%- assign in_v = nil -%}
+{%- if pmin != blank or pmax != blank -%}
+  {%- for x in product.variants -%}
+    {%- if pmin != blank and x.price < pmin -%}{%- continue -%}{%- endif -%}
+    {%- if pmax != blank and x.price > pmax -%}{%- continue -%}{%- endif -%}
+    {%- if x.available == false and in_v != blank -%}{%- continue -%}{%- endif -%}
+    {%- if in_v == blank -%}{%- assign in_v = x -%}{%- elsif in_v.available == false and x.available -%}{%- assign in_v = x -%}{%- endif -%}
+    {%- if in_lo == blank or x.price < in_lo -%}{%- assign in_lo = x.price -%}{%- endif -%}
+    {%- if in_hi == blank or x.price > in_hi -%}{%- assign in_hi = x.price -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if in_v != blank -%}{%- assign v = in_v -%}{%- endif -%}
+{%- endif -%}
+{%- assign c_url = product.url -%}
+{%- if in_v != blank and product.variants.size > 1 -%}{%- assign c_url = in_v.url -%}{%- endif -%}
+<article class="card">
+  <a class="card-media" href="{{ c_url }}">
+    {% if product.featured_image %}
+      {{ product.featured_image | image_url: width: 700 | image_tag: alt: product.title, loading: 'lazy' }}
+    {% endif %}
+    {% if v.inventory_quantity > 0 and v.inventory_quantity < 6 %}
+      <span class="badge badge--low">Low · {{ v.inventory_quantity }} left</span>
+    {% elsif product.tags contains 'rare' or product.tags contains 'discontinued' or product.tags contains 'hard-to-find' %}
+      <span class="badge">Hard to find</span>
+    {% endif %}
+  </a>
+  <p class="card-vendor">{{ product.vendor }}</p>
+  <a class="card-title" href="{{ c_url }}">{{ product.title }}</a>
+  <p class="card-price">
+    {%- if in_lo != blank -%}
+      {{ in_lo | money }}{% if in_hi > in_lo %}–{{ in_hi | money }}{% endif %}
+    {%- else -%}
+      {% if product.price_varies %}From {% endif %}{{ product.price | money }}
+    {%- endif -%}
+    {% if v.compare_at_price > v.price %}
+      <span class="compare">{{ v.compare_at_price | money }}</span>
+    {% endif %}
+  </p>
+</article>
