@@ -1,181 +1,298 @@
 {% comment %}
-  Storefront filters via Search & Discovery (collection.filters).
-  Show Price, Product type, and Brand/Manufacturer (NOT Vendor).
-  Dru LOCK 2026-09-17: NO Availability filter — OOS appears naturally in collections.
-  Skip Vendor + Availability. Product type + Brand = <select>; Price = range.
+  filters-v2 2026-10-12 (PREVIEW) — Sephora-style Filter & Sort.
+  Mobile/tablet (<990px): sticky "Filter & Sort" bar -> slide-out drawer. Desktop (>=990px): left sidebar.
+  Groups: Category (product type), Brand (search + checkboxes), Price (ranges + min/max), Color/Shade (if an S&D filter exists),
+  Availability (if S&D exposes it), Sort. Multi-select, live counts, chips, Clear all. AJAX via Section Rendering API,
+  URL sync (pushState), Back = re-render from URL. Vendor never shown.
+  NOTE: Dru LOCK 2026-09-17 said "no Availability filter"; Eve's 10-12 brief asks for it. It renders here only if the
+  S&D Availability filter is enabled; set show_availability to false below to honour the old lock.
 {% endcomment %}
+{% assign show_availability = true %}
+{% assign sid = section.id %}
 {% if collection.filters != empty %}
-  <form class="facets" data-facets-form action="{{ collection.url }}" method="get">
-    <p class="kicker" style="margin-bottom:1rem">Filter</p>
-    {% assign has_active = false %}
-    {% for filter in collection.filters %}
-      {% assign label_down = filter.label | downcase %}
-      {% assign skip = false %}
-      {% comment %} Never expose Shopify Vendor (store name) {% endcomment %}
-      {% if filter.param_name == 'filter.p.vendor' or label_down == 'vendor' %}
-        {% assign skip = true %}
-      {% endif %}
-      {% comment %} Dru LOCK: no Availability / in stock / out of stock filter {% endcomment %}
-      {% if label_down contains 'availability' or label_down == 'in stock' or label_down contains 'out of stock' or filter.param_name == 'filter.v.availability' %}
-        {% assign skip = true %}
-      {% endif %}
-      {% unless skip %}
-        {% if filter.active_values.size > 0 %}
-          {% assign has_active = true %}
-        {% endif %}
-        {% if filter.min_value.value != blank or filter.max_value.value != blank %}
-          {% assign has_active = true %}
-        {% endif %}
+{%- capture chips -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.param_name == 'filter.p.vendor' -%}{%- continue -%}{%- endif -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != blank or filter.max_value.value != blank -%}
+        <a class="sf-chip" href="{{ filter.url_to_remove }}" data-sf-link>
+          {{ filter.min_value.value | default: 0 | money_without_trailing_zeros }}–{% if filter.max_value.value %}{{ filter.max_value.value | money_without_trailing_zeros }}{% else %}+{% endif %}
+          <span aria-hidden="true">×</span><span class="sf-vh">Remove price filter</span></a>
+      {%- endif -%}
+    {%- else -%}
+      {%- for v in filter.active_values -%}
+        <a class="sf-chip" href="{{ v.url_to_remove }}" data-sf-link>{{ v.label | escape }} <span aria-hidden="true">×</span><span class="sf-vh">Remove</span></a>
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{% assign chips_s = chips | strip %}
+{% assign active_count = 0 %}
+{% for filter in collection.filters %}
+  {% unless filter.param_name == 'filter.p.vendor' %}
+    {% assign active_count = active_count | plus: filter.active_values.size %}
+    {% if filter.type == 'price_range' %}{% if filter.min_value.value != blank or filter.max_value.value != blank %}{% assign active_count = active_count | plus: 1 %}{% endif %}{% endif %}
+  {% endunless %}
+{% endfor %}
+{% assign sort_cur = collection.sort_by | default: collection.default_sort_by %}
+{% capture clear_url %}{{ collection.url }}{% if collection.sort_by != blank %}?sort_by={{ collection.sort_by }}{% endif %}{% endcapture %}
 
-        {% assign use_select = false %}
-        {% assign facet_label = filter.label %}
-        {% if label_down contains 'product type' or filter.param_name == 'filter.p.product_type' %}
-          {% assign use_select = true %}
-          {% assign facet_label = 'Product type' %}
-        {% elsif label_down contains 'manufacturer' or label_down contains 'brand' %}
-          {% assign use_select = true %}
-          {% assign facet_label = 'Brand' %}
-        {% endif %}
+<div class="sf" data-sf data-sf-section="{{ sid }}">
+  <div class="sf-bar" data-sf-bar>
+    <button type="button" class="sf-bar__btn" data-sf-open aria-controls="SfDrawer-{{ sid }}" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      Filter &amp; Sort{% if active_count > 0 %} <span class="sf-badge">{{ active_count }}</span>{% endif %}
+    </button>
+    <span class="sf-bar__count">{{ collection.products_count }} result{% if collection.products_count != 1 %}s{% endif %}</span>
+  </div>
 
-        <div class="facet" style="margin-bottom:1.25rem">
-          <p class="kicker">{{ facet_label }}</p>
-          {% case filter.type %}
-            {% when 'list' %}
-              {% if use_select %}
-                {% comment %}
-                  Single <select> for Product type / Brand (even if S&D allows multi).
-                  Empty first option = All (no filter param). On change, submit.
-                {% endcomment %}
-                {% assign select_name = filter.param_name %}
-                {% for value in filter.values %}
-                  {% if select_name == blank %}
-                    {% assign select_name = value.param_name %}
-                  {% endif %}
-                {% endfor %}
-                <select
-                  class="field"
-                  name="{{ select_name }}"
-                  style="margin-top:.5rem;width:100%;max-width:18rem"
-                  data-facet-auto>
-                  <option value="">All</option>
-                  {% for value in filter.values %}
-                    <option
-                      value="{{ value.value }}"
-                      {% if value.active %}selected{% endif %}
-                      {% if value.count == 0 and value.active == false %}disabled{% endif %}>
-                      {{ value.label }} ({{ value.count }})
-                    </option>
-                  {% endfor %}
-                </select>
-              {% else %}
-                {% comment %} Availability and any other list filters: checkboxes {% endcomment %}
-                <ul style="list-style:none;padding:0;margin:.5rem 0 0">
-                  {% for value in filter.values %}
-                    <li style="margin:.35rem 0">
-                      <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem">
-                        <input type="checkbox"
-                          name="{{ value.param_name }}"
-                          value="{{ value.value }}"
-                          {% if value.active %}checked{% endif %}
-                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                          data-facet-auto>
-                        <span>{{ value.label }} ({{ value.count }})</span>
-                      </label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            {% when 'price_range' %}
-              <div style="display:flex;gap:.5rem;margin-top:.5rem;align-items:center;flex-wrap:wrap">
-                <input class="field" type="number" name="{{ filter.min_value.param_name }}"
-                  value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
-                  placeholder="Min" min="0" style="width:6rem">
-                <span>–</span>
-                <input class="field" type="number" name="{{ filter.max_value.param_name }}"
-                  value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
-                  placeholder="Max" min="0" style="width:6rem">
-                <button class="btn btn--outline" type="submit">Go</button>
-              </div>
-            {% when 'boolean' %}
-              {% for value in filter.values %}
-                <label style="display:flex;gap:.5rem;align-items:center;font-size:.9rem;margin:.35rem 0">
-                  <input type="checkbox"
-                    name="{{ value.param_name }}"
-                    value="{{ value.value }}"
-                    {% if value.active %}checked{% endif %}
-                    data-facet-auto>
-                  <span>{{ value.label }}</span>
-                </label>
-              {% endfor %}
-          {% endcase %}
+  <div class="sf-scrim" data-sf-close hidden></div>
+  <form class="sf-panel" id="SfDrawer-{{ sid }}" data-facets-form data-sf-form action="{{ collection.url }}" method="get" autocomplete="off" role="dialog" aria-label="Filter and sort">
+    <div class="sf-panel__head">
+      <p class="sf-panel__title">Filter &amp; Sort</p>
+      <button type="button" class="sf-x" data-sf-close aria-label="Close filters">×</button>
+    </div>
+    <div class="sf-panel__body" data-sf-scroll>
+      {% if chips_s != blank %}
+        <div class="sf-chips" style="order:-1" aria-label="Applied filters">{{ chips }}<a class="sf-clear" href="{{ clear_url }}" data-sf-link>Clear all</a></div>
+      {% endif %}
+
+      <details class="sf-group sf-group--sort" style="order:0" data-sf-group="sort">
+        <summary>Sort <span class="sf-sum">{% assign sname = 'Featured' %}{% for o in collection.sort_options %}{% if o.value == sort_cur %}{% assign sname = o.name %}{% endif %}{% endfor %}{{ sname }}</span></summary>
+        <div class="sf-opts">
+          {% assign sorts = 'best-selling|Best selling,created-descending|Newest,price-ascending|Price: low to high,price-descending|Price: high to low' | split: ',' %}
+          {% for s in sorts %}{% assign kv = s | split: '|' %}
+            <label class="sf-opt"><input type="radio" name="sort_by" value="{{ kv[0] }}" {% if sort_cur == kv[0] %}checked{% endif %} data-facet-auto><span>{{ kv[1] }}</span></label>
+          {% endfor %}
         </div>
-      {% endunless %}
-    {% endfor %}
-    {% if has_active %}
-      <a class="btn btn--outline" href="{{ collection.url }}">Clear filters</a>
-    {% endif %}
+      </details>
+
+      {% for filter in collection.filters %}
+        {% assign ld = filter.label | downcase %}
+        {% assign kind = 'other' %}
+        {% if filter.param_name == 'filter.p.vendor' or ld == 'vendor' %}{% continue %}{% endif %}
+        {% if filter.param_name == 'filter.v.availability' or ld contains 'availab' %}
+          {% unless show_availability %}{% continue %}{% endunless %}{% assign kind = 'avail' %}
+        {% elsif filter.param_name == 'filter.p.product_type' or ld contains 'product type' %}{% assign kind = 'type' %}
+        {% elsif ld contains 'manufacturer' or ld contains 'brand' %}{% assign kind = 'brand' %}
+        {% elsif ld contains 'color' or ld contains 'colour' or ld contains 'shade' %}{% assign kind = 'color' %}
+        {% elsif filter.type == 'price_range' %}{% assign kind = 'price' %}{% endif %}
+        {% case kind %}
+          {% when 'type' %}{% assign title = 'Category' %}
+          {% when 'brand' %}{% assign title = 'Brand' %}
+          {% when 'price' %}{% assign title = 'Price' %}
+          {% when 'avail' %}{% assign title = 'Availability' %}
+          {% when 'color' %}{% assign title = 'Color family' %}
+          {% else %}{% assign title = filter.label %}
+        {% endcase %}
+        {% assign n_on = filter.active_values.size %}
+        {% if kind == 'price' %}{% if filter.min_value.value != blank or filter.max_value.value != blank %}{% assign n_on = 1 %}{% endif %}{% endif %}
+        {% case kind %}{% when 'type' %}{% assign ord = 1 %}{% when 'brand' %}{% assign ord = 2 %}{% when 'price' %}{% assign ord = 3 %}{% when 'color' %}{% assign ord = 4 %}{% when 'avail' %}{% assign ord = 6 %}{% else %}{% assign ord = 5 %}{% endcase %}
+        <details class="sf-group" style="order:{{ ord }}" data-sf-group="{{ filter.param_name | handle }}" {% if n_on > 0 or kind == 'type' %}open{% endif %}>
+          <summary>{{ title }}{% if n_on > 0 %} <span class="sf-badge">{{ n_on }}</span>{% endif %}</summary>
+          {% if filter.type == 'price_range' %}
+            {% assign cmin = filter.min_value.value | divided_by: 100 %}{% assign cmax = filter.max_value.value | divided_by: 100 %}
+            <div class="sf-opts sf-prices">
+              {% assign ranges = '0-25,25-50,50-100,100-' | split: ',' %}
+              {% for r in ranges %}{% assign ab = r | split: '-' %}
+                {% assign lo = ab[0] | plus: 0 %}{% assign hi = ab[1] %}
+                {% assign on = false %}{% if filter.min_value.value != blank or filter.max_value.value != blank %}{% if cmin == lo %}{% if hi == blank and filter.max_value.value == blank %}{% assign on = true %}{% elsif hi != blank %}{% assign hin = hi | plus: 0 %}{% if cmax == hin %}{% assign on = true %}{% endif %}{% endif %}{% endif %}{% endif %}
+                <button type="button" class="sf-pill{% if on %} is-on{% endif %}" data-sf-price="{{ lo }}|{{ hi }}" aria-pressed="{{ on }}">
+                  {% if lo == 0 %}Under ${{ hi }}{% elsif hi == blank %}${{ lo }} &amp; up{% else %}${{ lo }}–${{ hi }}{% endif %}
+                </button>
+              {% endfor %}
+              <div class="sf-minmax">
+                <input class="field" type="number" inputmode="numeric" name="{{ filter.min_value.param_name }}" value="{% if filter.min_value.value %}{{ cmin }}{% endif %}" placeholder="$ Min" min="0" aria-label="Minimum price">
+                <span>–</span>
+                <input class="field" type="number" inputmode="numeric" name="{{ filter.max_value.param_name }}" value="{% if filter.max_value.value %}{{ cmax }}{% endif %}" placeholder="$ Max" min="0" aria-label="Maximum price">
+                <button class="sf-apply" type="submit">Apply</button>
+              </div>
+            </div>
+          {% else %}
+            {% if kind == 'brand' and filter.values.size > 8 %}
+              <input class="field sf-search" type="search" placeholder="Search brands" aria-label="Search brands" data-sf-search>
+            {% endif %}
+            <ul class="sf-opts sf-list{% if kind == 'brand' %} sf-list--scroll{% endif %}" {% if kind == 'brand' %}data-sf-searchable{% endif %}>
+              {% for v in filter.values %}
+                {% if kind == 'avail' and v.value == '0' %}{% continue %}{% endif %}
+                <li data-sf-label="{{ v.label | downcase | escape }}">
+                  <label class="sf-opt{% if v.count == 0 and v.active == false %} is-zero{% endif %}">
+                    <input type="checkbox" name="{{ v.param_name }}" value="{{ v.value }}" {% if v.active %}checked{% endif %} {% if v.count == 0 and v.active == false %}disabled{% endif %} data-facet-auto>
+                    {% if kind == 'color' and v.swatch.color %}<span class="sf-sw" style="background:{{ v.swatch.color }}"></span>{% endif %}
+                    <span class="sf-opt__l">{% if kind == 'avail' %}In stock only{% else %}{{ v.label | escape }}{% endif %}</span>
+                    <span class="sf-opt__n">{{ v.count }}</span>
+                  </label>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </details>
+      {% endfor %}
+    </div>
+    <div class="sf-panel__foot">
+      <a class="sf-btn sf-btn--ghost" href="{{ clear_url }}" data-sf-link>Clear all</a>
+      <button type="button" class="sf-btn" data-sf-close>Show {{ collection.products_count }} result{% if collection.products_count != 1 %}s{% endif %}</button>
+    </div>
   </form>
-{% comment %} 2026-10-12 filter fix: AJAX facets (Section Rendering API), strips empty params, swaps grid in place, falls back to full reload. {% endcomment %}
-<p class="facets-status" data-facets-status aria-live="polite" style="font-size:.85rem;min-height:1.2em;margin:.25rem 0 0"></p>
+
+  {% if chips_s != blank %}<div class="sf-chips sf-chips--top" aria-label="Applied filters">{{ chips }}<a class="sf-clear" href="{{ clear_url }}" data-sf-link>Clear all</a></div>{% endif %}
+  <p class="facets-status sf-vh" data-facets-status aria-live="polite"></p>
+</div>
+
+<style>
+.sf-vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sf{--sf-ink:#1b1b1b;--sf-line:#e4dfd3;--sf-bg:#faf8f3;font-size:15px}
+.sf-bar{position:sticky;top:var(--sf-sticky-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;gap:.75rem;background:var(--sf-bg);border-bottom:1px solid var(--sf-line);padding:.5rem 0;margin:0 0 .75rem}
+.sf-bar__btn{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:0 1.1rem;border:1px solid var(--sf-ink);border-radius:999px;background:#fff;color:var(--sf-ink);font:inherit;font-weight:600;cursor:pointer}
+.sf-bar__count{font-size:.85rem;color:#555}
+.sf-badge{display:inline-grid;place-items:center;min-width:1.35rem;height:1.35rem;padding:0 .3rem;border-radius:999px;background:var(--sf-ink);color:#fff;font-size:.72rem;font-weight:700}
+.sf-scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:999}
+.sf-panel{position:fixed;top:0;bottom:0;left:0;width:min(88vw,420px);z-index:1000;background:#fff;display:flex;flex-direction:column;transform:translateX(-102%);transition:transform .25s ease;padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);visibility:hidden}
+.sf.is-open .sf-panel{transform:none;visibility:visible}
+.sf-panel__head{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;border-bottom:1px solid var(--sf-line)}
+.sf-panel__title{margin:0;font-weight:700;font-size:1.05rem}
+.sf-x{width:44px;height:44px;border:0;background:none;font-size:1.8rem;line-height:1;cursor:pointer;color:var(--sf-ink)}
+.sf-panel__body{display:flex;flex-direction:column;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 1rem 1rem}
+.sf-panel__foot{display:flex;gap:.75rem;padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom));border-top:1px solid var(--sf-line);background:#fff}
+.sf-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;border:1px solid var(--sf-ink);background:var(--sf-ink);color:#fff;font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.sf-btn--ghost{background:#fff;color:var(--sf-ink);flex:0 0 auto;padding:0 1.25rem}
+.sf-group{border-bottom:1px solid var(--sf-line)}
+.sf-group>summary{list-style:none;display:flex;align-items:center;gap:.5rem;min-height:52px;font-weight:600;cursor:pointer}
+.sf-group>summary::-webkit-details-marker{display:none}
+.sf-group>summary::after{content:"";margin-left:auto;width:.55rem;height:.55rem;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s}
+.sf-group[open]>summary::after{transform:rotate(-135deg)}
+.sf-sum{font-weight:400;color:#666;font-size:.85rem}
+.sf-opts{list-style:none;margin:0;padding:0 0 .75rem}
+.sf-list--scroll{max-height:18rem;overflow-y:auto}
+.sf-opt{display:flex;align-items:center;gap:.65rem;min-height:44px;cursor:pointer}
+.sf-opt input{width:20px;height:20px;accent-color:var(--sf-ink);flex:none;margin:0}
+.sf-opt__l{flex:1}
+.sf-opt__n{color:#777;font-size:.82rem}
+.sf-opt.is-zero{opacity:.45;cursor:default}
+.sf-sw{width:18px;height:18px;border-radius:50%;border:1px solid #0002}
+.sf-search{width:100%;min-height:44px;margin:0 0 .5rem;box-sizing:border-box;font-size:16px}
+.sf-prices{display:flex;flex-wrap:wrap;gap:.5rem}
+.sf-pill{min-height:44px;padding:0 1rem;border:1px solid var(--sf-line);border-radius:999px;background:#fff;font:inherit;cursor:pointer;color:var(--sf-ink)}
+.sf-pill.is-on{border-color:var(--sf-ink);background:var(--sf-ink);color:#fff}
+.sf-minmax{display:flex;align-items:center;gap:.5rem;width:100%;margin-top:.25rem}
+.sf-minmax .field{width:5.5rem;min-height:44px;font-size:16px;box-sizing:border-box}
+.sf-apply{min-height:44px;padding:0 1rem;border:1px solid var(--sf-ink);border-radius:999px;background:#fff;font:inherit;font-weight:600;cursor:pointer}
+.sf-chips{display:flex;flex-wrap:wrap;gap:.5rem;padding:.75rem 0}
+.sf-chip{display:inline-flex;align-items:center;gap:.4rem;min-height:36px;padding:0 .85rem;border-radius:999px;background:#efe9dc;color:var(--sf-ink);text-decoration:none;font-size:.85rem;position:relative}
+.sf-chip::before{content:"";position:absolute;inset:-4px 0}
+.sf-clear{display:inline-flex;align-items:center;min-height:36px;padding:0 .4rem;color:var(--sf-ink);font-size:.85rem;text-decoration:underline}
+.sf-group--sort{display:block}
+body.sf-lock{overflow:hidden}
+@media (min-width:990px){
+  .sf-bar,.sf-scrim,.sf-panel__head,.sf-panel__foot,.sf-chips--top{display:none!important}
+  .sf-panel .sf-chips{padding-top:0}
+  .sf-panel{position:static;transform:none;visibility:visible;width:auto;padding:0;background:none;z-index:auto}
+  .sf-panel__body{overflow:visible;padding:0}
+  .sf-group>summary{min-height:48px}
+}
+</style>
+
 <script>
 (function () {
-  if (window.__solFacetsBound) return;
-  window.__solFacetsBound = true;
-  function cleanQuery(form) {
+  if (window.__solSfBound) return;
+  window.__solSfBound = true;
+  var DESK = '(min-width: 990px)';
+  function sf() { return document.querySelector('[data-sf]'); }
+  function openDrawer(on) {
+    var r = sf(); if (!r) return;
+    r.classList.toggle('is-open', on);
+    var sc = r.querySelector('.sf-scrim'); if (sc) sc.hidden = !on;
+    var b = r.querySelector('[data-sf-open]'); if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+    document.body.classList.toggle('sf-lock', on && !matchMedia(DESK).matches);
+    if (on) { var x = r.querySelector('.sf-x'); if (x) x.focus({ preventScroll: true }); }
+  }
+  function query(form) {
     var fd = new FormData(form), p = new URLSearchParams();
     fd.forEach(function (v, k) { if (String(v).trim() !== '') p.append(k, v); });
+    ['filter.v.price.gte', 'filter.v.price.lte'].forEach(function (k) { if (p.get(k)) p.set(k, String(Math.round(parseFloat(p.get(k))))); });
     var cur = new URLSearchParams(location.search);
-    ['sort_by', 'q', 'type'].forEach(function (k) { if (cur.get(k) && !p.has(k)) p.set(k, cur.get(k)); });
-    return p;
+    ['q', 'type'].forEach(function (k) { if (cur.get(k) && !p.has(k)) p.set(k, cur.get(k)); });
+    return p.toString();
   }
-  function apply(form) {
-    var section = form.closest('[data-section-id]');
-    var p = cleanQuery(form);
-    var action = form.getAttribute('action') || location.pathname;
-    var pageUrl = action + (p.toString() ? '?' + p.toString() : '');
-    if (!section || !window.fetch || !window.DOMParser) { location.assign(pageUrl); return; }
-    var sid = section.getAttribute('data-section-id');
-    var status = section.querySelector('[data-facets-status]');
-    if (status) status.textContent = 'Updating…';
-    section.setAttribute('aria-busy', 'true');
-    section.style.opacity = '.55';
-    var q = new URLSearchParams(p); q.set('section_id', sid);
-    fetch(action + '?' + q.toString(), { credentials: 'same-origin' })
-      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+  function snapshot() {
+    var r = sf(); if (!r) return {};
+    var groups = {}; r.querySelectorAll('[data-sf-group]').forEach(function (d) { groups[d.getAttribute('data-sf-group')] = d.open; });
+    var sc = r.querySelector('[data-sf-scroll]'), se = r.querySelector('[data-sf-search]');
+    return { open: r.classList.contains('is-open'), groups: groups, scroll: sc ? sc.scrollTop : 0, search: se ? se.value : '' };
+  }
+  function restore(s) {
+    var r = sf(); if (!r || !s) return;
+    Object.keys(s.groups || {}).forEach(function (k) { var d = r.querySelector('[data-sf-group="' + k + '"]'); if (d) d.open = s.groups[k]; });
+    if (s.search) { var se = r.querySelector('[data-sf-search]'); if (se) { se.value = s.search; filterBrands(se); } }
+    if (s.open) { r.classList.add('is-open'); var sc0 = r.querySelector('.sf-scrim'); if (sc0) sc0.hidden = false; document.body.classList.toggle('sf-lock', !matchMedia(DESK).matches); }
+    var sc = r.querySelector('[data-sf-scroll]'); if (sc) sc.scrollTop = s.scroll || 0;
+  }
+  var seq = 0;
+  function load(url, push) {
+    var r = sf(); var section = r && r.closest('[data-section-id]');
+    if (!section || !window.fetch) { location.assign(url); return; }
+    var sid = section.getAttribute('data-section-id'), state = snapshot(), my = ++seq;
+    section.setAttribute('aria-busy', 'true'); section.classList.add('sf-loading');
+    var st = r.querySelector('[data-facets-status]'); if (st) st.textContent = 'Updating results…';
+    var u = new URL(url, location.origin); u.searchParams.set('section_id', sid);
+    fetch(u.pathname + u.search, { credentials: 'same-origin' })
+      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
       .then(function (html) {
+        if (my !== seq) return; // a newer click won
         var doc = new DOMParser().parseFromString(html, 'text/html');
-        var fresh = doc.getElementById(section.id);
-        if (!fresh) throw new Error('no section');
-        history.pushState({ solFacets: 1 }, '', pageUrl);
+        var fresh = doc.getElementById(section.id); if (!fresh) throw new Error('no section');
+        if (push) history.pushState({ sf: 1 }, '', url);
         section.replaceWith(fresh);
-        fresh.querySelectorAll('script').forEach(function (old) {
-          var s = document.createElement('script');
-          s.textContent = old.textContent;
-          old.replaceWith(s);
-        });
-        var grid = fresh.querySelector('[id^="ProductGrid-"]');
-        var n = grid ? grid.children.length : 0;
-        var st = fresh.querySelector('[data-facets-status]');
-        if (st) st.textContent = grid ? 'Showing results' : 'No products match these filters';
-        var target = grid || fresh.querySelector('.empty');
-        if (target && window.matchMedia('(max-width: 989px)').matches) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        fresh.querySelectorAll('script').forEach(function (old) { var s = document.createElement('script'); s.textContent = old.textContent; old.replaceWith(s); });
+        restore(state);
+        var nst = fresh.querySelector('[data-facets-status]'), g = fresh.querySelector('[id^="ProductGrid-"]');
+        if (nst) nst.textContent = g ? 'Results updated' : 'No products match these filters';
+        if (!state.open && !matchMedia(DESK).matches) { var t = fresh.querySelector('[data-sf-bar]'); if (t && t.getBoundingClientRect().top < 0) t.scrollIntoView({ block: 'start' }); }
       })
-      .catch(function () { location.assign(pageUrl); });
+      .catch(function () { if (my === seq) location.assign(url); });
+  }
+  function apply(form) { var q = query(form); load((form.getAttribute('action') || location.pathname) + (q ? '?' + q : ''), true); }
+  function filterBrands(inp) {
+    var t = inp.value.trim().toLowerCase(), list = inp.parentNode.querySelector('[data-sf-searchable]');
+    if (list) list.querySelectorAll('li').forEach(function (li) { li.hidden = t && li.getAttribute('data-sf-label').indexOf(t) === -1; });
   }
   document.addEventListener('change', function (e) {
-    var el = e.target;
-    if (!el.matches || !el.matches('[data-facet-auto]')) return;
-    var form = el.closest('form[data-facets-form]');
-    if (form) apply(form);
+    var el = e.target; if (!el.matches || !el.matches('[data-facet-auto]')) return;
+    var f = el.closest('form[data-sf-form]'); if (f) apply(f);
   });
   document.addEventListener('submit', function (e) {
-    var form = e.target;
-    if (!form.matches || !form.matches('form[data-facets-form]')) return;
-    e.preventDefault();
-    apply(form);
+    if (!e.target.matches || !e.target.matches('form[data-sf-form]')) return;
+    e.preventDefault(); apply(e.target);
   });
-  window.addEventListener('popstate', function () { location.reload(); });
+  document.addEventListener('input', function (e) { if (e.target.matches && e.target.matches('[data-sf-search]')) filterBrands(e.target); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') openDrawer(false);
+    if (e.key === 'Enter' && e.target.matches && e.target.matches('[data-sf-search]')) e.preventDefault();
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target : e.target.parentNode;
+    if (t.closest('[data-sf-open]')) { openDrawer(true); return; }
+    if (t.closest('[data-sf-close]')) { openDrawer(false); return; }
+    var pr = t.closest('[data-sf-price]');
+    if (pr) {
+      var f = pr.closest('form'), ab = pr.getAttribute('data-sf-price').split('|'), on = pr.classList.contains('is-on');
+      var lo = f.querySelector('[name="filter.v.price.gte"]'), hi = f.querySelector('[name="filter.v.price.lte"]');
+      if (lo) lo.value = on ? '' : (ab[0] === '0' ? '' : ab[0]); if (hi) hi.value = on ? '' : ab[1];
+      apply(f); return;
+    }
+    var a = t.closest('a[data-sf-link]');
+    if (a && !e.metaKey && !e.ctrlKey) { e.preventDefault(); load(a.getAttribute('href'), true); }
+  });
+  window.addEventListener('popstate', function () { load(location.pathname + location.search, false); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) location.reload(); });
+  // Keep the sticky bar under the pinned header (header fix pins only the logo bar).
+  function stickyTop() {
+    var h = document.querySelector('[data-sticky-header], .site-header, header');
+    var v = 0; if (h) { var cs = getComputedStyle(h); if (cs.position === 'sticky' || cs.position === 'fixed') v = h.getBoundingClientRect().height; }
+    document.documentElement.style.setProperty('--sf-sticky-top', v + 'px');
+  }
+  stickyTop(); addEventListener('resize', stickyTop);
+  matchMedia(DESK).addEventListener && matchMedia(DESK).addEventListener('change', function () { openDrawer(false); });
 })();
 </script>
-
 {% endif %}
