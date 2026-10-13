@@ -122,6 +122,8 @@
     {%- if lp_n > 0 -%}<div class="lp-grid product-grid">{{ lp_cards }}</div>{%- else -%}<p>This look is sold out right now. <a href="/collections/popular">Shop Popular</a></p>{%- endif -%}
     <a class="lp-back" href="/#shopify-section-hero">&larr; All Halloween looks</a>
   </div>
+  {%- comment -%} 2026-10-13: reusable 'You might be interested in' rail (snippets/look-ymal) {%- endcomment -%}
+  {%- render 'look-ymal', handles: lp[5], name: lp[1] -%}
 {%- endif -%}
 </div>
 <script>
