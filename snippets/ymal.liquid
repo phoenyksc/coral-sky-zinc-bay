@@ -1,0 +1,66 @@
+{%- comment -%}
+  2026-10-13 Dru (via Eve): "You May Also Like" replaces "Complete the look" on the PDP (rendered from main-product).
+  Source: best sellers = /collections/all?sort_by=best-selling via the Section Rendering API (sections/ymal-feed).
+  No-JS / fetch-failure fallback: server-rendered collections.popular (then collections.all).
+  Rules: exclude current product, in-stock only, needs a photo + sane price, max 10, horizontal scroll carousel.
+  Scroll hint: the tile that is 3rd in view at load gets a semi-transparent overlay over half its image (fades after the first scroll).
+  Size: tiles are 67% of the old Complete the look tile width (33% smaller), 8px gaps.
+  Tracking: each tile has data-section="ymal" data-position="1..N" and its link carries ?ref=ymal.
+{%- endcomment -%}
+{%- assign ym_n = 0 -%}
+{%- capture ym_tiles -%}
+  {%- for src in (1..2) -%}
+    {%- if src == 1 -%}{%- assign ym_list = collections.popular.products -%}{%- else -%}{%- assign ym_list = collections.all.products -%}{%- endif -%}
+    {%- for p in ym_list limit: 40 -%}
+      {%- if ym_n >= 10 -%}{%- break -%}{%- endif -%}
+      {%- if p.id == product.id or p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 -%}{%- continue -%}{%- endif -%}
+      {%- assign ym_tok = p.id | prepend: ',' | append: ',' -%}{%- if ym_seen contains ym_tok -%}{%- continue -%}{%- endif -%}
+      {%- assign ym_seen = ym_seen | append: ym_tok -%}
+      {%- render 'ymal-tile', p: p -%}
+      {%- assign ym_n = ym_n | plus: 1 -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<section class="section sb-ymal" id="YouMayAlsoLike" data-sb-ymal data-current="{{ product.handle }}">
+  <div class="page-width">
+    <div class="ymal-head"><h2>You May Also Like</h2></div>
+    <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="You may also like, scroll for more">{{ ym_tiles }}</div>
+  </div>
+  <style>
+    .sb-ymal{background:#faf8f3}
+    .sb-ymal .ymal-head h2{margin:0 0 10px}
+    .sb-ymal .ymal-rail{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;padding-bottom:6px;scrollbar-width:thin}
+    .sb-ymal .ymal-tile{flex:0 0 calc((100% - 10px) / 2 * .67);scroll-snap-align:start;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit;min-width:0}
+    @media(min-width:750px){.sb-ymal .ymal-tile{flex-basis:calc((100% - 48px) / 4 * .67)}}
+    .sb-ymal .ymal-media{position:relative;display:block}
+    .sb-ymal .ymal-media img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
+    .sb-ymal .ymal-tile.is-hint .ymal-media::after{content:"";position:absolute;top:0;right:0;bottom:0;width:50%;background:rgba(250,248,243,.6);border-radius:0 4px 4px 0;transition:opacity .4s;pointer-events:none}
+    .sb-ymal.scrolled .ymal-tile.is-hint .ymal-media::after{opacity:0}
+    .sb-ymal .ymal-vendor{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sb-ymal .ymal-title{font-size:.78rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .sb-ymal .ymal-price{font-weight:700;font-size:.8rem}
+  </style>
+  <script>
+  (function(){
+    var root=document.getElementById('YouMayAlsoLike'); if(!root) return;
+    var rail=root.querySelector('[data-ymal-rail]'), cur=root.getAttribute('data-current'), MAX=10;
+    function finish(){
+      var t=[].slice.call(rail.children);
+      t.forEach(function(a,i){ if(i>=MAX){a.remove();return;} a.setAttribute('data-position',i+1); a.classList.remove('is-hint'); });
+      t=[].slice.call(rail.children);
+      if(!t.length){root.style.display='none';return;}
+      var L=rail.getBoundingClientRect().left-1, inView=t.filter(function(a){return a.getBoundingClientRect().left>=L;});
+      if(inView[2]) inView[2].classList.add('is-hint');
+    }
+    rail.addEventListener('scroll',function(){root.classList.add('scrolled');},{passive:true,once:true});
+    var url=(window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed';
+    fetch(url,{credentials:'same-origin'}).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(h){
+      var d=new DOMParser().parseFromString(h,'text/html'), f=d.querySelector('[data-ymal-feed]'); if(!f) throw 0;
+      var out=[].slice.call(f.querySelectorAll('a.ymal-tile')).filter(function(a){return a.getAttribute('data-handle')!==cur;});
+      if(out.length<4) throw 0;
+      rail.innerHTML=''; out.slice(0,MAX).forEach(function(a){rail.appendChild(document.importNode(a,true));});
+      root.setAttribute('data-ymal-source','best-selling'); finish();
+    }).catch(function(){root.setAttribute('data-ymal-source','popular-fallback'); finish();});
+  })();
+  </script>
+</section>
