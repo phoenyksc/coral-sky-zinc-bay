@@ -1,14 +1,16 @@
-{%- comment -%} Section Rendering feed for You May Also Like: fetched as /collections/all?sort_by=best-selling&section_id=ymal-feed. Outputs in-stock, priced, photographed products in best-selling order (max 30; the PDP JS drops the current product and caps at 10). {%- endcomment -%}
+{%- comment -%} Feed for "Popular right now": /collections/all?sort_by=best-selling&section_id=ymal-feed. In-stock, priced, photographed, not on the watermark list (snippets/ymal-exclude); best-selling order, max 40. The PDP JS dedupes and applies per-page exclusions. {%- endcomment -%}
+{%- capture yf_wm -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
 <div data-ymal-feed>
-{%- paginate collection.products by 40 -%}
+{%- paginate collection.products by 60 -%}
   {%- assign yf_n = 0 -%}
   {%- for p in collection.products -%}
     {%- if p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 -%}{%- continue -%}{%- endif -%}
+    {%- assign yf_tok = p.handle | prepend: '|' | append: '|' -%}{%- if yf_wm contains yf_tok -%}{%- continue -%}{%- endif -%}
     {%- render 'ymal-tile', p: p -%}
-    {%- assign yf_n = yf_n | plus: 1 -%}{%- if yf_n >= 30 -%}{%- break -%}{%- endif -%}
+    {%- assign yf_n = yf_n | plus: 1 -%}{%- if yf_n >= 40 -%}{%- break -%}{%- endif -%}
   {%- endfor -%}
 {%- endpaginate -%}
 </div>
 {% schema %}
-{ "name": "YMAL feed", "settings": [] }
+{ "name": "Popular feed", "settings": [] }
 {% endschema %}
