@@ -74,3 +74,23 @@
   top: 0;
   z-index: 40;
 }
+
+/* ============================================================
+   Header overlap fix v2 — APPEND to END of assets/base.css | coral-sky-zinc-bay | 2026-10-12
+   Desktop only (>=768px). Mobile unchanged.
+   - Only the logo bar pins (eucalyptus strip scrolls away: top:-5rem).
+   - Solid eggshell bar (no see-through).
+   - Dru 11:02 PM: bar is exactly as wide as the hero card row.
+     Hero (sections/hero.liquid) is full-width; its .ch-track has padding 0 8px,
+     so cards run from 8px to (100% - 8px). Bar gets the same 8px insets.
+   ============================================================ */
+@media (min-width: 768px) {
+  .shopify-section:has(.site-header) { top: -5rem; }
+  .site-header .header-bar.page-width {
+    width: auto;
+    max-width: none;
+    margin-inline: 8px;
+    background: var(--bg);
+  }
+  html { scroll-padding-top: 6rem; }
+}
