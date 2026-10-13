@@ -1,0 +1,76 @@
+{%- comment -%}
+  2026-10-12 parity A1+B3: filters + sort for /search (search.filters, Search & Discovery).
+  Same locks as snippets/facets: Price (range), Product type + Brand (select). NEVER Vendor, NEVER Availability.
+  Keeps q + type. Active chips (each removes one filter) + Clear all (keeps the search terms + sort).
+{%- endcomment -%}
+{%- capture sf_clear -%}{{ routes.search_url }}?q={{ search.terms | url_param_escape }}&type=product{% if search.sort_by != blank and search.sort_by != search.default_sort_by %}&sort_by={{ search.sort_by }}{% endif %}{%- endcapture -%}
+<form class="sb-sfacets" id="SearchFacets" action="{{ routes.search_url }}" method="get">
+  <input type="hidden" name="q" value="{{ search.terms | escape }}">
+  <input type="hidden" name="type" value="product">
+  <div class="sb-sf-bar">
+    <div class="sb-sf-filters">
+      {%- assign sf_chips = '' -%}
+      {%- for filter in search.filters -%}
+        {%- assign ld = filter.label | downcase -%}
+        {%- if filter.param_name == 'filter.p.vendor' or ld == 'vendor' -%}{%- continue -%}{%- endif -%}
+        {%- if ld contains 'availability' or ld == 'in stock' or ld contains 'out of stock' or filter.param_name == 'filter.v.availability' -%}{%- continue -%}{%- endif -%}
+        {%- assign fl = filter.label -%}
+        {%- assign is_type = false -%}{%- assign is_brand = false -%}
+        {%- if ld contains 'product type' or filter.param_name == 'filter.p.product_type' -%}{%- assign is_type = true -%}{%- assign fl = 'Type' -%}
+        {%- elsif ld contains 'manufacturer' or ld contains 'brand' -%}{%- assign is_brand = true -%}{%- assign fl = 'Brand' -%}{%- endif -%}
+        {%- case filter.type -%}
+          {%- when 'price_range' -%}
+            {%- assign fl = 'Price' -%}
+            <details class="sb-sf-dd"{% if filter.min_value.value != blank or filter.max_value.value != blank %} data-active{% endif %}>
+              <summary>Price</summary>
+              <div class="sb-sf-panel">
+                <div class="sb-sf-price">
+                  <label>Min <input class="field" type="number" inputmode="decimal" name="{{ filter.min_value.param_name }}" value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}" placeholder="0" min="0"></label>
+                  <span>–</span>
+                  <label>Max <input class="field" type="number" inputmode="decimal" name="{{ filter.max_value.param_name }}" value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}" min="0"></label>
+                </div>
+                <div class="sb-sf-quick">
+                  {%- assign qp = 'Under $25|0|25,$25–$50|25|50,$50–$100|50|100,$100+|100|' | split: ',' -%}
+                  {%- for q in qp -%}{%- assign qq = q | split: '|' -%}
+                    <a href="{{ routes.search_url }}?q={{ search.terms | url_param_escape }}&type=product&{{ filter.min_value.param_name }}={{ qq[1] }}{% if qq[2] != blank %}&{{ filter.max_value.param_name }}={{ qq[2] }}{% endif %}{% if search.sort_by != blank %}&sort_by={{ search.sort_by }}{% endif %}">{{ qq[0] }}</a>
+                  {%- endfor -%}
+                </div>
+                <button class="btn" type="submit">Apply</button>
+              </div>
+            </details>
+            {%- if filter.min_value.value != blank or filter.max_value.value != blank -%}
+              {%- capture chip -%}<a class="sb-chip" href="{{ filter.url_to_remove }}">Price: {% if filter.min_value.value != blank %}{{ filter.min_value.value | money_without_trailing_zeros }}{% else %}$0{% endif %}–{% if filter.max_value.value != blank %}{{ filter.max_value.value | money_without_trailing_zeros }}{% else %}any{% endif %} <span aria-hidden="true">×</span><span class="visually-hidden"> remove</span></a>{%- endcapture -%}
+              {%- assign sf_chips = sf_chips | append: chip -%}
+            {%- endif -%}
+          {%- when 'list' -%}
+            <label class="sb-sf-sel"{% if filter.active_values.size > 0 %} data-active{% endif %}>
+              <span>{{ fl }}</span>
+              {%- assign sname = filter.param_name -%}
+              <select class="field" name="{{ sname }}" onchange="this.form.submit()">
+                <option value="">All</option>
+                {%- for value in filter.values -%}
+                  <option value="{{ value.value | escape }}"{% if value.active %} selected{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>{{ value.label }} ({{ value.count }})</option>
+                {%- endfor -%}
+              </select>
+            </label>
+            {%- for value in filter.active_values -%}
+              {%- capture chip -%}<a class="sb-chip" href="{{ value.url_to_remove }}">{{ fl }}: {{ value.label }} <span aria-hidden="true">×</span><span class="visually-hidden"> remove</span></a>{%- endcapture -%}
+              {%- assign sf_chips = sf_chips | append: chip -%}
+            {%- endfor -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+    <label class="sb-sf-sel sb-sf-sort">
+      <span>Sort</span>
+      <select class="field" name="sort_by" onchange="this.form.submit()">
+        {%- assign sb_sort = search.sort_by | default: search.default_sort_by -%}
+        {%- for option in search.sort_options -%}
+          <option value="{{ option.value }}"{% if option.value == sb_sort %} selected{% endif %}>{% if option.value == 'relevance' %}Relevance{% else %}{{ option.name }}{% endif %}</option>
+        {%- endfor -%}
+      </select>
+    </label>
+  </div>
+  {%- if sf_chips != blank -%}
+    <div class="sb-chips" aria-label="Active filters">{{ sf_chips }}<a class="sb-chip sb-chip--clear" href="{{ sf_clear }}">Clear all</a></div>
+  {%- endif -%}
+</form>
