@@ -4191,6 +4191,8 @@
   </div>
 </div>
 
+{%- render 'sb-rotate' -%}
+<script>window.SBRotate&&SBRotate.setPage({h:{{ product.handle | json }},t:{{ product.type | json }},v:{{ product.metafields.custom.manufacturer.value | default: product.metafields.custom.manufacturer | default: product.vendor | json }},title:{{ product.title | json }}});</script>
 {%- comment -%} 2026-10-12 Dru: product in a Halloween look → 'Complete the look: <Look>' (snippets/look-complete); else v2 below. {%- endcomment -%}
 {%- capture sb_look_html -%}{%- render 'look-complete', product: product -%}{%- endcapture -%}
 {%- if sb_look_html contains 'data-sb-look' -%}
@@ -4212,8 +4214,8 @@
   client shuffle shows 4.
 {% endcomment %}
 {% assign ctl_visible = 4 %}
-{% assign ctl_render_cap = 12 %}
-{% assign ctl_per_type_max = 2 %}
+{% assign ctl_render_cap = 36 %}{% comment %} rotate-recs: bigger pool, shuffled per load {% endcomment %}
+{% assign ctl_per_type_max = 6 %}
 {% assign ctl_known_csv = '|lips|eyes|blush|face|skin care|hair and scalp|scent|tools of the trade|' %}
 {% assign ctl_tags_joined = product.tags | join: ' ' %}
 {% assign ctl_ct_cat = '' %}
@@ -4518,6 +4520,7 @@
       class="product-grid sb-ctl-grid"
       data-sb-ctl-grid
       data-random-count="{{ ctl_visible }}"
+      data-rot-pending data-rot-cap="4"
     >
       {{ ctl_cards }}
     </div>
@@ -4530,21 +4533,16 @@
       if (!grid) return;
       var keep = parseInt(grid.getAttribute('data-random-count') || '4', 10);
       if (!keep || keep < 1) keep = 4;
+      var R = window.SBRotate;
       var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
-      if (!cards.length) {
-        root.style.display = 'none';
-        return;
-      }
-      for (var i = cards.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = cards[i];
-        cards[i] = cards[j];
-        cards[j] = tmp;
-      }
-      for (var k = 0; k < cards.length; k++) {
-        grid.appendChild(cards[k]);
-        cards[k].style.display = k < keep ? '' : 'none';
-      }
+      if (!cards.length) { root.style.display = 'none'; return; }
+      // rotate-recs: shuffle the pool, then show `keep` cards, one per category first (diversity), skipping handles already shown.
+      cards = R ? R.rank(cards) : cards;
+      var shown = [], cats = {}, rest = [];
+      cards.forEach(function (c) { var h = R ? R.handle(c) : ''; if (shown.length < keep && !(R && R.isUsed(h)) && !cats[c.dataset.ctlCat]) { cats[c.dataset.ctlCat] = 1; shown.push(c); } else rest.push(c); });
+      rest.slice().forEach(function (c) { var h = R ? R.handle(c) : ''; if (shown.length < keep && !(R && R.isUsed(h))) { shown.push(c); rest.splice(rest.indexOf(c), 1); } });
+      shown.concat(rest).forEach(function (c, k) { grid.appendChild(c); c.style.display = k < shown.length ? '' : 'none'; });
+      if (R) { R.mark(shown); R.reveal(grid); } else grid.removeAttribute('data-rot-pending');
     })();
   </script>
 </section>
