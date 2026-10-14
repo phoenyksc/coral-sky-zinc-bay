@@ -1,0 +1,11 @@
+{%- comment -%} 2026-10-14 retype-fix: Maria re-typed products to ~70 Sephora subtypes. Maps product type (new OR legacy) -> legacy 8-group key so category grouping keeps working. Usage: {%- capture g -%}{%- render 'sb-type-group', t: product.type -%}{%- endcapture -%} {%- endcomment -%}
+{%- assign sbtg = t | strip | downcase -%}{%- case sbtg -%}
+{%- when 'foundation', 'concealer', 'face powder', 'primer', 'setting spray', 'bb & cc cream', 'contour', 'face palette', 'face & body paint', 'face', 'makeup' -%}face
+{%- when 'blush', 'bronzer', 'highlighter', 'lip & cheek stain' -%}blush
+{%- when 'eyeshadow', 'eye palette', 'eyeliner', 'eyebrow', 'mascara', 'eye primer', 'false eyelashes', 'lash serum', 'eyes', 'eye pencil' -%}eyes
+{%- when 'lipstick', 'liquid lipstick', 'lip gloss', 'lip liner', 'lip balm', 'lip primer', 'lips', 'lip color' -%}lips
+{%- when 'face cream', 'night cream', 'serum', 'cleanser', 'toner', 'face mask', 'makeup remover', 'eye cream', 'sunscreen', 'exfoliator', 'face oil', 'face mist', 'skincare set', 'body lotion', 'body wash', 'body oil', 'body powder', 'hand cream', 'self tanner', 'after sun', 'soap', 'shave', 'deodorant', 'skin care', 'moisturizer', 'eye treatment' -%}skin care
+{%- when 'perfume', 'cologne', 'body mist', 'candle', 'gift set', 'scent', 'fragrance' -%}scent
+{%- when 'shampoo', 'conditioner', 'hair styling', 'hair treatment', 'hair mask', 'hair and scalp' -%}hair and scalp
+{%- when 'brush', 'tool', 'sponge', 'eyelash curler', 'sharpener', 'mirror', 'cosmetic bag', 'makeup set', 'nail polish', 'nail care', 'temporary tattoos', 'tools of the trade' -%}tools of the trade
+{%- endcase -%}
