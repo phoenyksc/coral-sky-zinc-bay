@@ -1,0 +1,51 @@
+{%- comment -%}
+  2026-10-13 PREVIEW: rotate recommendations on every page load (shared helper; safe to render more than once).
+  Containers marked data-rot-pending are invisible (visibility:hidden keeps their space reserved) and show only their cap
+  while pending, so shuffling causes no flicker and no layout shift. Each carousel's script removes data-rot-pending
+  after it shuffles. A noscript rule reveals the server order (first <cap> items). Safety net: everything is revealed after 4s.
+  window.SBRotate.used = handles already shown on this page → no duplicates across carousels.
+{%- endcomment -%}
+{%- unless sb_rotate_done -%}
+<style>
+  [data-rot-pending]{visibility:hidden}
+  [data-rot-pending][data-rot-cap="4"]>a:nth-of-type(n+5),
+  [data-rot-pending][data-rot-cap="10"]>a:nth-of-type(n+11),
+  [data-rot-pending][data-rot-cap="36"]>a:nth-of-type(n+37){display:none!important}
+</style>
+<noscript><style>[data-rot-pending]{visibility:visible!important}</style></noscript>
+<script>
+  window.SBRotate=window.SBRotate||(function(){
+    var used={};
+    function handle(a){if(!a)return '';if(a.dataset&&a.dataset.handle)return a.dataset.handle;var m=(a.getAttribute('href')||'').match(/\/products\/([^?#\/]+)/);return m?m[1]:'';}
+    function shuffle(arr){arr=arr.slice();for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+    function mark(list){[].forEach.call(list||[],function(a){var h=handle(a);if(h)used[h]=1;});}
+    function reveal(el){if(el)el.removeAttribute('data-rot-pending');}
+    // ---- TARGETED randomness (Dru addendum 2026-10-13) ----
+    var SH=/\b(nude|beige|ivory|fair|light|medium|tan|deep|ebony|pink|rose|blush|coral|peach|red|scarlet|crimson|berry|wine|plum|purple|mauve|brown|bronze|copper|gold|silver|black|white|blue|green|clear|vampire|cherry)\b/g;
+    function norm(t){return (t||'').toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();}
+    function shades(t){return (norm(t).match(SH)||[]);}
+    function txt(a){var t=a.querySelector&&a.querySelector('.ymal-title,.card-title,.card__title,h3,p');return norm([(a.dataset&&(a.dataset.type||a.dataset.ctlType))||'',(a.dataset&&a.dataset.vendor)||'',(a.querySelector&&a.querySelector('.ymal-vendor')||{}).textContent||'',t?t.textContent:a.textContent].join(' '));}
+    var KEY='sbRecHist',hist=[];try{hist=JSON.parse(localStorage.getItem(KEY)||'[]')||[];}catch(e){}
+    var page=null; // current product signals (PDP)
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(hist.slice(0,20)));}catch(e){}}
+    function remember(p,kind){if(!p||!p.h)return;hist=hist.filter(function(x){return !(x.h===p.h&&x.k===kind);});hist.unshift({h:p.h,t:norm(p.t),v:norm(p.v),s:shades(p.title||'').join(' '),k:kind});save();}
+    function setPage(p){page={h:p.h,t:norm(p.t),v:norm(p.v),s:shades(p.title||'')};remember(p,'view');
+      document.addEventListener('submit',function(e){var f=e.target;if(f&&/\/cart\/add/.test(f.getAttribute('action')||''))remember(p,'cart');},true);}
+    // collection / search context from the referrer (same site): collection handle words + search terms
+    var ctxTerms=[];try{var r=new URL(document.referrer);if(r.host===location.host){var m=r.pathname.match(/\/collections\/([^\/?#]+)/);if(m&&m[1]!=='all')ctxTerms=ctxTerms.concat(norm(m[1].replace(/-/g,' ')).split(' '));var q=r.searchParams.get('q');if(r.pathname.indexOf('/search')===0&&q)ctxTerms=ctxTerms.concat(norm(q).split(' '));}}catch(e){}
+    ctxTerms=ctxTerms.filter(function(w){return w.length>2&&!/^(the|and|for|all|new|sale|best|sellers)$/.test(w);});
+    function has(t,w){return w&&(' '+t+' ').indexOf(' '+w+' ')>-1;}
+    function score(a){var t=txt(a),w=1;
+      if(page){if(page.t&&has(t,page.t.split(' ').pop()))w+=3;if(page.v&&t.indexOf(page.v)>-1)w+=3;page.s.forEach(function(x){if(has(t,x))w+=2;});}
+      hist.forEach(function(x,i){if(page&&x.h===page.h)return;var m=(x.k==='cart'?2:1)*(i<5?1:0.5);if(x.v&&t.indexOf(x.v)>-1)w+=1.5*m;if(x.t&&has(t,x.t.split(' ').pop()))w+=1*m;(x.s||'').split(' ').forEach(function(z){if(z&&has(t,z))w+=0.5*m;});});
+      ctxTerms.forEach(function(z){if(has(t,z))w+=2;});
+      return w;}
+    // rank(list): relevant items (score>1) first in WEIGHTED random order (Efraimidis–Spirakis key = U^(1/w)),
+    // then the rest (popular filler) in plain random order.
+    function rank(list){var rel=[],rest=[];list.forEach(function(a){var w=score(a);(w>1?rel:rest).push({a:a,k:Math.pow(Math.random(),1/w)});});
+      rel.sort(function(x,y){return y.k-x.k;});return rel.map(function(x){return x.a;}).concat(shuffle(rest.map(function(x){return x.a;})));}
+    setTimeout(function(){document.querySelectorAll('[data-rot-pending]').forEach(reveal);},4000);
+    return {rank:rank,score:score,setPage:setPage,remember:remember,used:used,handle:handle,shuffle:shuffle,mark:mark,reveal:reveal,isUsed:function(h){return !!used[h];}};
+  })();
+</script>
+{%- endunless -%}
