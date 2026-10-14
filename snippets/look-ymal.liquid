@@ -1,3 +1,4 @@
+{%- render 'sb-rotate' -%}
 {%- comment -%}
   2026-10-13 "You might be interested in" rail for look pages (reusable: rendered by sections/look-page for EVERY look-* page).
   Params: handles = comma list of the look's products (look-map field 5); name = look name.
@@ -35,7 +36,7 @@
 <section class="section sb-look-ymal" id="LookYmal" data-look-ymal data-look="{{ name | escape }}" data-handles="{{ handles | escape }}" data-context="{{ ly_ctx | strip }}">
   <div class="page-width">
     <div class="ymal-head"><p class="kicker">Best sellers</p><h2>You might be interested in</h2></div>
-    <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="You might be interested in, scroll for more">{{ ly_tiles }}</div>
+    <div class="ymal-rail" data-ymal-rail data-rot-pending data-rot-cap="10" tabindex="0" aria-label="You might be interested in, scroll for more">{{ ly_tiles }}</div>
     <template data-ly-makeup>{{ ly_mk }}</template>
   </div>
   <style>
@@ -74,16 +75,20 @@
     // 1 category-matched best sellers → 2 other makeup best sellers → 3 Popular collection makeup → 4 all makeup (collections/makeup).
     function okBase(a){var ti=(a.querySelector('.ymal-title')||{}).textContent||'',txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
       if(nonMakeup(txt)||NON.test(norm(txt))&&!/ (lip|eye|shadow|liner|mascara|foundation|blush|powder) /.test(norm(txt)))return null; if(!c)return null; return {c:c,f:fam(ti)};}
-    function pick(tiers){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;
+    function pick(tiers){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;if(R)for(var k2 in R.used)hs[k2]=1;
       tiers.forEach(function(t,ti){t.list.forEach(function(a){if(out.length>=MAX)return;var h=a.dataset.handle,o=okBase(a);if(!o||onPage[h]||hs[h]||(o.f&&fs[o.f]))return;
         if(t.matchOnly&&!cats[o.c])return; hs[h]=1;if(o.f)fs[o.f]=1;a.setAttribute('data-category',o.c);a.setAttribute('data-tier',ti+1);out.push(a);});});
       return out;}
     function render(out){rail.innerHTML='';
       out.forEach(function(a,i){var n=document.importNode(a,true),u=n.getAttribute('href').split('?')[0];
         n.setAttribute('data-section','ymal');n.setAttribute('data-position',i+1);n.setAttribute('href',u+'?ref=ymal&pos='+(i+1));rail.appendChild(n);});
-      root.setAttribute('data-count',out.length); if(!out.length) root.style.display='none';}
+      root.setAttribute('data-count',out.length); if(!out.length) root.style.display='none';
+      if(R){R.mark(rail.children);R.reveal(rail);}else rail.removeAttribute('data-rot-pending');}
     var popular=[].slice.call(rail.children),tpl=root.querySelector('template[data-ly-makeup]'),makeup=tpl?[].slice.call(tpl.content.querySelectorAll('a.ymal-tile')):[];
-    function tiers(feed){return [{list:feed,matchOnly:true},{list:feed},{list:popular},{list:makeup}];}
+    var R=window.SBRotate;
+    // rotate-recs: shuffle every pool per load (tier priority kept: relevant best sellers still come first).
+    function sh(l){return R?R.rank(l):l;}
+    function tiers(feed){feed=sh(feed.slice(0,40));return [{list:feed,matchOnly:true},{list:feed},{list:sh(popular)},{list:sh(makeup)}];}
     fetch((window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed',{credentials:'same-origin'})
       .then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(h){
         var f=new DOMParser().parseFromString(h,'text/html').querySelector('[data-ymal-feed]');if(!f)throw 0;
