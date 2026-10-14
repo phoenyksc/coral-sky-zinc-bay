@@ -247,6 +247,7 @@
   {% assign discover_ids = ',' %}
   {% assign discover_sources = 'all,popular,rare-hard-to-find,low-inventory' | split: ',' %}
 
+  {%- render 'sb-rotate' -%}
   <section class="section vault-discover" id="vault-discover">
     <div class="page-width">
       <div class="section-head">
@@ -262,6 +263,7 @@
         class="product-grid product-grid--discover vault-discover-grid"
         data-random-count="{{ discover_count }}"
         data-vault-rail="discover"
+        data-rot-pending data-rot-cap="36"
       >
         {% for src in discover_sources %}
           {% if discover_shown >= discover_cap %}{% break %}{% endif %}
@@ -326,6 +328,7 @@
           var step = parseInt(grid.getAttribute('data-random-count') || '36', 10);
           if (!step || step < 1) step = 36;
           var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > a.card'));
+          if (window.SBRotate) cards = window.SBRotate.rank(cards); else
           for (var i = cards.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var tmp = cards[i];
@@ -349,6 +352,7 @@
           function reveal() { revealTo(shown + step); }
           function revealAll() { revealTo(cards.length); }
           reveal();
+          if (window.SBRotate) { window.SBRotate.mark(cards.slice(0, shown)); window.SBRotate.reveal(grid); } else grid.removeAttribute('data-rot-pending');
           if (btn) btn.addEventListener('click', reveal);
           if (allBtn) allBtn.addEventListener('click', revealAll);
         })();
