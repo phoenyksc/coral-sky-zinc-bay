@@ -6,5 +6,5 @@
   {%- assign yt_mfr = p.metafields.custom.manufacturer.value | default: p.metafields.custom.manufacturer -%}
   {%- if yt_mfr != blank -%}{%- assign yt_m = yt_mfr | downcase -%}{%- unless yt_m contains 'escentshow' or yt_m contains 'ebay' -%}<span class="ymal-vendor">{{ yt_mfr }}</span>{%- endunless -%}{%- endif -%}
   <span class="ymal-title">{{ p.title }}</span>
-  <span class="ymal-price">{{ p.price | money }}</span>
+  <span class="ymal-price">{%- render 'sb-price', p: p -%}</span>
 </a>
