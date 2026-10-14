@@ -33,11 +33,11 @@
   <p class="card-price">
     {%- if in_lo != blank -%}
       {{ in_lo | money }}{% if in_hi > in_lo %}–{{ in_hi | money }}{% endif %}
+      {% if v.compare_at_price > v.price %}
+        <span class="compare">{{ v.compare_at_price | money }}</span>
+      {% endif %}
     {%- else -%}
-      {% if product.price_varies %}From {% endif %}{{ product.price | money }}
+      {%- render 'sb-price', p: product -%}
     {%- endif -%}
-    {% if v.compare_at_price > v.price %}
-      <span class="compare">{{ v.compare_at_price | money }}</span>
-    {% endif %}
   </p>
 </article>
