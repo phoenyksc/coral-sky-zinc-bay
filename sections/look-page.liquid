@@ -56,6 +56,19 @@
     #LP-{{ section.id }} .lp-copy{padding:1rem 1rem 1.2rem}
     #LP-{{ section.id }} .lp-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   }
+  /* 2026-10-13 Dru: look grid 25% smaller + tighter; phones = one swipe row (no lone orphan card) */
+  #LP-{{ section.id }} .lp-grid-wrap#LookProducts{padding:.9rem 0 1rem}
+  #LP-{{ section.id }} #LookProducts h2{margin:0 0 .5rem;font-size:1.1rem}
+  #LP-{{ section.id }} #LookProducts .lp-grid{gap:10px;max-width:75%}
+  #LP-{{ section.id }} #LookProducts .sb-look-card{gap:.15rem}
+  #LP-{{ section.id }} #LookProducts .card-vendor{font-size:.62rem;margin:0;line-height:1.2}
+  #LP-{{ section.id }} #LookProducts .sb-look-card .card-title{font-size:.72rem;line-height:1.25}
+  #LP-{{ section.id }} #LookProducts .sb-look-card .card-price{font-size:.7rem}
+  @media(max-width:749px){
+    #LP-{{ section.id }} #LookProducts .lp-grid{display:flex;max-width:none;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+    #LP-{{ section.id }} #LookProducts .lp-grid::-webkit-scrollbar{display:none}
+    #LP-{{ section.id }} #LookProducts .lp-grid > .sb-look-card{flex:0 0 calc((100% - 8px) / 2 * .75);scroll-snap-align:start}
+  }
 </style>
 {%- if lp_row == blank -%}
   <div class="page-width lp-grid-wrap"><h1>{{ page.title }}</h1>{{ page.content }}<a class="lp-back" href="/collections/popular">Shop Popular</a></div>
