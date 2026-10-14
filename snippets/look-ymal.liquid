@@ -73,7 +73,7 @@
     root.setAttribute('data-categories',Object.keys(cats).join(','));
     // fix-fill10: tiers fill up to 10 with the same exclusions (on page, families, sold-out/watermark via the feeds, dupes).
     // 1 category-matched best sellers → 2 other makeup best sellers → 3 Popular collection makeup → 4 all makeup (collections/makeup).
-    function okBase(a){var ti=(a.querySelector('.ymal-title')||{}).textContent||'',txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
+    function okBase(a){if(/^(skin care|scent|hair and scalp|tools of the trade)$/.test(a.dataset.group||''))return null;var ti=(a.querySelector('.ymal-title')||{}).textContent||'',txt=(a.dataset.type||'')+' '+ti,c=cat(txt);
       if(nonMakeup(txt)||NON.test(norm(txt))&&!/ (lip|eye|shadow|liner|mascara|foundation|blush|powder) /.test(norm(txt)))return null; if(!c)return null; return {c:c,f:fam(ti)};}
     function pick(tiers){var hs={},fs={},out=[];for(var k in ffs)fs[k]=1;if(R)for(var k2 in R.used)hs[k2]=1;
       tiers.forEach(function(t,ti){t.list.forEach(function(a){if(out.length>=MAX)return;var h=a.dataset.handle,o=okBase(a);if(!o||onPage[h]||hs[h]||(o.f&&fs[o.f]))return;
