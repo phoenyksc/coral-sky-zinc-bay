@@ -8,14 +8,14 @@
   Tracking: data-section="ymal" data-position="N"; link ?ref=ymal&pos=N.
 {%- endcomment -%}
 {%- capture pn_wm -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
-{%- assign pn_type = product.type | strip | downcase -%}
+{%- capture pn_type -%}{%- render 'sb-type-group', t: product.type -%}{%- endcapture -%}{%- assign pn_type = pn_type | strip -%}{%- if pn_type == blank -%}{%- assign pn_type = product.type | strip | downcase -%}{%- endif -%}{%- comment -%} retype-fix: compare 8-group, not raw subtype {%- endcomment -%}
 {%- assign pn_n = 0 -%}{%- assign pn_seen = ',' -%}
 {%- capture pn_tiles -%}
   {%- for src in (1..2) -%}
     {%- if src == 1 -%}{%- assign pn_list = collections.popular.products -%}{%- else -%}{%- assign pn_list = collections.all.products -%}{%- endif -%}
     {%- for p in pn_list limit: 50 -%}
       {%- if pn_n >= 16 -%}{%- break -%}{%- endif -%}
-      {%- assign pn_t = p.type | strip | downcase -%}
+      {%- capture pn_t -%}{%- render 'sb-type-group', t: p.type -%}{%- endcapture -%}{%- assign pn_t = pn_t | strip -%}{%- if pn_t == blank -%}{%- assign pn_t = p.type | strip | downcase -%}{%- endif -%}
       {%- assign pn_tok = p.handle | prepend: '|' | append: '|' -%}
       {%- if p.id == product.id or p.available == false or p.featured_media == blank or p.price_max <= 0 or p.price_max >= 99999 or pn_wm contains pn_tok -%}{%- continue -%}{%- endif -%}
       {%- if pn_type != blank and pn_t == pn_type -%}{%- continue -%}{%- endif -%}
