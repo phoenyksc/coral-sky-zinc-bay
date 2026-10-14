@@ -1,7 +1,7 @@
 {%- comment -%} Popular right now tile. p = product. data-family = first 3 words of the normalized title (dedupe key); data-type = product.type. JS sets data-position and ?ref=ymal&pos=N. {%- endcomment -%}
 {%- assign yt_href = p.url -%}{%- if yt_href == blank -%}{%- assign yt_href = '/products/' | append: p.handle -%}{%- endif -%}
 {%- assign yt_fam = p.title | downcase | replace: '-', ' ' | replace: ',', ' ' | replace: '.', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '/', ' ' | replace: '&', ' ' | replace: "'", '' | split: ' ' -%}
-<a class="ymal-tile" href="{{ yt_href }}?ref=ymal" data-section="ymal" data-position="" data-handle="{{ p.handle }}" data-type="{{ p.type | strip | downcase | escape }}" data-family="{% for w in yt_fam limit: 3 %}{{ w }} {% endfor %}">
+<a class="ymal-tile" href="{{ yt_href }}?ref=ymal" data-section="ymal" data-position="" data-handle="{{ p.handle }}" data-type="{{ p.type | strip | downcase | escape }}" data-vendor="{{ p.metafields.custom.manufacturer.value | default: p.metafields.custom.manufacturer | default: p.vendor | downcase | escape }}" data-family="{% for w in yt_fam limit: 3 %}{{ w }} {% endfor %}">
   <span class="ymal-media"><img src="{{ p.featured_media | image_url: width: 500 }}" alt="{{ p.featured_media.alt | default: p.title | escape }}" loading="lazy" width="500" height="500"></span>
   {%- assign yt_mfr = p.metafields.custom.manufacturer.value | default: p.metafields.custom.manufacturer -%}
   {%- if yt_mfr != blank -%}{%- assign yt_m = yt_mfr | downcase -%}{%- unless yt_m contains 'escentshow' or yt_m contains 'ebay' -%}<span class="ymal-vendor">{{ yt_mfr }}</span>{%- endunless -%}{%- endif -%}
