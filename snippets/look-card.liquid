@@ -9,5 +9,5 @@
   {%- assign lc_mfr = p.metafields.custom.manufacturer.value | default: p.metafields.custom.manufacturer -%}
   {%- if lc_mfr != blank -%}{%- assign lc_m = lc_mfr | downcase -%}{%- unless lc_m contains 'escentshow' or lc_m contains 'ebay' -%}<p class="card-vendor">{{ lc_mfr }}</p>{%- endunless -%}{%- endif -%}
   <p class="card-title">{{ p.title }}</p>
-  <p class="card-price">{{ p.price | money }}{%- if p.compare_at_price > p.price -%} <span class="compare">{{ p.compare_at_price | money }}</span>{%- endif -%}</p>
+  <p class="card-price">{%- render 'sb-price', p: p -%}</p>
 </a>
