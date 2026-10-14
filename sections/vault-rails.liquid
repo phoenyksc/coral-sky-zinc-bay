@@ -112,10 +112,7 @@
               {% endif %}
               <p class="card-title">{{ product.title }}</p>
               <p class="card-price">
-                {{ product.price | money }}
-                {% if product.compare_at_price > product.price %}
-                  <span class="compare">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                {%- render 'sb-price', p: product -%}
               </p>
             </a>
 
@@ -157,10 +154,7 @@
               {% endif %}
               <p class="card-title">{{ product.title }}</p>
               <p class="card-price">
-                {{ product.price | money }}
-                {% if product.compare_at_price > product.price %}
-                  <span class="compare">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                {%- render 'sb-price', p: product -%}
               </p>
             </a>
 
@@ -213,10 +207,7 @@
               {% endif %}
               <p class="card-title">{{ product.title }}</p>
               <p class="card-price">
-                {{ product.price | money }}
-                {% if product.compare_at_price > product.price %}
-                  <span class="compare">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                {%- render 'sb-price', p: product -%}
               </p>
             </a>
 
@@ -301,10 +292,7 @@
               {% endif %}
               <p class="card-title">{{ product.title }}</p>
               <p class="card-price">
-                {{ product.price | money }}
-                {% if product.compare_at_price > product.price %}
-                  <span class="compare">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                {%- render 'sb-price', p: product -%}
               </p>
             </a>
 
