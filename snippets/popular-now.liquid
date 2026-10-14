@@ -1,3 +1,4 @@
+{%- render 'sb-rotate' -%}
 {%- comment -%}
   2026-10-13 Dru hybrid spec: "Popular right now" rail BELOW Complete the look. Replaces the YMAL-only block.
   Source: best sellers via sections/ymal-feed (fallback: collections.popular / all, server-side).
@@ -28,7 +29,7 @@
 <section class="section sb-ymal" id="PopularRightNow" data-sb-ymal data-current="{{ product.handle }}" data-current-type="{{ pn_type | escape }}" data-current-title="{{ product.title | escape }}">
   <div class="page-width">
     <div class="ymal-head"><p class="kicker">Best sellers</p><h2>Popular right now</h2></div>
-    <div class="ymal-rail" data-ymal-rail tabindex="0" aria-label="Popular right now, scroll for more">{{ pn_tiles }}</div>
+    <div class="ymal-rail" data-ymal-rail data-rot-pending data-rot-cap="10" tabindex="0" aria-label="Popular right now, scroll for more">{{ pn_tiles }}</div>
   </div>
   <style>
     .sb-ymal{background:#faf8f3}
@@ -48,8 +49,12 @@
     var rail=root.querySelector('[data-ymal-rail]'), MAX=10, cur=root.dataset.current, ctype=root.dataset.currentType;
     function fam(s){return (s||'').toLowerCase().replace(/[-,.()\/&]/g,' ').replace(/'/g,'').split(/\s+/).filter(Boolean).slice(0,3).join(' ');}
     var cfam=fam(root.dataset.currentTitle);
+    var R=window.SBRotate;
+    function onPageUsed(){ // rotate-recs: no dupes with Complete the look (shown cards) or anything already marked
+      var u={};document.querySelectorAll('[data-sb-look] a[href*="/products/"], #CompleteTheLook a.card').forEach(function(a){if(a.style.display==='none')return;var h=R?R.handle(a):'';if(h)u[h]=1;});return u;}
     function pick(list){
-      var hs={},fs={},out=[];hs[cur]=1;fs[cfam]=1;
+      list=R?R.rank(list.slice(0,40)):list;var used=onPageUsed();
+      var hs={},fs={},out=[];hs[cur]=1;fs[cfam]=1;for(var k in used)hs[k]=1;if(R)for(var k2 in R.used)hs[k2]=1;
       list.forEach(function(a){var h=a.dataset.handle,f=(a.dataset.family||'').trim(),t=a.dataset.type;
         if(out.length>=MAX||hs[h]||(f&&fs[f])||(ctype&&t===ctype))return; hs[h]=1; if(f)fs[f]=1; out.push(a);});
       return out;
@@ -59,6 +64,7 @@
       out.forEach(function(a,i){var n=document.importNode(a,true),u=n.getAttribute('href').split('?')[0];
         n.setAttribute('data-position',i+1); n.setAttribute('href',u+'?ref=ymal&pos='+(i+1)); rail.appendChild(n);});
       if(!out.length) root.style.display='none';
+      if(R){R.mark(rail.children);R.reveal(rail);}else rail.removeAttribute('data-rot-pending');
     }
     var fallback=[].slice.call(rail.children);
     fetch((window.Shopify&&Shopify.routes?Shopify.routes.root:'/')+'collections/all?sort_by=best-selling&section_id=ymal-feed',{credentials:'same-origin'})
