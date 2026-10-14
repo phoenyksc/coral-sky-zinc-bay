@@ -56,7 +56,7 @@
       list=R?R.rank(list.slice(0,40)):list;var used=onPageUsed();
       var hs={},fs={},out=[];hs[cur]=1;fs[cfam]=1;for(var k in used)hs[k]=1;if(R)for(var k2 in R.used)hs[k2]=1;
       list.forEach(function(a){var h=a.dataset.handle,f=(a.dataset.family||'').trim(),t=a.dataset.type;
-        if(out.length>=MAX||hs[h]||(f&&fs[f])||(ctype&&t===ctype))return; hs[h]=1; if(f)fs[f]=1; out.push(a);});
+        if(out.length>=MAX||hs[h]||(f&&fs[f])||(ctype&&((a.dataset.group||'').trim()||t)===ctype))return; hs[h]=1; if(f)fs[f]=1; out.push(a);});
       return out;
     }
     function render(out){
