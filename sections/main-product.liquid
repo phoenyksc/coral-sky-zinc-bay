@@ -4497,10 +4497,7 @@
       {% endif %}
       <p class="card-title">{{ ctl_product.title }}</p>
       <p class="card-price">
-        {{ ctl_product.price | money }}
-        {% if ctl_product.compare_at_price > ctl_product.price %}
-          <span class="compare">{{ ctl_product.compare_at_price | money }}</span>
-        {% endif %}
+        {%- render 'sb-price', p: ctl_product -%}
       </p>
     </a>
   {% endfor %}
@@ -4550,6 +4547,27 @@
 
 {%- endif -%}{%- comment -%} /look-complete fallback {%- endcomment -%}
 {%- comment -%} 2026-10-13 Dru hybrid: 'Popular right now' rail below Complete the look (snippets/popular-now). {%- endcomment -%}
+
+{%- comment -%} 2026-10-13 Dru: Complete the look 25% smaller + tighter (look block + v2). Phones: one-row swipe rail instead of big 2-up cards. {%- endcomment -%}
+<style>
+  .sb-complete-the-look.section{padding-top:1.25rem;padding-bottom:1rem}
+  .sb-complete-the-look .section-head{margin-bottom:.6rem}
+  .sb-complete-the-look .section-head .kicker{margin:0 0 .1rem;font-size:.68rem}
+  .sb-complete-the-look .section-head h2{margin:0;font-size:clamp(1.15rem,3.2vw,1.55rem);line-height:1.15}
+  .sb-complete-the-look .sb-look-all{font-size:.75rem}
+  .sb-complete-the-look .sb-ctl-grid,.sb-look-block .sb-ctl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:75%;margin:0}
+  .sb-complete-the-look .card{gap:.15rem;padding:0}
+  .sb-complete-the-look .card .card-media{margin-bottom:.2rem}
+  .sb-complete-the-look .card-vendor{font-size:.62rem;margin:0;line-height:1.2}
+  .sb-complete-the-look .card-title{font-size:.78rem;line-height:1.25;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .sb-complete-the-look .card-price{font-size:.68rem;margin:0;font-weight:700}
+  .sb-complete-the-look .card-price .compare{font-size:.62rem}
+  @media(max-width:749px){
+    .sb-complete-the-look .sb-ctl-grid,.sb-look-block .sb-ctl-grid{display:flex;max-width:none;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+    .sb-complete-the-look .sb-ctl-grid::-webkit-scrollbar{display:none}
+    .sb-complete-the-look .sb-ctl-grid > .card{flex:0 0 calc((100% - 8px) / 2 * .75);scroll-snap-align:start;min-width:0}
+  }
+</style>
 {%- render 'popular-now', product: product -%}
 
 {% render 'shade-stock-addon' %}
