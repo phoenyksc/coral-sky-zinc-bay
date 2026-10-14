@@ -13,10 +13,6 @@
   <p class="card-vendor">{{ product.vendor }}</p>
   <a class="card-title" href="{{ product.url }}">{{ product.title }}</a>
   <p class="card-price">
-    {% if product.price_varies %}From {% endif %}
-    {{ product.price | money }}
-    {% if v.compare_at_price > v.price %}
-      <span class="compare">{{ v.compare_at_price | money }}</span>
-    {% endif %}
+    {%- render 'sb-price', p: product -%}
   </p>
 </article>
