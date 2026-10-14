@@ -1,0 +1,20 @@
+{%- comment -%}
+  2026-10-13 Dru: card price. p = product.
+  Variants priced differently → "From <lowest variant price>" (compare-at shown only if that cheapest variant is on sale).
+  All variants same price → plain price (+ compare-at when the shown variant is on sale).
+  Outputs inline text only; callers keep their own wrapper (card-price / ymal-price).
+{%- endcomment -%}
+{%- if p.price_varies -%}
+  {%- assign sbp_v = nil -%}
+  {%- for x in p.variants -%}
+    {%- if x.price == p.price_min -%}
+      {%- if sbp_v == blank -%}{%- assign sbp_v = x -%}{%- elsif sbp_v.available == false and x.available -%}{%- assign sbp_v = x -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  <span class="sb-from">From</span> {{ p.price_min | money }}
+  {%- if sbp_v and sbp_v.compare_at_price > sbp_v.price %} <span class="compare">{{ sbp_v.compare_at_price | money }}</span>{%- endif -%}
+{%- else -%}
+  {%- assign sbp_v = p.selected_or_first_available_variant -%}
+  {{ p.price | money }}
+  {%- if sbp_v.compare_at_price > sbp_v.price %} <span class="compare">{{ sbp_v.compare_at_price | money }}</span>{%- endif -%}
+{%- endif -%}
