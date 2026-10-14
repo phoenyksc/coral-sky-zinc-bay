@@ -61,7 +61,7 @@
                     {% endunless %}
                   {% endif %}
                   <p class="card-title">{{ product.title }}</p>
-                  <p class="card-price">{{ product.price | money }}</p>
+                  <p class="card-price">{%- render 'sb-price', p: product -%}</p>
                 </a>
               {% endfor %}
             </div>
