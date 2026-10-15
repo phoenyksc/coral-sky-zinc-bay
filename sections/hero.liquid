@@ -43,14 +43,14 @@
   @media(max-width:989px){#CH-{{ section.id }} .ch-card{flex-basis:calc((100% - 16px - 8px)/2)}}
   @media(max-width:749px){
     #CH-{{ section.id }} .ch-card{flex-basis:72%}
-    #CH-{{ section.id }} .ch-nav{display:none}
+    #CH-{{ section.id }} .ch-arrow{width:32px;height:32px}
     #CH-{{ section.id }} .ch-dots{display:flex}
     #CH-{{ section.id }} .ch-panel{padding:.6rem .7rem .7rem}
     #CH-{{ section.id }} .ch-thumbs{gap:.35rem}
   }
-  #CH-{{ section.id }}.ch-marquee .ch-track{scroll-snap-type:none;scroll-behavior:auto;cursor:grab}
-  #CH-{{ section.id }}.ch-marquee .ch-track.is-drag{cursor:grabbing;user-select:none}
-  #CH-{{ section.id }}.ch-marquee .ch-dots{display:none}
+  #CH-{{ section.id }} .ch-arrow:disabled{opacity:.3;cursor:default}
+  #CH-{{ section.id }} .ch-dot.is-on{opacity:.85}
+  #CH-{{ section.id }} .ch-count{font-size:.72rem;letter-spacing:.06em;align-self:center;min-width:3.2em;text-align:center;font-variant-numeric:tabular-nums}
   #CH-{{ section.id }} .ch-media img{-webkit-user-drag:none}
   @media(prefers-reduced-motion:reduce){#CH-{{ section.id }} .ch-track{scroll-behavior:auto}}
 </style>
@@ -63,6 +63,7 @@
     </div>
     <div class="ch-nav">
       <button type="button" class="ch-arrow" data-dir="-1" aria-label="Previous">&#8249;</button>
+      <span class="ch-count" aria-live="polite"></span>
       <button type="button" class="ch-arrow" data-dir="1" aria-label="Next">&#8250;</button>
     </div>
   </div>
@@ -134,39 +135,18 @@
   </div>
   <div class="ch-dots" aria-hidden="true">{%- for block in section.blocks -%}<span class="ch-dot"></span>{%- endfor -%}</div>
   <script>
-    /* 2026-10-15 v3: slow seamless marquee (~{{ section.settings.loop_seconds }}s/loop). Pauses on hover, focus, touch, drag, arrows,
-       tab hidden or off-screen. Reduced motion = static + swipeable (no clones). Clones are aria-hidden + inert. */
+    /* 2026-10-15 v4 (Dru): NO autoplay. Static snap row; arrows (shown at all sizes) slide one card per press; swipe on touch.
+       Same card widths per breakpoint as v3. Dots + "n / N" counter track the first visible card. */
     (function(){var r=document.getElementById('CH-{{ section.id }}');if(!r)return;var t=r.querySelector('[data-ch-track]');
-      var cards=[].slice.call(t.querySelectorAll('.ch-card'));var LOOP={{ section.settings.loop_seconds | default: 50 }};
+      var cards=[].slice.call(t.querySelectorAll('.ch-card'));var dots=[].slice.call(r.querySelectorAll('.ch-dot'));
+      var prev=r.querySelector('.ch-arrow[data-dir="-1"]'),next=r.querySelector('.ch-arrow[data-dir="1"]'),cnt=r.querySelector('.ch-count');
       var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var auto={{ section.settings.autoscroll | json }}&&!rm&&cards.length>1;
-      var hold=0,until=0,pos=0,last=0,vis=true,setW=0,drag=null;
-      function pause(ms){until=Math.max(until,performance.now()+(ms||0))}
-      r.querySelectorAll('.ch-arrow').forEach(function(b){b.addEventListener('click',function(){pause(4000);var c=cards[0];t.scrollBy({left:(c?c.offsetWidth+8:t.clientWidth)*+b.dataset.dir,behavior:'smooth'});});});
-      if(!auto)return;
-      r.classList.add('ch-marquee');
-      cards.forEach(function(c){var k=c.cloneNode(true);k.setAttribute('aria-hidden','true');k.setAttribute('inert','');k.removeAttribute('data-shopify-editor-block');
-        k.querySelectorAll('a,button').forEach(function(a){a.setAttribute('tabindex','-1')});k.querySelectorAll('img').forEach(function(i){i.loading='lazy'});t.appendChild(k)});
-      var first=t.querySelectorAll('.ch-card')[cards.length];
-      function measure(){setW=first.offsetLeft-cards[0].offsetLeft}
-      measure();addEventListener('resize',measure);
-      t.addEventListener('mouseenter',function(){hold|=1});t.addEventListener('mouseleave',function(){hold&=~1});
-      r.addEventListener('focusin',function(e){try{if(!e.target.matches(':focus-visible'))return}catch(_){}hold|=2});r.addEventListener('focusout',function(){hold&=~2});
-      t.addEventListener('touchstart',function(){hold|=4},{passive:true});
-      t.addEventListener('touchend',function(){hold&=~4;pause(3000)},{passive:true});
-      t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;drag={x:e.clientX,s:t.scrollLeft,m:false};hold|=8});
-      addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-drag.x;if(Math.abs(dx)>4){drag.m=true;t.classList.add('is-drag')}t.scrollLeft=drag.s-dx});
-      addEventListener('pointerup',function(){if(!drag)return;var m=drag.m;drag=null;hold&=~8;t.classList.remove('is-drag');pause(1500);
-        if(m){var x=function(ev){ev.preventDefault();ev.stopPropagation();t.removeEventListener('click',x,true)};t.addEventListener('click',x,true);setTimeout(function(){t.removeEventListener('click',x,true)},50)}});
-      t.addEventListener('dragstart',function(e){e.preventDefault()});
-      if('IntersectionObserver' in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(r);
-      pos=t.scrollLeft;
-      t.addEventListener('scroll',function(){if(Math.abs(t.scrollLeft-pos)>2){pos=t.scrollLeft}
-        if(setW>0){if(t.scrollLeft>=setW){t.scrollLeft-=setW;pos=t.scrollLeft}else if(t.scrollLeft<=0&&(hold||performance.now()<until)){t.scrollLeft+=setW;pos=t.scrollLeft}}},{passive:true});
-      function step(now){var dt=last?Math.min(now-last,64):0;last=now;
-        if(!hold&&vis&&!document.hidden&&now>=until&&setW>0){pos+=setW/LOOP*dt/1000;if(pos>=setW)pos-=setW;t.scrollLeft=pos}
-        requestAnimationFrame(step)}
-      requestAnimationFrame(step);
+      function idx(){var x=t.scrollLeft,best=0,bd=1e9;cards.forEach(function(c,i){var d=Math.abs(c.offsetLeft-t.offsetLeft-8-x);if(d<bd){bd=d;best=i}});return best}
+      function sync(){var i=idx(),max=t.scrollWidth-t.clientWidth-2;dots.forEach(function(d,k){d.classList.toggle('is-on',k===i)});
+        if(cnt)cnt.textContent=(i+1)+' / '+cards.length;if(prev)prev.disabled=t.scrollLeft<=2;if(next)next.disabled=t.scrollLeft>=max}
+      r.querySelectorAll('.ch-arrow').forEach(function(b){b.addEventListener('click',function(){var i=Math.max(0,Math.min(cards.length-1,idx()+(+b.dataset.dir)));
+        t.scrollTo({left:cards[i].offsetLeft-t.offsetLeft-8,behavior:rm?'auto':'smooth'})})});
+      var q;t.addEventListener('scroll',function(){cancelAnimationFrame(q);q=requestAnimationFrame(sync)},{passive:true});addEventListener('resize',sync);sync();
     })();
   </script>
 </section>
@@ -182,8 +162,6 @@
     { "type": "text", "id": "eyebrow", "label": "Campaign eyebrow", "default": "The Halloween Makeup Edit" },
     { "type": "text", "id": "title", "label": "Campaign title", "default": "Get the look" },
     { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
-    { "type": "checkbox", "id": "autoscroll", "label": "Slow auto-scroll (marquee)", "default": true, "info": "Pauses on hover, focus and touch. Off automatically for reduced-motion users." },
-    { "type": "range", "id": "loop_seconds", "label": "Seconds per full loop", "min": 30, "max": 90, "step": 5, "unit": "s", "default": 50 },
     { "type": "range", "id": "pad_top", "label": "Top padding", "min": 0, "max": 40, "step": 4, "unit": "px", "default": 12 }
   ],
   "blocks": [
