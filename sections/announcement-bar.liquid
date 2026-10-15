@@ -1,17 +1,33 @@
-{%  if section.settings.announcement != blank %}
-    <p class="announcement">{{  section.settings.announcement | newline_to_br }}</p>
-{%  endif %}
-
-{%  schema %}
+{%- comment -%} 2026-10-15 HERO-V2: compact single-line announcement, rendered ABOVE the header (header-group order).
+ Desktop/tablet: lines side by side with a dot. Phones: lines rotate in a fixed 28px row (no layout shift). {%- endcomment -%}
+{%- if section.settings.announcement != blank -%}
+{%- assign ann = section.settings.announcement | newline_to_br | split: '<br />' -%}
+<div class="sb-ann" role="region" aria-label="Store announcements">
+  <div class="sb-ann__track{% if ann.size > 1 %} sb-ann--rot{% endif %}">
+    {%- for l in ann -%}{%- assign t = l | strip -%}{%- if t != blank -%}<span class="sb-ann__line">{{ t }}</span>{%- endif -%}{%- endfor -%}
+  </div>
+</div>
+<style>
+  .sb-ann{background:#fff;border-bottom:1px solid var(--line);height:28px;overflow:hidden;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);line-height:28px;text-align:center}
+  .sb-ann__track{display:flex;justify-content:center;gap:0}
+  .sb-ann__line{white-space:nowrap;padding:0 .9rem}
+  .sb-ann__line+.sb-ann__line{border-left:1px solid var(--line)}
+  @media(max-width:767px){
+    .sb-ann{font-size:10px;letter-spacing:.1em}
+    .sb-ann__track{flex-direction:column}
+    .sb-ann__line{display:block;height:28px;overflow:hidden;text-overflow:ellipsis;padding:0 .75rem}
+    .sb-ann__line+.sb-ann__line{border-left:0}
+    .sb-ann--rot{animation:sbAnn 8s infinite}
+    @keyframes sbAnn{0%,42%{transform:translateY(0)}50%,92%{transform:translateY(-28px)}100%{transform:translateY(0)}}
+  }
+  @media(max-width:767px) and (prefers-reduced-motion:reduce){.sb-ann--rot{animation:none}}
+</style>
+{%- endif -%}
+{% schema %}
 {
   "name": "Announcement",
   "settings": [
-        {
-              "type": "textarea",
-                  "id": "announcement",
-                      "label": "Announcement text",
-                          "default": "Free standard shipping on US orders $75+ · Earn up to 20% off — details at checkout\nAuthenticity guaranteed · Ships from the USA"
-                            }
+    { "type": "textarea", "id": "announcement", "label": "Announcement text", "info": "One message per line. Desktop: side by side. Phones: rotates.", "default": "Free standard shipping on US orders $75+\nAuthenticity guaranteed · Ships from the USA" }
   ]
 }
 {% endschema %}
