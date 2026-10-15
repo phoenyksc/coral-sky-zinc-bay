@@ -94,3 +94,14 @@
   }
   html { scroll-padding-top: 6rem; }
 }
+
+/* ============================================================
+   v5 2026-10-15 (Dru): zen/eucalyptus banner removed from header.liquid. Only the logo bar exists, so the
+   pinned header no longer needs the -5rem offset. Header bar keeps 8px insets = hero row width.
+   Store messages = announcement-bar section above the header (scrolls away).
+   ============================================================ */
+.zen-strip{display:none}
+@media (min-width:768px){
+  .shopify-section:has(.site-header){top:0}
+  html{scroll-padding-top:5rem}
+}
