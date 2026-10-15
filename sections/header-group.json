@@ -28,7 +28,7 @@
     }
   },
   "order": [
-    "header",
-    "announcement"
+    "announcement",
+    "header"
   ]
 }
