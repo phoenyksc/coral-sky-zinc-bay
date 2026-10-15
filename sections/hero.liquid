@@ -1,45 +1,57 @@
 {% comment %}
-  Sol Beautiful — SEGMENTED CAMPAIGN HERO (reusable). OFFLINE DRAFT 2026-10-12, not live.
-  Sephora-style row of large promo cards: media on top, solid colour panel below
-  (headline, one-line subtext, CTA, compact "shop the look" thumbs with badge).
-  Full-bleed: no page-width container, cards span the viewport at every size.
-  Desktop (>=990px): 3 cards visible + arrows. Tablet: 2. Mobile: ~1.2 visible, swipe with peek.
-  Each card = a "segment" BLOCK (add / remove / reorder in the theme editor).
-  Campaign swap: see README-campaign-hero.md in the go-live folder.
-  2026-10-12 looks: card image + headline + Shop Now → /pages/look-<key> (full look, all products);
-  every thumb is its own link to that product's PDP. Links set in templates/index.json.
+  Sol Beautiful — SEGMENTED CAMPAIGN HERO (reusable).
+  2026-10-15 HERO-V2 (Dru): Sephora-scale. Shorter 3:2 media, compact panel, 4 cards visible >=1200px,
+  3 at 990-1199, 2 at 750-989, phones ~72% card + peek (swipe). Header bar width unchanged (8px insets = row).
+  Block types: "segment" (Halloween look card, unchanged settings) and "package" (promo / value-set card:
+  image OR auto collage of up to 3 in-stock product photos, headline, subline, CTA, link). NO PRICES anywhere.
+  Collage skips sold-out, no-image and watermark-list (snippets/ymal-exclude) products.
 {% endcomment %}
 {%- if section.settings.enabled and section.blocks.size > 0 -%}
+{%- capture ch_ex -%}{%- render 'ymal-exclude' -%}{%- endcapture -%}
 <style>
-  #CH-{{ section.id }}{width:100%;max-width:none;margin:0;padding:{{ section.settings.pad_top }}px 0 1rem;background:{{ section.settings.section_bg }}}
-  #CH-{{ section.id }} .ch-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:0 clamp(12px,2vw,24px) .6rem}
-  #CH-{{ section.id }} .ch-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin:0;opacity:.75}
-  #CH-{{ section.id }} .ch-title{font-size:clamp(1.15rem,2vw,1.6rem);margin:.1rem 0 0}
+  #CH-{{ section.id }}{width:100%;max-width:none;margin:0;padding:{{ section.settings.pad_top }}px 0 .75rem;background:{{ section.settings.section_bg }}}
+  #CH-{{ section.id }} .ch-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;padding:0 clamp(12px,2vw,24px) .5rem}
+  #CH-{{ section.id }} .ch-eyebrow{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin:0;opacity:.75}
+  #CH-{{ section.id }} .ch-title{font-size:clamp(1.1rem,1.8vw,1.45rem);margin:.1rem 0 0}
   #CH-{{ section.id }} .ch-nav{display:flex;gap:.4rem}
-  #CH-{{ section.id }} .ch-arrow{width:40px;height:40px;border-radius:50%;border:1px solid #1a1a1a;background:#fff;cursor:pointer;font-size:1.1rem;line-height:1}
+  #CH-{{ section.id }} .ch-arrow{width:34px;height:34px;border-radius:50%;border:1px solid #1a1a1a;background:#fff;cursor:pointer;font-size:1rem;line-height:1;padding:0}
   #CH-{{ section.id }} .ch-track{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding:0 8px;padding:0 8px}
   #CH-{{ section.id }} .ch-track::-webkit-scrollbar{display:none}
-  #CH-{{ section.id }} .ch-card{flex:0 0 calc((100% - 16px - 16px)/3);scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:6px;color:var(--ch-ink,#fff);background:var(--ch-panel)}
-  #CH-{{ section.id }} .ch-media{display:block;aspect-ratio:9/8;overflow:hidden;background:#111}
+  #CH-{{ section.id }} .ch-card{flex:0 0 calc((100% - 16px - 24px)/4);min-width:0;scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;border-radius:6px;color:var(--ch-ink,#fff);background:var(--ch-panel)}
+  #CH-{{ section.id }} .ch-media{display:block;aspect-ratio:3/2;overflow:hidden;background:#111}
   #CH-{{ section.id }} .ch-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center var(--ch-focus,20%)}
-  #CH-{{ section.id }} .ch-panel{display:flex;flex-direction:column;gap:.35rem;padding:1rem 1.1rem 1.1rem;flex:1}
-  #CH-{{ section.id }} .ch-h{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.15;margin:0;color:inherit}
-  #CH-{{ section.id }} .ch-sub{font-size:.9rem;margin:0;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #CH-{{ section.id }} .ch-cta{color:inherit;font-weight:700;font-size:.9rem;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
-  #CH-{{ section.id }} .ch-thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.45rem;margin-top:.5rem}
-  #CH-{{ section.id }} .ch-thumb{position:relative;display:flex;flex-direction:column;gap:.15rem;color:inherit;text-decoration:none;font-size:.66rem;line-height:1.2}
-  #CH-{{ section.id }} .ch-thumb img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:4px}
-  #CH-{{ section.id }} .ch-thumb__name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  #CH-{{ section.id }} .ch-badge{position:absolute;top:3px;left:3px;font-size:.55rem;font-weight:700;padding:1px 4px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
-  #CH-{{ section.id }} .ch-dots{display:none;justify-content:center;gap:6px;padding-top:.6rem}
-  #CH-{{ section.id }} .ch-dot{width:7px;height:7px;border-radius:50%;background:#1a1a1a;opacity:.25}
+  #CH-{{ section.id }} .ch-panel{display:flex;flex-direction:column;gap:.25rem;padding:.7rem .85rem .8rem;flex:1;min-width:0}
+  #CH-{{ section.id }} .ch-h{font-size:clamp(1rem,1.25vw,1.2rem);line-height:1.15;margin:0;color:inherit}
+  #CH-{{ section.id }} .ch-sub{font-size:.8rem;line-height:1.3;margin:0;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #CH-{{ section.id }} .ch-cta{color:inherit;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;align-self:flex-start;margin-top:.1rem}
+  #CH-{{ section.id }} .ch-thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;margin-top:.4rem;max-width:300px}
+  #CH-{{ section.id }} .ch-thumb{position:relative;display:block;color:inherit;text-decoration:none}
+  #CH-{{ section.id }} .ch-thumb{overflow:hidden;border-radius:5px;background:#fff;aspect-ratio:1}
+  #CH-{{ section.id }} .ch-thumb img{width:100%;height:100%;aspect-ratio:1;object-fit:contain;transform:scale(1.18);background:#fff}
+  #CH-{{ section.id }} .ch-badge{position:absolute;top:2px;left:2px;font-size:.5rem;font-weight:700;padding:1px 3px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
+  #CH-{{ section.id }} .ch-pkg .ch-media{background:#f3f3f3}
+  #CH-{{ section.id }} .ch-collage{display:grid;grid-template-columns:3fr 2fr;grid-template-rows:1fr 1fr;gap:3px;height:100%;background:#fff}
+  #CH-{{ section.id }} .ch-collage .ch-ci{overflow:hidden;background:#fff;min-height:0}
+  #CH-{{ section.id }} .ch-collage .ch-ci:first-child{grid-row:1 / span 2}
+  #CH-{{ section.id }} .ch-collage[style*="--ch-n:1"]{grid-template-columns:1fr}
+  #CH-{{ section.id }} .ch-collage[style*="--ch-n:2"] .ch-ci:nth-child(2){grid-row:1 / span 2}
+  #CH-{{ section.id }} .ch-collage img{width:100%;height:100%;object-fit:cover;object-position:center}
+  #CH-{{ section.id }} .ch-pkg .ch-h{font-family:var(--sans);font-weight:700;letter-spacing:0}
+  #CH-{{ section.id }} .ch-dots{display:none;justify-content:center;gap:6px;padding-top:.5rem}
+  #CH-{{ section.id }} .ch-dot{width:6px;height:6px;border-radius:50%;background:#1a1a1a;opacity:.25}
+  @media(max-width:1199px){#CH-{{ section.id }} .ch-card{flex-basis:calc((100% - 16px - 16px)/3)}}
   @media(max-width:989px){#CH-{{ section.id }} .ch-card{flex-basis:calc((100% - 16px - 8px)/2)}}
   @media(max-width:749px){
-    #CH-{{ section.id }} .ch-card{flex-basis:80%}
+    #CH-{{ section.id }} .ch-card{flex-basis:72%}
     #CH-{{ section.id }} .ch-nav{display:none}
     #CH-{{ section.id }} .ch-dots{display:flex}
-    #CH-{{ section.id }} .ch-panel{padding:.8rem .85rem .9rem}
+    #CH-{{ section.id }} .ch-panel{padding:.6rem .7rem .7rem}
+    #CH-{{ section.id }} .ch-thumbs{gap:.35rem}
   }
+  #CH-{{ section.id }}.ch-marquee .ch-track{scroll-snap-type:none;scroll-behavior:auto;cursor:grab}
+  #CH-{{ section.id }}.ch-marquee .ch-track.is-drag{cursor:grabbing;user-select:none}
+  #CH-{{ section.id }}.ch-marquee .ch-dots{display:none}
+  #CH-{{ section.id }} .ch-media img{-webkit-user-drag:none}
   @media(prefers-reduced-motion:reduce){#CH-{{ section.id }} .ch-track{scroll-behavior:auto}}
 </style>
 <section id="CH-{{ section.id }}" class="campaign-hero" aria-roledescription="carousel" aria-label="{{ section.settings.title | default: 'Featured' | escape }}" {{ section.shopify_attributes }}>
@@ -58,11 +70,42 @@
   <div class="ch-track" data-ch-track>
     {%- for block in section.blocks -%}
       {%- assign b = block.settings -%}
+      {%- if block.type == 'package' -%}
+        {%- assign link = b.link | default: '/collections/beauty-sets' -%}
+        {%- assign pn = 0 -%}
+        {%- capture collage -%}
+          {%- for p in b.products -%}
+            {%- if pn >= 3 -%}{%- break -%}{%- endif -%}
+            {%- unless p.available -%}{%- continue -%}{%- endunless -%}
+            {%- if p.featured_media == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign key = '|' | append: p.handle | append: '|' -%}
+            {%- if ch_ex contains key -%}{%- continue -%}{%- endif -%}
+            <span class="ch-ci">{{ p.featured_media | image_url: width: 700 | image_tag: loading: 'eager', widths: '300,500,700', sizes: '(min-width: 990px) 16vw, 45vw', alt: '' }}</span>
+            {%- assign pn = pn | plus: 1 -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        <article class="ch-card ch-pkg" data-ch-type="package" style="--ch-panel:{{ b.panel_color }};--ch-ink:{{ b.text_color }};--ch-focus:{{ b.focus }}%" {{ block.shopify_attributes }}>
+          <a class="ch-media" href="{{ link }}" tabindex="-1" aria-hidden="true">
+            {%- if b.image != blank -%}
+              {{ b.image | image_url: width: 900 | image_tag: loading: 'eager', widths: '400,600,900', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 50vw, 72vw', alt: b.headline }}
+            {%- elsif pn > 0 -%}
+              <span class="ch-collage" style="--ch-n:{{ pn }}">{{ collage }}</span>
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag }}
+            {%- endif -%}
+          </a>
+          <div class="ch-panel">
+            {%- if b.headline != blank -%}<h3 class="ch-h"><a href="{{ link }}" style="color:inherit;text-decoration:none">{{ b.headline }}</a></h3>{%- endif -%}
+            {%- if b.subtext != blank -%}<p class="ch-sub">{{ b.subtext }}</p>{%- endif -%}
+            {%- if b.cta_label != blank -%}<a class="ch-cta" href="{{ link }}">{{ b.cta_label }} &#9656;</a>{%- endif -%}
+          </div>
+        </article>
+      {%- else -%}
       {%- assign link = b.link | default: '/collections/all' -%}
-      <article class="ch-card" style="--ch-panel:{{ b.panel_color }};--ch-ink:{{ b.text_color }};--ch-focus:{{ b.focus }}%" {{ block.shopify_attributes }}>
+      <article class="ch-card" data-ch-type="segment" style="--ch-panel:{{ b.panel_color }};--ch-ink:{{ b.text_color }};--ch-focus:{{ b.focus }}%" {{ block.shopify_attributes }}>
         <a class="ch-media" href="{{ link }}" tabindex="-1" aria-hidden="true">
           {%- if b.image != blank -%}
-            {{ b.image | image_url: width: 1200 | image_tag: loading: 'eager', widths: '400,600,900,1200', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 80vw', alt: b.headline }}
+            {{ b.image | image_url: width: 900 | image_tag: loading: 'eager', widths: '400,600,900', sizes: '(min-width: 1200px) 25vw, (min-width: 990px) 33vw, (min-width: 750px) 50vw, 72vw', alt: b.headline }}
           {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag }}
           {%- endif -%}
@@ -70,16 +113,15 @@
         <div class="ch-panel">
           {%- if b.headline != blank -%}<h3 class="ch-h"><a href="{{ link }}" style="color:inherit;text-decoration:none">{{ b.headline }}</a></h3>{%- endif -%}
           {%- if b.subtext != blank -%}<p class="ch-sub">{{ b.subtext }}</p>{%- endif -%}
-          {%- if b.cta_label != blank -%}<a class="ch-cta" href="{{ link }}">{{ b.cta_label }}</a>{%- endif -%}
+          {%- if b.cta_label != blank -%}<a class="ch-cta" href="{{ link }}">{{ b.cta_label }} &#9656;</a>{%- endif -%}
           {%- assign shown = 0 -%}
           {%- capture thumbs -%}
             {%- for p in b.products -%}
               {%- unless p.available -%}{%- continue -%}{%- endunless -%}
               {%- if shown >= 4 -%}{%- break -%}{%- endif -%}
-              <a class="ch-thumb" href="{{ p.url }}">
+              <a class="ch-thumb" href="{{ p.url }}" title="{{ p.title | escape }}" aria-label="{{ p.title | escape }}">
                 {%- if shown == 0 and b.badge != blank -%}<span class="ch-badge">{{ b.badge }}</span>{%- endif -%}
-                {{ p.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: p.title, widths: '100,200' }}
-                <span class="ch-thumb__name">{{ p.title | truncate: 40 }}</span>
+                {{ p.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', widths: '100,200', width: 72, height: 72 }}
               </a>
               {%- assign shown = shown | plus: 1 -%}
             {%- endfor -%}
@@ -87,12 +129,44 @@
           {%- if shown > 0 -%}<div class="ch-thumbs">{{ thumbs }}</div>{%- endif -%}
         </div>
       </article>
+      {%- endif -%}
     {%- endfor -%}
   </div>
   <div class="ch-dots" aria-hidden="true">{%- for block in section.blocks -%}<span class="ch-dot"></span>{%- endfor -%}</div>
   <script>
+    /* 2026-10-15 v3: slow seamless marquee (~{{ section.settings.loop_seconds }}s/loop). Pauses on hover, focus, touch, drag, arrows,
+       tab hidden or off-screen. Reduced motion = static + swipeable (no clones). Clones are aria-hidden + inert. */
     (function(){var r=document.getElementById('CH-{{ section.id }}');if(!r)return;var t=r.querySelector('[data-ch-track]');
-      r.querySelectorAll('.ch-arrow').forEach(function(b){b.addEventListener('click',function(){var c=t.querySelector('.ch-card');t.scrollBy({left:(c?c.offsetWidth+8:t.clientWidth)*+b.dataset.dir,behavior:'smooth'});});});
+      var cards=[].slice.call(t.querySelectorAll('.ch-card'));var LOOP={{ section.settings.loop_seconds | default: 50 }};
+      var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var auto={{ section.settings.autoscroll | json }}&&!rm&&cards.length>1;
+      var hold=0,until=0,pos=0,last=0,vis=true,setW=0,drag=null;
+      function pause(ms){until=Math.max(until,performance.now()+(ms||0))}
+      r.querySelectorAll('.ch-arrow').forEach(function(b){b.addEventListener('click',function(){pause(4000);var c=cards[0];t.scrollBy({left:(c?c.offsetWidth+8:t.clientWidth)*+b.dataset.dir,behavior:'smooth'});});});
+      if(!auto)return;
+      r.classList.add('ch-marquee');
+      cards.forEach(function(c){var k=c.cloneNode(true);k.setAttribute('aria-hidden','true');k.setAttribute('inert','');k.removeAttribute('data-shopify-editor-block');
+        k.querySelectorAll('a,button').forEach(function(a){a.setAttribute('tabindex','-1')});k.querySelectorAll('img').forEach(function(i){i.loading='lazy'});t.appendChild(k)});
+      var first=t.querySelectorAll('.ch-card')[cards.length];
+      function measure(){setW=first.offsetLeft-cards[0].offsetLeft}
+      measure();addEventListener('resize',measure);
+      t.addEventListener('mouseenter',function(){hold|=1});t.addEventListener('mouseleave',function(){hold&=~1});
+      r.addEventListener('focusin',function(e){try{if(!e.target.matches(':focus-visible'))return}catch(_){}hold|=2});r.addEventListener('focusout',function(){hold&=~2});
+      t.addEventListener('touchstart',function(){hold|=4},{passive:true});
+      t.addEventListener('touchend',function(){hold&=~4;pause(3000)},{passive:true});
+      t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;drag={x:e.clientX,s:t.scrollLeft,m:false};hold|=8});
+      addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-drag.x;if(Math.abs(dx)>4){drag.m=true;t.classList.add('is-drag')}t.scrollLeft=drag.s-dx});
+      addEventListener('pointerup',function(){if(!drag)return;var m=drag.m;drag=null;hold&=~8;t.classList.remove('is-drag');pause(1500);
+        if(m){var x=function(ev){ev.preventDefault();ev.stopPropagation();t.removeEventListener('click',x,true)};t.addEventListener('click',x,true);setTimeout(function(){t.removeEventListener('click',x,true)},50)}});
+      t.addEventListener('dragstart',function(e){e.preventDefault()});
+      if('IntersectionObserver' in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(r);
+      pos=t.scrollLeft;
+      t.addEventListener('scroll',function(){if(Math.abs(t.scrollLeft-pos)>2){pos=t.scrollLeft}
+        if(setW>0){if(t.scrollLeft>=setW){t.scrollLeft-=setW;pos=t.scrollLeft}else if(t.scrollLeft<=0&&(hold||performance.now()<until)){t.scrollLeft+=setW;pos=t.scrollLeft}}},{passive:true});
+      function step(now){var dt=last?Math.min(now-last,64):0;last=now;
+        if(!hold&&vis&&!document.hidden&&now>=until&&setW>0){pos+=setW/LOOP*dt/1000;if(pos>=setW)pos-=setW;t.scrollLeft=pos}
+        requestAnimationFrame(step)}
+      requestAnimationFrame(step);
     })();
   </script>
 </section>
@@ -102,12 +176,14 @@
   "name": "Campaign hero",
   "tag": "div",
   "class": "section-campaign-hero",
-  "max_blocks": 8,
+  "max_blocks": 12,
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Show campaign hero", "default": true, "info": "Manual on/off. No dates: switch off or swap blocks when the campaign ends." },
     { "type": "text", "id": "eyebrow", "label": "Campaign eyebrow", "default": "The Halloween Makeup Edit" },
     { "type": "text", "id": "title", "label": "Campaign title", "default": "Get the look" },
     { "type": "color", "id": "section_bg", "label": "Section background", "default": "#ffffff" },
+    { "type": "checkbox", "id": "autoscroll", "label": "Slow auto-scroll (marquee)", "default": true, "info": "Pauses on hover, focus and touch. Off automatically for reduced-motion users." },
+    { "type": "range", "id": "loop_seconds", "label": "Seconds per full loop", "min": 30, "max": 90, "step": 5, "unit": "s", "default": 50 },
     { "type": "range", "id": "pad_top", "label": "Top padding", "min": 0, "max": 40, "step": 4, "unit": "px", "default": 12 }
   ],
   "blocks": [
@@ -125,6 +201,22 @@
         { "type": "url", "id": "link", "label": "Look page link", "info": "Use the look page, e.g. /pages/look-haunted-vanity" },
         { "type": "product_list", "id": "products", "label": "Shop the look", "limit": 6, "info": "First available = lead product. Sold-out items are skipped; up to 4 shown." },
         { "type": "text", "id": "badge", "label": "Badge on lead product", "info": "e.g. MAC pick, Stand-in, New. Blank = none." }
+      ]
+    },
+    {
+      "type": "package",
+      "name": "Package / value-set card",
+      "settings": [
+        { "type": "paragraph", "content": "Promo card (Sephora 3-tile style). No prices are shown. Use an image OR pick products for an auto photo collage." },
+        { "type": "image_picker", "id": "image", "label": "Image (optional)", "info": "3:2. Leave blank to build a collage from the products below." },
+        { "type": "product_list", "id": "products", "label": "Collage products", "limit": 6, "info": "First 3 in-stock with a photo are shown; sold-out and watermark-list items are skipped." },
+        { "type": "range", "id": "focus", "label": "Vertical focus (image only)", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+        { "type": "color", "id": "panel_color", "label": "Panel colour", "default": "#f3f3f3" },
+        { "type": "color", "id": "text_color", "label": "Panel text colour", "default": "#1a1a1a" },
+        { "type": "text", "id": "headline", "label": "Headline", "default": "Gift-Worthy Beauty Sets" },
+        { "type": "text", "id": "subtext", "label": "Subline (one line)" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Collection or look page, e.g. /collections/beauty-sets" }
       ]
     }
   ],
