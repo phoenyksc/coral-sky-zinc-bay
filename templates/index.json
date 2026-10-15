@@ -197,9 +197,7 @@
         "eyebrow": "The Halloween Makeup Edit",
         "title": "Get the look",
         "section_bg": "#ffffff",
-        "pad_top": 12,
-        "autoscroll": true,
-        "loop_seconds": 50
+        "pad_top": 12
       }
     },
     "collection_tiles": {
