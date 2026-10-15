@@ -111,13 +111,85 @@
             "image": "shopify://shop_images/05_Midnight_Masquerade_MAC_Lipstick.jpg"
           },
           "disabled": true
+        },
+        "pkg_beauty_sets": {
+          "type": "package",
+          "settings": {
+            "headline": "Gift-Worthy Beauty Sets",
+            "subtext": "Kits and vaults from MAC and Urban Decay.",
+            "link": "/collections/beauty-sets",
+            "panel_color": "#f3f3f3",
+            "products": [
+              "mac-bursting-with-bestsellers-8pc-kit-lipstick-eye-shadow-mascara-liner-fix-nib",
+              "mac-surreal-must-haves-5pc-gift-set-ruby-woo-mascara-lipglass-serum-strobe-98",
+              "urban-decay-born-to-run-vault-crossbody-bag-palette-lipstick-mascara-eye-pencil"
+            ],
+            "text_color": "#1a1a1a",
+            "cta_label": "Shop now",
+            "focus": 50
+          }
+        },
+        "pkg_skincare_sets": {
+          "type": "package",
+          "settings": {
+            "headline": "Skincare Sets Are Here",
+            "subtext": "Give the gift of glow from Estée Lauder and Clinique.",
+            "link": "/collections/skincare",
+            "panel_color": "#e9eef7",
+            "products": [
+              "estee-lauder-firm-lift-skincare-wonders-set",
+              "clinique-ready-jet-go-moisture-surge-4pc-set-mask-face-spray-lip-96hr-eye-nib",
+              "estee-lauder-limited-edition-repair-renew-skincare-wonders-4-piece-gift-set"
+            ],
+            "text_color": "#1a1a1a",
+            "cta_label": "Shop now",
+            "focus": 50
+          }
+        },
+        "pkg_hard_to_find": {
+          "type": "package",
+          "settings": {
+            "headline": "Rare & Hard to Find",
+            "subtext": "Discontinued favorites, back in stock in small batches.",
+            "link": "/collections/hard-to-find",
+            "panel_color": "#f4ece4",
+            "products": [
+              "mac-eye-shadow-x-4-eyeshadow-palette-5-6g-19oz-net-wt-rare-htf-limited-ed-nib",
+              "prescriptives-px-intensive-rebuilding-eye-cream-5-oz-15-ml-full-size-htf-nib",
+              "opium-yves-saint-laurent-satin-body-oil-spray-3-3-oz-100-ml-rare-htf-nib-1"
+            ],
+            "text_color": "#1a1a1a",
+            "cta_label": "Shop now",
+            "focus": 50
+          }
+        },
+        "pkg_lip_sets": {
+          "type": "package",
+          "settings": {
+            "headline": "Lip Sets & Trios",
+            "subtext": "Lipstick trios and kits from Tom Ford, MAC and Bobbi Brown.",
+            "link": "/collections/beauty-sets",
+            "panel_color": "#f7e8ea",
+            "text_color": "#1a1a1a",
+            "cta_label": "Shop now",
+            "focus": 50,
+            "products": [
+              "tom-ford-ultra-rich-lip-color-lipstick-trio-set-16-gala-25-naomi-35-bella-nib",
+              "mac-cosmetics-bubbles-bows-three-cheers-lipstick-trio-gift-set-nib",
+              "bobbi-brown-swipe-and-shine-crushed-oil-infused-lip-gloss-trio-14oz-4ml-nib"
+            ]
+          }
         }
       },
       "block_order": [
         "seg_haunted_vanity",
+        "pkg_beauty_sets",
         "seg_vampire_glam",
+        "pkg_lip_sets",
         "seg_pumpkin_glow",
+        "pkg_skincare_sets",
         "seg_moonlit_witch",
+        "pkg_hard_to_find",
         "seg_midnight_masquerade"
       ],
       "settings": {
@@ -125,7 +197,9 @@
         "eyebrow": "The Halloween Makeup Edit",
         "title": "Get the look",
         "section_bg": "#ffffff",
-        "pad_top": 12
+        "pad_top": 12,
+        "autoscroll": true,
+        "loop_seconds": 50
       }
     },
     "collection_tiles": {
