@@ -31,7 +31,7 @@
   #LP-{{ section.id }} .sb-look-badge{position:absolute;top:6px;left:6px;font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#f2c14e;color:#1a1a1a}
   #LP-{{ section.id }} .lp-back{display:inline-block;margin-top:1rem;font-size:.9rem;color:inherit}
   #LP-{{ section.id }} .lp-strip{list-style:none;margin:.6rem 0 0;padding:0;display:flex;flex-direction:column;gap:.45rem}
-  #LP-{{ section.id }} .lp-strip a{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:.65rem;align-items:center;background:rgba(255,255,255,.96);color:#1a1a1a;border-radius:8px;padding:.35rem .6rem .35rem .35rem;text-decoration:none}
+  #LP-{{ section.id }} .lp-strip a{display:grid;grid-template-columns:52px minmax(0,1fr);gap:.65rem;align-items:center;background:rgba(255,255,255,.96);color:#1a1a1a;border-radius:8px;padding:.35rem .6rem .35rem .35rem;text-decoration:none}
   #LP-{{ section.id }} .lp-strip img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:6px;display:block}
   #LP-{{ section.id }} .lp-strip li{min-width:0}
   #LP-{{ section.id }} .lp-s-txt{min-width:0;line-height:1.2}
@@ -93,7 +93,7 @@
       <li><a href="{{ s_href }}">
         <img src="{{ p.featured_media | image_url: width: 120 }}" alt="" width="52" height="52" loading="eager">
         <span class="lp-s-txt">{%- if s_mfr != blank -%}<span class="lp-s-brand">{{ s_mfr }}</span>{%- endif -%}<span class="lp-s-title">{{ p.title }}</span></span>
-        <span class="lp-s-price">{{ v.price | money }}</span>
+        {%- comment -%} 2026-10-15 Dru rule: no prices in the hero (price lives on the cards below) {%- endcomment -%}
       </a></li>
     {%- endfor -%}
   {%- endcapture -%}
@@ -121,7 +121,6 @@
       <ul class="lp-strip" aria-label="Products in {{ lp[1] | escape }}">{{ lp_strip }}</ul>
       <div class="lp-actions">
         <button type="button" class="lp-addall" data-ids="{{ lp_ids | join: ',' }}">Add all {{ lp_ids.size }} to bag</button>
-        <span class="lp-total">{{ lp_total | money }} total</span>
         <a class="lp-jump" href="#LookProducts">See details</a>
         <p class="lp-msg" role="status" aria-live="polite"></p>
       </div>
