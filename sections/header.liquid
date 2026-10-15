@@ -1,13 +1,7 @@
 {% comment %} fix-1024 2026-10-13: touch first-tap opens, panel in viewport, one-line labels. parity2 2026-10-13: #1 desktop mega-menu + #6 mobile drill-down drawer. Backup of live: backups/header.liquid.live {% endcomment %}
 {% assign zen = settings.header_zen | default: nil %}
 <header class="site-header">
-  <div class="zen-strip">
-    {% if zen %}
-      {{ zen | image_url: width: 1600 | image_tag: alt: '', loading: 'eager' }}
-    {% else %}
-      <img src="{{ 'header-zen.jpg' | asset_url }}" alt="">
-    {% endif %}
-  </div>
+  {%- comment -%} 2026-10-15 v5 (Dru): eucalyptus/zen banner removed. Store messages = sections/announcement-bar (top strip). {%- endcomment -%}
   <div class="header-bar page-width">
     <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
