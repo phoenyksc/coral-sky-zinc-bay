@@ -1,5 +1,5 @@
 {%- comment -%} 2026-10-15 HERO-V2: compact single-line announcement, rendered ABOVE the header (header-group order).
- Desktop/tablet: lines side by side with a dot. Phones: lines rotate in a fixed 28px row (no layout shift). {%- endcomment -%}
+ Desktop/tablet: lines side by side with a dot. Phones: both lines stacked (v5, no rotation). {%- endcomment -%}
 {%- if section.settings.announcement != blank -%}
 {%- assign ann = section.settings.announcement | newline_to_br | split: '<br />' -%}
 <div class="sb-ann" role="region" aria-label="Store announcements">
@@ -13,21 +13,19 @@
   .sb-ann__line{white-space:nowrap;padding:0 .9rem}
   .sb-ann__line+.sb-ann__line{border-left:1px solid var(--line)}
   @media(max-width:767px){
-    .sb-ann{font-size:10px;letter-spacing:.1em}
-    .sb-ann__track{flex-direction:column}
-    .sb-ann__line{display:block;height:28px;overflow:hidden;text-overflow:ellipsis;padding:0 .75rem}
+    /* v5: phones show BOTH lines stacked, static (no rotation) */
+    .sb-ann{height:auto;line-height:1.35;padding:4px 0;font-size:9.5px;letter-spacing:.08em}
+    .sb-ann__track{flex-direction:column;gap:1px}
+    .sb-ann__line{display:block;padding:0 .6rem;overflow:hidden;text-overflow:ellipsis}
     .sb-ann__line+.sb-ann__line{border-left:0}
-    .sb-ann--rot{animation:sbAnn 8s infinite}
-    @keyframes sbAnn{0%,42%{transform:translateY(0)}50%,92%{transform:translateY(-28px)}100%{transform:translateY(0)}}
   }
-  @media(max-width:767px) and (prefers-reduced-motion:reduce){.sb-ann--rot{animation:none}}
 </style>
 {%- endif -%}
 {% schema %}
 {
   "name": "Announcement",
   "settings": [
-    { "type": "textarea", "id": "announcement", "label": "Announcement text", "info": "One message per line. Desktop: side by side. Phones: rotates.", "default": "Free standard shipping on US orders $75+\nAuthenticity guaranteed · Ships from the USA" }
+    { "type": "textarea", "id": "announcement", "label": "Announcement text", "info": "One message per line. Desktop: side by side. Phones: stacked.", "default": "Free standard shipping on US orders $75+\nAuthenticity guaranteed · Ships from the USA" }
   ]
 }
 {% endschema %}
