@@ -15,6 +15,7 @@
         "seg_haunted_vanity": {
           "type": "segment",
           "settings": {
+            "image": "shopify://shop_images/01_Haunted_Vanity_MAC_Lipstick.jpg",
             "focus": 20,
             "panel_color": "#4a1f45",
             "text_color": "#ffffff",
@@ -28,13 +29,13 @@
               "estee-lauder-double-wear-infinite-waterproof-pencil-eyeliner-35-g-full-size-nib-1",
               "tom-ford-extreme-badass-lip-color-lipstick-1oz-3g-full-size-nib-02-luscious"
             ],
-            "badge": "Stand-in",
-            "image": "shopify://shop_images/01_Haunted_Vanity_MAC_Lipstick.jpg"
+            "badge": "Stand-in"
           }
         },
         "seg_vampire_glam": {
           "type": "segment",
           "settings": {
+            "image": "shopify://shop_images/02_Vampire_Glam_MAC_Eyeliner.jpg",
             "focus": 20,
             "panel_color": "#5c1220",
             "text_color": "#ffffff",
@@ -46,15 +47,15 @@
               "mac-brushstroke-24-hour-liner-eye-liquid-eyeliiner-02-oz-full-size-nib",
               "mac-eye-shadow-x-9-eyeshadow-palette-7-2g-18oz-net-wt-rare-htf-limited-ed-nib",
               "mac-locked-kiss-ink-24hr-lipcolour-liquid-lipstick-14-oz-4-ml-full-size-nib",
-              "too-faced-better-than-sex-and-diamonds-mascara-limited-edition-27-oz-f-s-nib"
+              "too-faced-better-than-sex-and-diamonds-mascara-limited-edition-27-oz-f-s"
             ],
-            "badge": "Stand-in",
-            "image": "shopify://shop_images/02_Vampire_Glam_MAC_Eyeliner.jpg"
+            "badge": "Stand-in"
           }
         },
         "seg_pumpkin_glow": {
           "type": "segment",
           "settings": {
+            "image": "shopify://shop_images/04_Pumpkin_Glow_MAC_Blush.jpg",
             "focus": 20,
             "panel_color": "#b4531c",
             "text_color": "#ffffff",
@@ -68,13 +69,13 @@
               "too-faced-maple-syrup-pancakes-eyeshadow-palette",
               "smashbox-be-legendary-cream-matte-lipstick-10-oz-3-g-full-size-original-nib"
             ],
-            "badge": "Stand-in",
-            "image": "shopify://shop_images/04_Pumpkin_Glow_MAC_Blush.jpg"
+            "badge": "Stand-in"
           }
         },
         "seg_moonlit_witch": {
           "type": "segment",
           "settings": {
+            "image": "shopify://shop_images/03_Moonlit_Witch_MAC_Liquidlast.jpg",
             "focus": 20,
             "panel_color": "#16203a",
             "text_color": "#ffffff",
@@ -88,13 +89,14 @@
               "mac-bare-to-the-max-eye-kit-palette-3d-dimension-mascara-graphblack-technakohl",
               "smashbox-always-on-gel-eye-liner-pencil-eyeliner-04-oz-1-2-g-full-size-new"
             ],
-            "badge": "Stand-in",
-            "image": "shopify://shop_images/03_Moonlit_Witch_MAC_Liquidlast.jpg"
+            "badge": "Stand-in"
           }
         },
         "seg_midnight_masquerade": {
           "type": "segment",
+          "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/05_Midnight_Masquerade_MAC_Lipstick.jpg",
             "focus": 20,
             "panel_color": "#2a1838",
             "text_color": "#ffffff",
@@ -107,77 +109,75 @@
               "smashbox-cover-shot-crystalized-rock-me-8-color-eye-shadow-palette-21-oz-nib",
               "bobbi-brown-highlighting-powder-28-oz-8-g-full-size-product-nib-1"
             ],
-            "badge": "Stand-in",
-            "image": "shopify://shop_images/05_Midnight_Masquerade_MAC_Lipstick.jpg"
-          },
-          "disabled": true
+            "badge": "Stand-in"
+          }
         },
         "pkg_beauty_sets": {
           "type": "package",
           "settings": {
-            "headline": "Gift-Worthy Beauty Sets",
-            "subtext": "Kits and vaults from MAC and Urban Decay.",
-            "link": "/collections/beauty-sets",
-            "panel_color": "#f3f3f3",
             "products": [
               "mac-bursting-with-bestsellers-8pc-kit-lipstick-eye-shadow-mascara-liner-fix-nib",
               "mac-surreal-must-haves-5pc-gift-set-ruby-woo-mascara-lipglass-serum-strobe-98",
               "urban-decay-born-to-run-vault-crossbody-bag-palette-lipstick-mascara-eye-pencil"
             ],
+            "focus": 50,
+            "panel_color": "#f3f3f3",
             "text_color": "#1a1a1a",
+            "headline": "Gift-Worthy Beauty Sets",
+            "subtext": "Kits and vaults from MAC and Urban Decay.",
             "cta_label": "Shop now",
-            "focus": 50
+            "link": "/collections/beauty-sets"
           }
         },
         "pkg_skincare_sets": {
           "type": "package",
           "settings": {
-            "headline": "Skincare Sets Are Here",
-            "subtext": "Give the gift of glow from Estée Lauder and Clinique.",
-            "link": "/collections/skincare",
-            "panel_color": "#e9eef7",
             "products": [
               "estee-lauder-firm-lift-skincare-wonders-set",
               "clinique-ready-jet-go-moisture-surge-4pc-set-mask-face-spray-lip-96hr-eye-nib",
               "estee-lauder-limited-edition-repair-renew-skincare-wonders-4-piece-gift-set"
             ],
+            "focus": 50,
+            "panel_color": "#e9eef7",
             "text_color": "#1a1a1a",
+            "headline": "Skincare Sets Are Here",
+            "subtext": "Give the gift of glow from Estée Lauder and Clinique.",
             "cta_label": "Shop now",
-            "focus": 50
+            "link": "/collections/skincare"
           }
         },
         "pkg_hard_to_find": {
           "type": "package",
           "settings": {
-            "headline": "Rare & Hard to Find",
-            "subtext": "Discontinued favorites, back in stock in small batches.",
-            "link": "/collections/hard-to-find",
-            "panel_color": "#f4ece4",
             "products": [
               "mac-eye-shadow-x-4-eyeshadow-palette-5-6g-19oz-net-wt-rare-htf-limited-ed-nib",
               "prescriptives-px-intensive-rebuilding-eye-cream-5-oz-15-ml-full-size-htf-nib",
               "opium-yves-saint-laurent-satin-body-oil-spray-3-3-oz-100-ml-rare-htf-nib-1"
             ],
+            "focus": 50,
+            "panel_color": "#f4ece4",
             "text_color": "#1a1a1a",
+            "headline": "Rare & Hard to Find",
+            "subtext": "Discontinued favorites, back in stock in small batches.",
             "cta_label": "Shop now",
-            "focus": 50
+            "link": "/collections/hard-to-find"
           }
         },
         "pkg_lip_sets": {
           "type": "package",
           "settings": {
-            "headline": "Lip Sets & Trios",
-            "subtext": "Lipstick trios and kits from Tom Ford, MAC and Bobbi Brown.",
-            "link": "/collections/beauty-sets",
-            "panel_color": "#f7e8ea",
-            "text_color": "#1a1a1a",
-            "cta_label": "Shop now",
-            "focus": 50,
             "products": [
               "tom-ford-ultra-rich-lip-color-lipstick-trio-set-16-gala-25-naomi-35-bella-nib",
               "mac-cosmetics-bubbles-bows-three-cheers-lipstick-trio-gift-set-nib",
               "bobbi-brown-swipe-and-shine-crushed-oil-infused-lip-gloss-trio-14oz-4ml-nib"
-            ]
+            ],
+            "focus": 50,
+            "panel_color": "#f7e8ea",
+            "text_color": "#1a1a1a",
+            "headline": "Lip Sets & Trios",
+            "subtext": "Lipstick trios and kits from Tom Ford, MAC and Bobbi Brown.",
+            "cta_label": "Shop now",
+            "link": "/collections/beauty-sets"
           }
         }
       },
@@ -254,11 +254,11 @@
         "tile_bath",
         "tile_htf"
       ],
+      "disabled": true,
       "settings": {
         "kicker": "What we love",
         "heading": "What we love"
-      },
-      "disabled": true
+      }
     },
     "vault_rails": {
       "type": "vault-rails",
